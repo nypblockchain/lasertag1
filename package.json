@@ -1,0 +1,30 @@
+{
+  "name": "lasertag1",
+  "version": "1.0.0",
+  "description": "Laser Tag for Showcase",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nypblockchain/lasertag1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nypblockchain/lasertag1/issues"
+  },
+  "homepage": "https://github.com/nypblockchain/lasertag1#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "eslint": "^9.31.0"
+  }
+}
