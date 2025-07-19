@@ -31,13 +31,12 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "No valid directions parsed", raw: text });
         }
 
-        const host = req.headers["x-forwarded-host"] || "localhost:3000";
-        const baseURL = `http://${host}`;
+        const moveEndpoint = "/api/move";
 
         let moveResponses = [];
 
         for (const dir of parsed) {
-            const moveRes = await fetch(`${baseURL}/api/move`, {
+            const moveRes = await fetch(moveEndpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ direction: dir, playerId })
