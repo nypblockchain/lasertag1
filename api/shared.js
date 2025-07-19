@@ -45,20 +45,21 @@ async function getMaze() {
     const snap = await MAZE_DOC.get();
     if (snap.exists) {
         const data = snap.data();
-        // Convert map → 2‑D array
         if (data && data.rows) return Object.values(data.rows);
         throw new Error("Maze doc broken");
     }
 
     const maze2D = generateMaze(21);
-
-    // Convert 2‑D array → map so Firestore likes it
     const rows = {};
     maze2D.forEach((row, i) => (rows[`r${i}`] = row));
+
+    console.log("📦 Creating new maze document...");
     await MAZE_DOC.set({ rows });
+    console.log("✅ Maze written to Firestore");
 
     return maze2D;
 }
+
 
 /* (re‑use your existing generateMaze function) */
 function generateMaze(size = 21) {
