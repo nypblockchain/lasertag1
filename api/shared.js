@@ -1,12 +1,15 @@
 // api/shared.js
 
-let mazeCache = [];
 let players = {
     player1: { x: 0, y: 0 },
     player2: { x: 0, y: 20 },
     player3: { x: 20, y: 0 },
     player4: { x: 20, y: 20 }
 };
+
+// ? Vercel-compatible in-memory singleton
+// Each function runtime gets its own memory, but stays alive during warm invocations
+global._mazeCache = global._mazeCache || generateMaze(21);
 
 function generateMaze(size = 21) {
     if (size % 2 === 0) size += 1;
@@ -18,17 +21,18 @@ function generateMaze(size = 21) {
 
     function carve(x, y) {
         const directions = shuffle([
-            [0, -2],
-            [0, 2],
-            [-2, 0],
-            [2, 0]
+            [0, -2], [0, 2], [-2, 0], [2, 0]
         ]);
 
         for (const [dx, dy] of directions) {
             const nx = x + dx;
             const ny = y + dy;
 
-            if (ny > 0 && ny < size - 1 && nx > 0 && nx < size - 1 && maze[ny][nx] === 1) {
+            if (
+                ny > 0 && ny < size - 1 &&
+                nx > 0 && nx < size - 1 &&
+                maze[ny][nx] === 1
+            ) {
                 maze[y + dy / 2][x + dx / 2] = 0;
                 maze[ny][nx] = 0;
                 carve(nx, ny);
@@ -52,15 +56,11 @@ function generateMaze(size = 21) {
     maze[size - 1][size - 1] = 0;
 
     return maze;
-}
-
-// Initialize maze if empty (cold start)
-if (mazeCache.length === 0) {
-    mazeCache = generateMaze(21);
+    console.log("MAZE GENERATED");
 }
 
 function resetGame() {
-    mazeCache = generateMaze(21);
+    global._mazeCache = generateMaze(21); // ? reset global
     players = {
         player1: { x: 0, y: 0 },
         player2: { x: 0, y: 20 },
@@ -71,7 +71,7 @@ function resetGame() {
 
 module.exports = {
     get mazeCache() {
-        return mazeCache;
+        return global._mazeCache;
     },
     players,
     generateMaze,
