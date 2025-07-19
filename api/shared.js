@@ -42,9 +42,17 @@ async function updatePlayerPos(id, x, y) {
 /* ----------------- 4. Maze helpers (optional) ----------------- */
 async function getMaze() {
     const snap = await MAZE_DOC.get();
-    if (snap.exists) return snap.data().maze;
 
-    const maze = generateMaze(21);          // create if not there yet
+    if (snap.exists) {
+        const data = snap.data();
+        if (!data.maze || !Array.isArray(data.maze)) {
+            throw new Error("? Firestore maze field is missing or not an array");
+        }
+        return data.maze;
+    }
+
+    const maze = generateMaze(21);
+    console.log("?? Generated new maze");
     await MAZE_DOC.set({ maze });
     return maze;
 }
