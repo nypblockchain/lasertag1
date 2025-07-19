@@ -1,14 +1,14 @@
 // api/shared.js
 
-let players = {
+global._players = global._players || {
     player1: { x: 0, y: 0 },
     player2: { x: 0, y: 20 },
     player3: { x: 20, y: 0 },
     player4: { x: 20, y: 20 }
 };
 
-// ? Vercel-compatible in-memory singleton
-// Each function runtime gets its own memory, but stays alive during warm invocations
+let players = global._players;
+
 global._mazeCache = global._mazeCache || generateMaze(21);
 
 function generateMaze(size = 21) {
@@ -60,8 +60,8 @@ function generateMaze(size = 21) {
 }
 
 function resetGame() {
-    global._mazeCache = generateMaze(21); // ? reset global
-    players = {
+    global._mazeCache = generateMaze(21);
+    global._players = {
         player1: { x: 0, y: 0 },
         player2: { x: 0, y: 20 },
         player3: { x: 20, y: 0 },
@@ -73,7 +73,10 @@ module.exports = {
     get mazeCache() {
         return global._mazeCache;
     },
-    players,
+    get players() {
+        return global._players;
+    },
     generateMaze,
     resetGame
 };
+
