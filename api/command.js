@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 
         // ✅ FIXED: Use the actual host header instead of broken VERCEL_URL
         const host = req.headers["x-forwarded-host"] || "localhost:3000";
-        const baseURL = `https://${host}`;
+        const baseURL = `http://${host}`;
 
         for (const dir of parsed) {
             const moveRes = await fetch(`${baseURL}/api/move`, {
@@ -45,6 +45,8 @@ module.exports = async (req, res) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ direction: dir, playerId })
             });
+            console.log(`Sending move ${dir} for ${playerId}`);
+
 
             // extra safety: ensure JSON response
             const contentType = moveRes.headers.get("content-type") || "";
