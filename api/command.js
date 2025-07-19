@@ -1,5 +1,4 @@
-// api/command.js
-const fetch = require("node-fetch");
+﻿const fetch = require("node-fetch");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -18,10 +17,10 @@ module.exports = async (req, res) => {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
         const prompt = `
-      You are controlling a player in a grid maze.
-      Convert this to directions: "up", "down", "left", "right" only.
-      Instruction: "${command}"
-    `;
+        You are controlling a player in a grid maze.
+        Convert this to directions: "up", "down", "left", "right" only.
+        Instruction: "${command}"
+        `;
 
         const result = await model.generateContent(prompt);
         const text = result.response.text().trim().toLowerCase();
@@ -36,10 +35,9 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "No valid directions parsed", raw: text });
         }
 
-        // Use full Vercel relative path
-        const baseURL = process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : "http://localhost:3000";
+        // ✅ FIXED: Use the actual host header instead of broken VERCEL_URL
+        const host = req.headers["x-forwarded-host"] || "localhost:3000";
+        const baseURL = `https://${host}`;
 
         for (const dir of parsed) {
             const moveRes = await fetch(`${baseURL}/api/move`, {
@@ -47,6 +45,13 @@ module.exports = async (req, res) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ direction: dir, playerId })
             });
+
+            // extra safety: ensure JSON response
+            const contentType = moveRes.headers.get("content-type") || "";
+            if (!contentType.includes("application/json")) {
+                const html = await moveRes.text();
+                throw new Error(`Non-JSON response from /api/move: ${html.slice(0, 100)}...`);
+            }
 
             const moveResult = await moveRes.json();
             if (!moveResult.success) {
@@ -59,6 +64,9 @@ module.exports = async (req, res) => {
 
     } catch (err) {
         console.error("Gemini error:", err);
-        res.status(500).json({ error: "Gemini command failed", detail: err.message || err });
+        res.status(500).json({
+            error: "Gemini command failed",
+            detail: err.message || err
+        });
     }
 };
