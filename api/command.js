@@ -8,19 +8,15 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { playerId, command } = req.body;
-    if (!playerId || !command) {
+    const { command, playerId } = req.body;
+    if (!command || !playerId) {
         return res.status(400).json({ error: "Missing command or playerId" });
     }
 
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = `
-        You are controlling a player in a grid maze.
-        Convert this to directions: "up", "down", "left", "right" only.
-        Instruction: "${command}"
-        `;
+        const prompt = `You are controlling a player in a grid maze. Reply using only "up", "down", "left", or "right". Instruction: "${command}"`;
 
         const result = await model.generateContent(prompt);
         const text = result.response.text().trim().toLowerCase();
@@ -35,9 +31,10 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "No valid directions parsed", raw: text });
         }
 
-        // ✅ FIXED: Use the actual host header instead of broken VERCEL_URL
         const host = req.headers["x-forwarded-host"] || "localhost:3000";
         const baseURL = `http://${host}`;
+
+        let moveResponses = [];
 
         for (const dir of parsed) {
             const moveRes = await fetch(`${baseURL}/api/move`, {
@@ -45,30 +42,22 @@ module.exports = async (req, res) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ direction: dir, playerId })
             });
-            console.log(`Sending move ${dir} for ${playerId}`);
 
-
-            // extra safety: ensure JSON response
+            // Add safety check to inspect response
             const contentType = moveRes.headers.get("content-type") || "";
             if (!contentType.includes("application/json")) {
-                const html = await moveRes.text();
-                throw new Error(`Non-JSON response from /api/move: ${html.slice(0, 100)}...`);
+                const raw = await moveRes.text();
+                return res.status(500).json({ error: "Move API returned non-JSON", body: raw });
             }
 
-            const moveResult = await moveRes.json();
-            if (!moveResult.success) {
-                console.log(`Blocked at direction: ${dir}`);
-                break;
-            }
+            const moveData = await moveRes.json();
+            moveResponses.push({ dir, ...moveData });
+
+            if (!moveData.success) break;
         }
 
-        res.json({ success: true, moved: parsed });
-
+        res.json({ success: true, moved: parsed, results: moveResponses });
     } catch (err) {
-        console.error("Gemini error:", err);
-        res.status(500).json({
-            error: "Gemini command failed",
-            detail: err.message || err
-        });
+        return res.status(500).json({ error: "Gemini error", detail: err.message || err });
     }
 };
