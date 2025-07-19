@@ -101,7 +101,7 @@ async function submitCommand() {
 
 document.getElementById("resetMazeBtn").addEventListener("click", async () => {
     try {
-        const res = await fetch("/api/maze-reset", { method: "POST" });
+        const res = await fetch("/api/reset", { method: "POST" });
         const data = await res.json();
         console.log(data.message || "Maze reset");
         window.location.reload();
