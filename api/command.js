@@ -59,6 +59,6 @@ module.exports = async (req, res) => {
 
     } catch (err) {
         console.error("Gemini error:", err);
-        res.status(500).json({ error: "Gemini command failed" });
+        res.status(500).json({ error: "Gemini command failed", detail: err.message || err });
     }
 };
