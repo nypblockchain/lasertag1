@@ -1,18 +1,16 @@
 // api/maze.js
-const { mazeCache, players, resetGame, generateMaze } = require('./shared');
+const { getMaze, getPlayers } = require("./shared");
 
 module.exports = async (req, res) => {
-    if (req.method === "GET") {
-        res.json({ maze: mazeCache, players });
-    }
+    try {
+        const maze = await getMaze();
+        const players = await getPlayers();
 
-    else if (req.method === "POST" && req.url === "/api/maze/reset") {
-        resetGame();
-        res.json({ success: true, message: "Maze and players reset" });
-    }
-
-    else {
-        res.status(405).json({ error: "Method not allowed" });
+        res.status(200).json({ maze, players });
+    } catch (err) {
+        console.error("?? /api/maze error:", err);
+        res.status(500).json({ error: "Failed to load maze and players" });
     }
 };
+
 

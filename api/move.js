@@ -1,5 +1,5 @@
-﻿// api/move.js
-const { mazeCache, players } = require("./shared");
+﻿const db = require("./firebase");
+const { mazeCache } = require("./shared");
 
 module.exports = async (req, res) => {
     try {
@@ -7,14 +7,10 @@ module.exports = async (req, res) => {
             return res.status(405).json({ error: "Method not allowed" });
         }
 
-        if (!req.body || typeof req.body !== "object") {
-            return res.status(400).json({ error: "Missing or invalid request body" });
-        }
-
         const { direction, playerId } = req.body;
 
-        if (!playerId || !players[playerId]) {
-            return res.status(400).json({ error: "Invalid or missing playerId" });
+        if (!direction || !playerId) {
+            return res.status(400).json({ error: "Missing direction or playerId" });
         }
 
         const directions = {
@@ -29,9 +25,23 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "Invalid direction" });
         }
 
+        const playersDocRef = db.collection("maze_state").doc("players");
+        const doc = await playersDocRef.get();
+
+        if (!doc.exists) {
+            return res.status(404).json({ error: "Players document not found" });
+        }
+
+        const players = doc.data();
+        const playerData = players[playerId];
+
+        if (!playerData) {
+            return res.status(404).json({ error: `Player '${playerId}' not found` });
+        }
+
         const [dx, dy] = move;
-        const newX = players[playerId].x + dx;
-        const newY = players[playerId].y + dy;
+        const newX = playerData.x + dx;
+        const newY = playerData.y + dy;
 
         if (
             newY >= 0 && newY < mazeCache.length &&
@@ -39,10 +49,10 @@ module.exports = async (req, res) => {
             mazeCache[newY][newX] === 0
         ) {
             players[playerId] = { x: newX, y: newY };
-            return res.json({ success: true, players });
+            await playersDocRef.update({ [playerId]: players[playerId] });
         }
 
-        return res.json({ success: false, players });
+        return res.json({ success: true, players });
     } catch (err) {
         console.error("🔥 move.js error:", err);
         return res.status(500).json({
