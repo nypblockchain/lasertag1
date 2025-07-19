@@ -84,19 +84,22 @@ async function submitCommand() {
     const playerId = getCurrentPlayer();
     if (!command || !playerId) return;
 
-    await fetch("/api/command", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command, playerId })
-    });
+    try {
+        const res = await fetch("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command, playerId })
+        });
 
-    await fetchMazeAndPlayers();
-    input.value = "";
+        const data = await res.json();
+        console.log("Command result:", data);
 
-    if (!timerStarted) {
-        startCountdownTimer();
-        timerStarted = true;
+        await fetchMazeAndPlayers(); // ? re-render updated positions
+    } catch (err) {
+        console.error("Command error:", err);
     }
+
+    input.value = "";
 }
 
 document.getElementById("resetMazeBtn").addEventListener("click", async () => {
