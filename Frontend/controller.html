@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Controller</title>
+    <link rel="stylesheet" href="./styles/controller.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h2>Controller</h2>
+
+    <div class="maze-wrapper">
+        <div id="maze"></div>
+    </div>
+
+    <select id="playerSelect">
+        <option value="player1">Player 1</option>
+        <option value="player2">Player 2</option>
+        <option value="player3">Player 3</option>
+        <option value="player4">Player 4</option>
+    </select>
+
+    <input id="commandInput" placeholder="Tell Gemini where to go" />
+    <button onclick="submitCommand()">Send Command</button>
+
+    <div id="log" class="command-log">Awaiting Command</div>
+
+    <script src="controller.js"></script>
+</body>
+</html>
+

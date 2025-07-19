@@ -72,19 +72,25 @@ document.addEventListener("keydown", async (e) => {
 async function submitCommand() {
     const input = document.getElementById("commandInput");
     const command = input.value.trim();
+    const playerId = document.getElementById("playerSelect").value;
 
-    if (!command) return;
+    if (!command || !playerId) return;
 
     await fetch("/api/command", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command, playerId: getCurrentPlayer() }) // ? add this
+        body: JSON.stringify({ command, playerId }) // ? add this
     });
 
     // ? Always re-fetch maze and player state after command
     await fetchMazeAndPlayers();
 
     input.value = ""; // Optional: clear input box
+
+    if (!timerStarted) {
+        startCountdownTimer();
+        timerStarted = true;
+    }
 }
 
 document.getElementById("resetMazeBtn").addEventListener("click", async () => {
@@ -103,3 +109,48 @@ document.getElementById("resetMazeBtn").addEventListener("click", async () => {
 function getCurrentPlayer() {
     return document.getElementById("playerSelect").value || "player1";
 }
+
+let countdownInterval = null;
+let timeLeft = 120; // 2 minutes in seconds
+let timerStarted = false;
+
+function startCountdownTimer() {
+    const display = document.getElementById("countdownDisplay");
+
+    countdownInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60).toString();
+        const seconds = (timeLeft % 60).toString().padStart(2, "0");
+
+        display.textContent = `? ${minutes}:${seconds}`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(countdownInterval);
+            triggerTimeUpOverlay();
+        }
+    }, 1000);
+}
+
+function triggerTimeUpOverlay() {
+    document.getElementById("timeUpOverlay").classList.remove("hidden");
+}
+
+document.getElementById("overlayResetBtn").addEventListener("click", async () => {
+  try {
+    await fetch("/api/maze/reset", { method: "POST" });
+    window.location.reload(); // Reload page after reset
+  } catch (err) {
+    console.error("Overlay reset failed:", err);
+  }
+});
+
+// refresh every 750?ms
+setInterval(async () => {
+    try {
+        const res = await fetch("/api/maze");
+        const data = await res.json();
+        renderMaze(data.maze, data.players);
+    } catch (err) {
+        console.error("poll failed", err);
+    }
+}, 750);
