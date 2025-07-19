@@ -31,12 +31,12 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "No valid directions parsed", raw: text });
         }
 
-        const moveEndpoint = "/api/move";
+        const BASE_URL = "https://lasertag1.vercel.app";
 
         let moveResponses = [];
 
         for (const dir of parsed) {
-            const moveRes = await fetch(moveEndpoint, {
+            const moveRes = await fetch(`${BASE_URL}/api/move`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ direction: dir, playerId })
