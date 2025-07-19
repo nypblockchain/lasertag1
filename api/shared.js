@@ -6,9 +6,9 @@ if (!admin.apps.length) {
     try {
         admin.initializeApp({
             credential: admin.credential.cert({
-                projectId: process.env.FB_PROJECT_ID,
-                clientEmail: process.env.FB_CLIENT_EMAIL,
-                privateKey: process.env.FB_PRIVATE_KEY.replace(/\\n/g, "\n"),
+                projectId: process.env.GOOGLE_PROJECT_ID,
+                clientEmail: process.env.GOOGLE_CLIENT_EMAIL,
+                privateKey: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
             }),
         });
         console.log("✅ Firebase Admin initialized");
