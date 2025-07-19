@@ -1,17 +1,25 @@
-﻿// api/shared.js
-const admin = require("firebase-admin");
+﻿const admin = require("firebase-admin");
 
-/* --------- 1. Initialise Firebase Admin (runs only once per cold‑start) -------- */
+console.log("🔥 Initializing Firebase Admin...");
+
 if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FB_PROJECT_ID,
-            clientEmail: process.env.FB_CLIENT_EMAIL,
-            // private key arrives with \n in env‑var, turn them into real newlines
-            privateKey: process.env.FB_PRIVATE_KEY.replace(/\\n/g, "\n"),
-        }),
-    });
+    try {
+        admin.initializeApp({
+            credential: admin.credential.cert({
+                projectId: process.env.FB_PROJECT_ID,
+                clientEmail: process.env.FB_CLIENT_EMAIL,
+                privateKey: process.env.FB_PRIVATE_KEY.replace(/\\n/g, "\n"),
+            }),
+        });
+        console.log("✅ Firebase Admin initialized");
+    } catch (err) {
+        console.error("❌ Firebase Admin init failed:", err);
+        throw err;
+    }
+} else {
+    console.log("⚠️ Firebase already initialized");
 }
+
 
 const db = admin.firestore();
 
