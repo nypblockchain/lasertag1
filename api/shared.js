@@ -40,13 +40,24 @@ async function updatePlayerPos(id, x, y) {
 }
 
 /* ----------------- 4. Maze helpers (optional) ----------------- */
+/* ---------- Maze helpers ---------- */
 async function getMaze() {
     const snap = await MAZE_DOC.get();
-    if (snap.exists) return snap.data().maze;
+    if (snap.exists) {
+        const data = snap.data();
+        // Convert map → 2‑D array
+        if (data && data.rows) return Object.values(data.rows);
+        throw new Error("Maze doc broken");
+    }
 
-    const maze = generateMaze(21);          // create if not there yet
-    await MAZE_DOC.set({ maze });
-    return maze;
+    const maze2D = generateMaze(21);
+
+    // Convert 2‑D array → map so Firestore likes it
+    const rows = {};
+    maze2D.forEach((row, i) => (rows[`r${i}`] = row));
+    await MAZE_DOC.set({ rows });
+
+    return maze2D;
 }
 
 /* (re‑use your existing generateMaze function) */
