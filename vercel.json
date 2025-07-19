@@ -20,12 +20,16 @@
       "dest": "/api/$1.js"
     },
     {
-      "src": "/styles/(.*)",
-      "dest": "/public/styles/$1"
-    },
-    {
       "src": "/controller",
       "dest": "/Frontend/controller.html"
+    },
+    {
+      "src": "/Frontend/(.*)",
+      "dest": "/Frontend/$1"
+    },
+    {
+      "src": "/styles/(.*)",
+      "dest": "/public/styles/$1"
     },
     {
       "src": "/(.*)",
@@ -33,5 +37,3 @@
     }
   ]
 }
-
-
