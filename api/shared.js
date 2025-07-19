@@ -7,7 +7,6 @@ global._players = global._players || {
     player4: { x: 20, y: 20 }
 };
 
-let players = global._players;
 
 global._mazeCache = global._mazeCache || generateMaze(21);
 
