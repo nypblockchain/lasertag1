@@ -1,12 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const mazeModule = require("./maze"); // Assumes maze.js exports { maze, players }
+// api/move.js
+const { mazeCache, players } = require('./shared');
 
-const players = mazeModule.players;
+module.exports = async (req, res) => {
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method not allowed" });
+    }
 
-router.post("/", (req, res) => {
-    const { direction, playerId } = req.body; // ? now reads playerId
-    const maze = mazeModule.maze;
+    const { direction, playerId } = req.body;
 
     const player = players[playerId];
     if (!player) {
@@ -29,20 +29,15 @@ router.post("/", (req, res) => {
     const newX = player.x + dx;
     const newY = player.y + dy;
 
-    if (isValidMove(newX, newY, maze)) {
-        players[playerId] = { x: newX, y: newY }; // ? update the correct player
+    if (
+        newY >= 0 && newY < mazeCache.length &&
+        newX >= 0 && newX < mazeCache[0].length &&
+        mazeCache[newY][newX] === 0
+    ) {
+        players[playerId] = { x: newX, y: newY };
         return res.json({ success: true, players });
     }
 
     res.json({ success: false, players });
-});
+};
 
-function isValidMove(x, y, maze) {
-    return (
-        y >= 0 && y < maze.length &&
-        x >= 0 && x < maze[0].length &&
-        maze[y][x] === 0
-    );
-}
-
-module.exports = router;
