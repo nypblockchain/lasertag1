@@ -129,6 +129,9 @@ document.getElementById("resetMazeBtn").addEventListener("click", async () => {
         const res = await fetch("/api/reset", { method: "POST" });
         const data = await res.json();
         console.log(data.message || "Maze reset");
+
+        document.getElementbyId("timeUpOverlay").classlist.add("hidden");
+
         window.location.reload();
     } catch (err) {
         console.error("Maze reset failed:", err);
