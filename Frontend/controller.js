@@ -1,4 +1,4 @@
-let mazeCache = [];
+﻿let mazeCache = [];
 let timeLeft = 120;
 let countdownInterval = null;
 
@@ -72,7 +72,7 @@ async function submitCommand() {
 
     if (!command) return;
 
-    appendLog(`?? ${playerId}: ${command}`);
+    appendLog(`🎮 ${playerId}: ${command}`);
     input.value = "";
 
     try {
@@ -85,14 +85,14 @@ async function submitCommand() {
         const data = await res.json();
 
         if (data.success) {
-            appendLog(`?? Gemini ? ${data.moved.join(", ")}`);
+            appendLog(`🤖 Gemini ? ${data.moved.join(", ")}`);
         } else {
-            appendLog(`?? Gemini error: ${data.error || "Unknown error"}`);
+            appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`);
         }
 
         await fetchMazeAndPlayers();
     } catch (err) {
-        appendLog("? Network or Server Error");
+        appendLog("❌ Network or Server Error");
         console.error(err);
     }
 }
@@ -114,6 +114,10 @@ function startCountdownTimer() {
             triggerTimeUpOverlay();
         }
     }, 1000);
+}
+
+function triggerTimeUpOverlay() {
+    document.getElementById("timeUpOverlay").classList.remove("hidden");
 }
 
 document.getElementById("startTimerButton").addEventListener("click", () => {
