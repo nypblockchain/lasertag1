@@ -97,7 +97,7 @@ async function submitCommand() {
     }
 }
 
-function startCountdownTImer() {
+function startCountdownTimer() {
     const display = document.getElementById("countdownDisplay");
 
     clearInterval(countdownInterval);
