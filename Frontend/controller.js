@@ -121,17 +121,6 @@ document.getElementById("startTimerButton").addEventListener("click", () => {
     startCountdownTimer()
 });
 
-document.getElementById("resetMazeBtn").addEventListener("click", async () => {
-    try {
-        const res = await fetch("/api/reset", { method: "POST" });
-        const data = await res.json();
-        console.log(data.message || "Maze reset");
-        window.location.reload();
-    } catch (err) {
-        console.error("Maze reset failed:", err);
-    }
-});
-
 document.getElementById("playerSelect").addEventListener("change", fetchMazeAndPlayers);
 window.onload = fetchMazeAndPlayers;
 
