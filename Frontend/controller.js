@@ -101,6 +101,15 @@ function triggerTimeUpOverlay() {
     document.getElementById("timeUpOverlay").classList.remove("hidden");
 }
 
+document.getElementById("overlayResetBtn").addEventListener("click", async () => {
+    try {
+        await fetch("/api/reset", { method: "POST" });
+        window.location.reload();
+    } catch (err) {
+        console.error("Overlay reset failed:", err);
+    }
+});
+
 function startCountdownTimer() {
     const display = document.getElementById("countdownDisplay");
 
