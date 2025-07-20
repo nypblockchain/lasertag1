@@ -1,5 +1,5 @@
 ﻿// api/maze-reset.js
-const db = require("./firebase-admin");
+const db = require("./firebase");
 const { generateMaze } = require("./shared");
 
 module.exports = async (req, res) => {
