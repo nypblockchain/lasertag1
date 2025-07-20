@@ -121,6 +121,10 @@ document.getElementById("startTimerButton").addEventListener("click", () => {
     startCountdownTimer()
 });
 
+function triggerTimeUpOverlay() {
+    document.getElementById("timeUpOverlay").classList.remove("hidden");
+}
+
 document.getElementById("playerSelect").addEventListener("change", fetchMazeAndPlayers);
 window.onload = fetchMazeAndPlayers;
 
