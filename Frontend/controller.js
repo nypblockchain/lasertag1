@@ -1,4 +1,6 @@
 let mazeCache = [];
+let timeLeft = 120;
+let countdownInterval = null;
 
 async function fetchMazeAndPlayers() {
     try {
@@ -70,7 +72,7 @@ async function submitCommand() {
 
     if (!command) return;
 
-    appendLog(`? ${playerId}: ${command}`);
+    appendLog(`?? ${playerId}: ${command}`);
     input.value = "";
 
     try {
@@ -83,9 +85,9 @@ async function submitCommand() {
         const data = await res.json();
 
         if (data.success) {
-            appendLog(`? Gemini ? ${data.moved.join(", ")}`);
+            appendLog(`?? Gemini ? ${data.moved.join(", ")}`);
         } else {
-            appendLog(`? Gemini error: ${data.error || "Unknown error"}`);
+            appendLog(`?? Gemini error: ${data.error || "Unknown error"}`);
         }
 
         await fetchMazeAndPlayers();
@@ -94,6 +96,40 @@ async function submitCommand() {
         console.error(err);
     }
 }
+
+function startCountdownTImer() {
+    const display = document.getElementById("countdownDisplay");
+
+    clearInterval(countdownInterval);
+    timeLeft = 120;
+
+    countdownInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60).toString();
+        const seconds = (timeLeft % 60).toString().padStart(2, "0");
+        display.textContent = `${minutes}:${seconds}`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(countdownInterval);
+            triggerTimeUpOverlay();
+        }
+    }, 1000);
+}
+
+document.getElementById("startTimerButton").addEventListener("click", () => {
+    startCountdownTimer()
+});
+
+document.getElementById("resetMazeBtn").addEventListener("click", async () => {
+    try {
+        const res = await fetch("/api/reset", { method: "POST" });
+        const data = await res.json();
+        console.log(data.message || "Maze reset");
+        window.location.reload();
+    } catch (err) {
+        console.error("Maze reset failed:", err);
+    }
+});
 
 document.getElementById("playerSelect").addEventListener("change", fetchMazeAndPlayers);
 window.onload = fetchMazeAndPlayers;

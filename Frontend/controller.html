@@ -22,7 +22,17 @@
     <input id="commandInput" placeholder="Tell Gemini where to go" />
     <button onclick="submitCommand()">Send Command</button>
 
+    <button id="startTimerButton">Start Countdown</button>
+    <div id="countdownDisplay"></div>
+
     <div id="log" class="command-log">Awaiting Command</div>
+
+    <div id="overlay" style="display: none;">
+        <div id="overlayContent">
+            <h1>? Time's Up!</h1>
+            <button id="resetMazeBtn">?? Reset</button>
+        </div>
+    </div>
 
     <script src="/Frontend/controller.js"></script>
 </body>
