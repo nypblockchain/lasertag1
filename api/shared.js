@@ -20,72 +20,56 @@ if (!admin.apps.length) {
     console.log("⚠️ Firebase already initialized");
 }
 
+
 const db = admin.firestore();
 
-// Firestore doc refs
+/* --------- 2. Collection / document helpers -------- */
 const PLAYERS_DOC = db.collection("maze_state").doc("players");
 const MAZE_DOC = db.collection("maze_state").doc("maze");
 
-// In-memory caches
-let playersCache = null;
-let mazeCache = null;
-
-/* ---------------------- Players ---------------------- */
-
+/* ----------------- 3. Players helpers ----------------- */
 async function getPlayers() {
-    if (playersCache) return playersCache;
-
     const snap = await PLAYERS_DOC.get();
-    if (snap.exists) {
-        playersCache = snap.data();
-        return playersCache;
-    }
+    if (snap.exists) return snap.data();
 
-    // Default player positions
+    // If doc doesn’t exist, create the default positions
     const seed = {
-        player1: { x: 0, y: 0, lives: 3 },
-        player2: { x: 0, y: 20, lives: 3 },
-        player3: { x: 20, y: 0, lives: 3 },
-        player4: { x: 20, y: 20, lives: 3 },
+        player1: { x: 0, y: 0 },
+        player2: { x: 0, y: 20 },
+        player3: { x: 20, y: 0 },
+        player4: { x: 20, y: 20 },
     };
-
     await PLAYERS_DOC.set(seed);
-    playersCache = seed;
-    return playersCache;
+    return seed;
 }
 
 async function updatePlayerPos(id, x, y) {
-    if (playersCache?.[id]) {
-        playersCache[id].x = x;
-        playersCache[id].y = y;
-    }
     await PLAYERS_DOC.update({ [`${id}.x`]: x, [`${id}.y`]: y });
 }
 
-/* ---------------------- Maze ---------------------- */
-
+/* ----------------- 4. Maze helpers (optional) ----------------- */
+/* ---------- Maze helpers ---------- */
 async function getMaze() {
-    if (mazeCache) return mazeCache;
-
     const snap = await MAZE_DOC.get();
     if (snap.exists) {
         const data = snap.data();
-        mazeCache = Object.values(data.rows);
-        return mazeCache;
+        if (data && data.rows) return Object.values(data.rows);
+        throw new Error("Maze doc broken");
     }
 
-    // Create default maze if not found
     const maze2D = generateMaze(21);
     const rows = {};
     maze2D.forEach((row, i) => (rows[`r${i}`] = row));
-    await MAZE_DOC.set({ rows });
 
-    mazeCache = maze2D;
-    return mazeCache;
+    console.log("📦 Creating new maze document...");
+    await MAZE_DOC.set({ rows });
+    console.log("✅ Maze written to Firestore");
+
+    return maze2D;
 }
 
-/* ---------------- Maze Generator ---------------- */
 
+/* (re‑use your existing generateMaze function) */
 function generateMaze(size = 21) {
     if (size % 2 === 0) size += 1;
     const maze = Array.from({ length: size }, () => Array(size).fill(1));
@@ -131,28 +115,14 @@ function generateMaze(size = 21) {
     maze[size - 1][size - 1] = 0;
 
     return maze;
+    console.log("MAZE GENERATED");
 }
 
-/* ---------------- Cache Resetters ---------------- */
-
-function setPlayersCache(newPlayers) {
-    playersCache = newPlayers;
-}
-
-function setMazeCache(newMaze) {
-    mazeCache = newMaze;
-}
-
-/* ---------------- Exports ---------------- */
-
+/* ----------------- 5. Exports ----------------- */
 module.exports = {
     db,
     getPlayers,
     updatePlayerPos,
-    getMaze,
-    generateMaze,
-    playersCache,
-    mazeCache,
-    setPlayersCache,
-    setMazeCache,
+    getMaze,        // used by api/maze.js
+    generateMaze,   // still handy for /reset
 };
