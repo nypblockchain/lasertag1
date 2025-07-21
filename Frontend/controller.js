@@ -129,6 +129,33 @@ function startCountdownTimer() {
     }, 1000);
 }
 
+async function fireAttack(direction = "up") {
+    const playerId = getCurrentPlayer();
+    if (!playerId) return;
+
+    try {
+        const res = await fetch("/api/attack", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playerId, direction })
+        });
+
+        const data = await res.json();
+
+        if (data.success && data.hit) {
+            const emoji = data.lives > 0 ? `❤️ (${data.lives})` : "💀";
+            appendLog(`🔫 ${playerId} hit ${data.hit} ${emoji}`);
+        } else {
+            appendLog(`🔫 ${playerId} fired ${direction}... missed`);
+        }
+
+        await fetchMazeAndPlayers(); // Refresh map and player state
+    } catch (err) {
+        appendLog("❌ Attack failed");
+        console.error("Attack error:", err);
+    }
+}
+
 
 document.getElementById("startTimerButton").addEventListener("click", () => {
     startCountdownTimer()

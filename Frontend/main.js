@@ -115,7 +115,7 @@ document.getElementById("resetMazeBtn").addEventListener("click", async () => {
 
 document.getElementById("overlayResetBtn").addEventListener("click", async () => {
     try {
-        await fetch("/api/maze-reset", { method: "POST" });
+        await fetch("/api/reset", { method: "POST" });
         window.location.reload();
     } catch (err) {
         console.error("Overlay reset failed:", err);

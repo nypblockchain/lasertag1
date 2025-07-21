@@ -1,5 +1,10 @@
 ﻿// api/maze-reset.js
-const { db, generateMaze } = require("./shared");
+const {
+    db,
+    generateMaze,
+    setMazeCache,
+    setPlayersCache
+} = require("./shared");
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -29,6 +34,9 @@ module.exports = async (req, res) => {
 
         // 🔥 Overwrite maze_state/players
         await db.collection("maze_state").doc("players").set(resetPlayers);
+
+        setMazeCache(newMaze);
+        setPlayersCache(resetPlayers);
 
         return res.json({
             success: true,
