@@ -156,6 +156,41 @@ async function fireAttack(direction = "up") {
     }
 }
 
+async function fireAttack(direction = "up") {
+    const playerId = getCurrentPlayer();
+    if (!playerId) return;
+
+    try {
+        const res = await fetch("/api/attack", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playerId, direction })
+        });
+
+        const data = await res.json();
+
+        if (data.success && data.hits && data.hits.length > 0) {
+            // log each victim
+            data.hits.forEach(hit => {
+                const emoji = hit.livesLeft > 0 ? `❤️ (${hit.livesLeft})` : "💀";
+                appendLog(`🔫 ${playerId} hit ${hit.player} ${emoji}`);
+            });
+        } else {
+            appendLog(`🔫 ${playerId} fired ${direction}… missed`);
+        }
+
+        await fetchMazeAndPlayers(); // refresh maze & lives
+    } catch (err) {
+        appendLog("❌ Attack failed");
+        console.error("Attack error:", err);
+    }
+}
+
+document.getElementById("fireButton").addEventListener("click", () => {
+    const dir = document.getElementById("attackDirection").value; // "up"|"down"|"left"|"right"
+    fireAttack(dir);
+});
+
 
 document.getElementById("startTimerButton").addEventListener("click", () => {
     startCountdownTimer()
