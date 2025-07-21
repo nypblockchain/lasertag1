@@ -6,10 +6,17 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // helper: absolute URL for /api/move
 function getMoveURL(req) {
-    // In production Vercel adds x-forwarded-host, e.g. lasertag1.vercel.app
+    // 1. Vercel production requests from the browser have this header
     const host = req.headers["x-forwarded-host"];
-    if (host) return `https://${host}/api/move`;      // prod
-    return "http://localhost:3000/api/move";          // local dev
+    if (host) return `https://${host}/api/move`;
+
+    // 2. Fallback to Vercel environment var if header is missing (e.g. internal fetch)
+    if (process.env.VERCEL_URL) {
+        return `https://${process.env.VERCEL_URL}/api/move`;
+    }
+
+    // 3. Fallback for local development
+    return "http://localhost:3000/api/move";
 }
 
 module.exports = async (req, res) => {
