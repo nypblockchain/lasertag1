@@ -191,7 +191,6 @@ document.getElementById("fireButton").addEventListener("click", () => {
     fireAttack(dir);
 });
 
-
 document.getElementById("startTimerButton").addEventListener("click", () => {
     startCountdownTimer()
 });
