@@ -40,6 +40,7 @@ function renderMaze(maze, players = {}) {
                 cell.classList.add(maze[y][x] === 1 ? "wall" : "path");
 
                 for (const [id, pos] of Object.entries(players)) {
+                    if (pos.lives !== undefined && pos.lives <= 0) continue; // skip dead players
                     if (pos.x === x && pos.y === y) {
                         cell.classList.add(id);
                     }
