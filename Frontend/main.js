@@ -29,6 +29,7 @@ function renderMaze(maze, players = {}) {
 
             let playerClass = null;
             for (const [playerId, pos] of Object.entries(players)) {
+                if (pos.lives !== undefined && pos.lives <= 0) continue;  // ?? new guard
                 if (pos.y === i && pos.x === j) {
                     playerClass = playerId;
                     break;
