@@ -1,4 +1,27 @@
 let mazeCache = [];
+let isPolling = false;
+let pollingInterval = null;
+
+function startPolling() {
+    if (!pollingInterval) {
+        pollingInterval = setInterval(fetchMazeAndPlayers, 750);
+        document.getElementById("pollingStatusLabel").textContent = "Polling: ON";
+        isPolling = true;
+        alert("Polling started. The maze will update every 750ms.");
+        console.log("Polling started.")
+    }
+}
+
+function stopPolling() {
+    if (pollingInterval) {
+        clearInterval(pollingInterval);
+        pollingInterval = null;
+        document.getElementById("pollingStatusLabel").textContent = "Polling: OFF";
+        isPolling = false;
+        alert("Polling has been paused.")
+        console.log("Polling stopped.")
+    }
+}
 
 async function fetchMazeAndPlayers() {
     try {
@@ -147,5 +170,15 @@ function triggerTimeUpOverlay() {
     document.getElementById("timeUpOverlay").classList.remove("hidden");
 }
 
-setInterval(fetchMazeAndPlayers, 750);
+document.getElementById("pollingToggle").addEventListener("change", (e) => {
+    if (e.target.checked) {
+        startPolling();
+    }
+    else {
+        stopPolling();
+    }
+});
+
+// setInterval(fetchMazeAndPlayers, 750);
 window.onload = fetchMazeAndPlayers;
+stopPolling();
