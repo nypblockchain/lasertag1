@@ -1,15 +1,20 @@
-﻿// api/command.js
-const fetch = require("node-fetch");
+﻿const fetch = require("node-fetch");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // helper: absolute URL for /api/move
 function getMoveURL(req) {
-    // In production Vercel adds x-forwarded-host, e.g. lasertag1.vercel.app
     const host = req.headers["x-forwarded-host"];
-    if (host) return `https://${host}/api/move`;      // prod
-    return "http://localhost:3000/api/move";          // local dev
+    if (host) return `https://${host}/api/move`;
+    return "http://localhost:3000/api/move";
+}
+
+// helper: absolute URL for /api/attack
+function getAttackURL(req) {
+    const host = req.headers["x-forwarded-host"];
+    if (host) return `https://${host}/api/attack`;
+    return "http://localhost:3000/api/attack";
 }
 
 module.exports = async (req, res) => {
@@ -23,53 +28,72 @@ module.exports = async (req, res) => {
     }
 
     try {
-        /* ------------ 1. Ask Gemini -------------- */
+        // 1. Ask Gemini
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const prompt = `You control a player in a grid maze.
-Reply ONLY with a space‑ or comma‑separated list of the words up, down, left, or right.
+        const prompt = `
+You control a player in a grid-based laser tag maze.
+Valid commands:
+- Movement: "up", "down", "left", "right"
+- Firing: "fire up", "fire down", "fire left", "fire right" (or "shoot" instead of "fire")
+
+Reply ONLY with a space- or comma-separated list of valid commands. No extra commentary.
+
 Instruction: "${command}"`;
+
         const result = await model.generateContent(prompt);
         const raw = result.response.text().trim().toLowerCase();
 
-        // strip punctuation, split on whitespace or commas
+        // 2. Parse Gemini output into structured actions
         const directions = ["up", "down", "left", "right"];
-        const parsed = raw
-            .replace(/[^a-z,\s]/g, " ")        // remove punctuation like “.”
-            .split(/[\s,]+/)
-            .filter(w => directions.includes(w));
+        const attackVerbs = ["fire", "shoot"];
+        const tokens = raw.replace(/[^a-z,\s]/g, " ").split(/[\s,]+/).filter(Boolean);
 
-        if (parsed.length === 0) {
-            return res.status(400).json({ error: "No valid directions parsed", raw });
+        const actions = [];
+        for (let i = 0; i < tokens.length; i++) {
+            const token = tokens[i];
+
+            if (attackVerbs.includes(token) && i + 1 < tokens.length && directions.includes(tokens[i + 1])) {
+                actions.push({ type: "fire", dir: tokens[i + 1] });
+                i++; // skip direction
+            } else if (directions.includes(token)) {
+                actions.push({ type: "move", dir: token });
+            }
         }
 
-        /* ------------ 2. Call /api/move -------------- */
+        if (actions.length === 0) {
+            return res.status(400).json({ error: "No valid actions parsed", raw });
+        }
+
+        // 3. Call /api/move or /api/attack for each action
         const moveURL = getMoveURL(req);
+        const attackURL = getAttackURL(req);
         const results = [];
 
-        for (const dir of parsed) {
-            const moveRes = await fetch(moveURL, {
+        for (const action of actions) {
+            const url = action.type === "move" ? moveURL : attackURL;
+
+            const apiRes = await fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ direction: dir, playerId })
+                body: JSON.stringify({ direction: action.dir, playerId })
             });
 
-            if (!moveRes.ok) {
-                const text = await moveRes.text();
-                return res.status(502).json({ error: "Move API failed", body: text.slice(0, 120) });
+            if (!apiRes.ok) {
+                const text = await apiRes.text();
+                return res.status(502).json({ error: `${action.type} API failed`, body: text.slice(0, 120) });
             }
 
-            const moveData = await moveRes.json();
-            results.push({ dir, ...moveData });
+            const apiData = await apiRes.json();
+            results.push({ action, ...apiData });
 
-            // stop if blocked
-            if (!moveData.success) break;
+            if (action.type === "move" && !apiData.success) break;
         }
 
-        /* ------------ 3. Return summary -------------- */
-        return res.json({ success: true, moved: parsed, results });
+        // 4. Return response
+        return res.json({ success: true, actions, results });
 
     } catch (err) {
         console.error("❌ command.js error:", err);
-        return res.status(500).json({ error: "Gemini or move error", detail: err.message });
+        return res.status(500).json({ error: "Gemini or API error", detail: err.message });
     }
 };

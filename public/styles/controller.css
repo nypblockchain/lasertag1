@@ -218,3 +218,23 @@ input:checked + .slider {
     margin-top: 4px;
     font-size: 1.1rem;
 }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 32px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.4s;
+    border: 2px solid transparent; /* default = no visible border */
+}
+
+input:checked + .slider {
+    background-color: #4cd964;
+    border: 2px solid #0f0; /* neon green border when checked */
+}
+
+

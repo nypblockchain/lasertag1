@@ -27,6 +27,14 @@ const db = admin.firestore();
 const PLAYERS_DOC = db.collection("maze_state").doc("players");
 const MAZE_DOC = db.collection("maze_state").doc("maze");
 
+/* --------- 2.5. Starting Positions and Respawn Points -------- */
+const STARTING_POSITIONS = {
+    player1: { x: 0, y: 0 },
+    player2: { x: 0, y: 20 },
+    player3: { x: 20, y: 0 },
+    player4: { x: 20, y: 20 },
+};
+
 /* ----------------- 3. Players helpers ----------------- */
 async function getPlayers() {
     const snap = await PLAYERS_DOC.get();
@@ -125,4 +133,5 @@ module.exports = {
     updatePlayerPos,
     getMaze,        // used by api/maze.js
     generateMaze,   // still handy for /reset
+    STARTING_POSITIONS,
 };

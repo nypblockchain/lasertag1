@@ -197,7 +197,8 @@ async function fireAttack(direction = "up") {
             // log each victim
             data.hits.forEach(hit => {
                 const emoji = hit.livesLeft > 0 ? `❤️ (${hit.livesLeft})` : "💀";
-                appendLog(`🔫 ${playerId} hit ${hit.player} ${emoji}`);
+                const resetInfo = hit.resetTo ? ` → reset to (${hit.resetTo.x},${hit.resetTo.y})` : "";
+                appendLog(`🔫 ${playerId} hit ${hit.player} ${emoji}${resetInfo}`);
             });
         } else {
             appendLog(`🔫 ${playerId} fired ${direction}… missed`);

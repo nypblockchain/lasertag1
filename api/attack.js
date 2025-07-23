@@ -1,5 +1,5 @@
 ﻿// api/attack.js
-const { db, getPlayers, getMaze } = require("./shared");
+const { db, getPlayers, getMaze, STARTING_POSITIONS } = require("./shared");
 
 /** helper: true if every cell between (ax,ay) and (bx,by) is 0 (path) */
 function clearPath(maze, ax, ay, bx, by) {
@@ -44,15 +44,23 @@ module.exports = async (req, res) => {
 
             // same row or column AND nothing but 0‑cells between them
             if (clearPath(maze, ax, ay, p.x, p.y)) {
-                const lives = Math.max(0, (p.lives ?? 3) - 1);
+                const lives = Math.maz(0, (p.lives ?? 3) - 1);
+                const resetPos = STARTING_POSITIONS[otherId] || { x: p.x, y: p.y };
 
-                // write back only the lives field
                 await db
                     .collection("maze_state")
-                    .doc("players")
-                    .update({ [`${otherId}.lives`]: lives });
+                    .docs("players")
+                    .update({
+                        [`${otherId}.lives`]: lives,
+                        [`${otherId}.x`]: resetPos.x,
+                        [`${otherId}.y`]: resetPos.y
+                    });
 
-                hits.push({ player: otherId, livesLeft: lives });
+                hits.push({
+                    player: otherId,
+                    livesLeft: lives,
+                    resetTo: resetPos
+                });         
             }
         }
 
