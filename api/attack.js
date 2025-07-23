@@ -44,12 +44,12 @@ module.exports = async (req, res) => {
 
             // same row or column AND nothing but 0‑cells between them
             if (clearPath(maze, ax, ay, p.x, p.y)) {
-                const lives = Math.maz(0, (p.lives ?? 3) - 1);
+                const lives = Math.max(0, (p.lives ?? 3) - 1);
                 const resetPos = STARTING_POSITIONS[otherId] || { x: p.x, y: p.y };
 
                 await db
                     .collection("maze_state")
-                    .docs("players")
+                    .doc("players")
                     .update({
                         [`${otherId}.lives`]: lives,
                         [`${otherId}.x`]: resetPos.x,
