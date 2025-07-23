@@ -111,6 +111,18 @@ async function submitCommand() {
             appendLog(`🤖 Gemini ? ${data.actions.map(a =>
                 a.type === "move" ? `🧭 ${a.dir}` : `🔫 ${a.dir}`
             ).join(", ")}`);
+
+            // 🧠 Enhanced feedback: show who got hit
+            data.results.forEach(result => {
+                if (result.action.type === "fire" && result.hits && result.hits.length > 0) {
+                    result.hits.forEach(hit => {
+                        const emoji = hit.livesLeft > 0 ? `❤️ (${hit.livesLeft})` : "💀";
+                        const resetInfo = hit.resetTo ? ` → reset to (${hit.resetTo.x},${hit.resetTo.y})` : "";
+                        appendLog(`🔫 ${playerId} hit ${hit.player} ${emoji}${resetInfo}`);
+                    });
+                }
+            });
+
         } else {
             appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`);
         }
