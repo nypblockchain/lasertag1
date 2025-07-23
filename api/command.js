@@ -72,11 +72,17 @@ Instruction: "${command}"`;
         for (const action of actions) {
             const url = action.type === "move" ? moveURL : attackURL;
 
+            const body =
+                action.type === "move"
+                    ? { direction: action.dir, playerId }
+                    : { playerId };
+
             const apiRes = await fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ direction: action.dir, playerId })
+                body: JSON.stringify(body)
             });
+
 
             if (!apiRes.ok) {
                 const text = await apiRes.text();
