@@ -6,10 +6,9 @@ let isPolling = false;
 
 function startPolling() {
     if (!pollingInterval) {
-        pollingInterval = setInterval(fetchMazeAndPlayer, 2000);
+        pollingInterval = setInterval(fetchMazeAndPlayers, 2000);
         document.getElementById("pollingStatusLabel").textContent = "Polling: ON";
         isPolling = true;
-        alert("Polling started. The maze will update every 2 seconds.");
         console.log("Polling started");
     }
 }
@@ -20,7 +19,6 @@ function stopPolling() {
         pollingInterval = null;
         document.getElementById("pollingStatusLabel").textContent = "Polling: OFF";
         isPolling = false;
-        alert("Polling has been paused.");
         console.log("Polling paused");
     }
 }
@@ -152,34 +150,6 @@ function startCountdownTimer() {
         }
     }, 1000);
 }
-
-async function fireAttack(direction = "up") {
-    const playerId = getCurrentPlayer();
-    if (!playerId) return;
-
-    try {
-        const res = await fetch("/api/attack", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ playerId, direction })
-        });
-
-        const data = await res.json();
-
-        if (data.success && data.hit) {
-            const emoji = data.lives > 0 ? `❤️ (${data.lives})` : "💀";
-            appendLog(`🔫 ${playerId} hit ${data.hit} ${emoji}`);
-        } else {
-            appendLog(`🔫 ${playerId} fired ${direction}... missed`);
-        }
-
-        await fetchMazeAndPlayers(); // Refresh map and player state
-    } catch (err) {
-        appendLog("❌ Attack failed");
-        console.error("Attack error:", err);
-    }
-}
-
 async function fireAttack(direction = "up") {
     const playerId = getCurrentPlayer();
     if (!playerId) return;
