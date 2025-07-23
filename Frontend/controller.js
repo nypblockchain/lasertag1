@@ -107,6 +107,8 @@ async function submitCommand() {
         const data = await res.json();
 
         if (data.success && data.actions) {
+            startCountdownTimer();
+
             // 💬 Replace .moved with .actions and format output
             appendLog(`🤖 Gemini ? ${data.actions.map(a =>
                 a.type === "move" ? `🧭 ${a.dir}` : `🔫 ${a.dir}`
@@ -202,10 +204,6 @@ document.getElementById("fireButton").addEventListener("click", () => {
     fireAttack(dir);
 });
 
-document.getElementById("startTimerButton").addEventListener("click", () => {
-    startCountdownTimer()
-});
-
 document.getElementById("pollingToggle").addEventListener("change", (e) => {
     if (e.target.checked) {
         startPolling();
@@ -219,4 +217,3 @@ document.getElementById("playerSelect").addEventListener("change", fetchMazeAndP
 window.onload = fetchMazeAndPlayers;
 
 stopPolling();
-// setInterval(fetchMazeAndPlayers, 750);
