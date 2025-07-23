@@ -106,11 +106,15 @@ async function submitCommand() {
 
         const data = await res.json();
 
-        if (data.success) {
-            appendLog(`🤖 Gemini ? ${data.moved.join(", ")}`);
+        if (data.success && data.actions) {
+            // 💬 Replace .moved with .actions and format output
+            appendLog(`🤖 Gemini ? ${data.actions.map(a =>
+                a.type === "move" ? `🧭 ${a.dir}` : `🔫 ${a.dir}`
+            ).join(", ")}`);
         } else {
             appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`);
         }
+
 
         await fetchMazeAndPlayers();
     } catch (err) {
