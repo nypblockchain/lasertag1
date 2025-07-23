@@ -199,11 +199,6 @@ async function fireAttack(direction = "up") {
     }
 }
 
-document.getElementById("fireButton").addEventListener("click", () => {
-    const dir = document.getElementById("attackDirection").value; // "up"|"down"|"left"|"right"
-    fireAttack(dir);
-});
-
 document.getElementById("pollingToggle").addEventListener("change", (e) => {
     if (e.target.checked) {
         startPolling();
