@@ -51,6 +51,15 @@ async function getPlayers() {
     return seed;
 }
 
+async function setMaze(maze) {
+    const rows = {};
+    maze.forEach((row, i) => {
+        rows[`r${i}`] = row;
+    });
+    await db.collection("maze_state").doc("maze").update({ rows });
+}
+
+
 async function updatePlayerPos(id, x, y) {
     await PLAYERS_DOC.update({ [`${id}.x`]: x, [`${id}.y`]: y });
 }
@@ -58,24 +67,14 @@ async function updatePlayerPos(id, x, y) {
 /* ----------------- 4. Maze helpers (optional) ----------------- */
 /* ---------- Maze helpers ---------- */
 async function getMaze() {
-    const snap = await MAZE_DOC.get();
-    if (snap.exists) {
-        const data = snap.data();
-        if (data && data.rows) return Object.values(data.rows);
-        throw new Error("Maze doc broken");
-    }
-
-    const maze2D = generateMaze(21);
-    const rows = {};
-    maze2D.forEach((row, i) => (rows[`r${i}`] = row));
-
-    console.log("📦 Creating new maze document...");
-    await MAZE_DOC.set({ rows });
-    console.log("✅ Maze written to Firestore");
-
-    return maze2D;
+    const doc = await db.collection("maze_state").doc("maze").get();
+    const data = doc.data();
+    const rows = data?.rows || {};
+    const maze = Object.keys(rows)
+        .sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1))) // r0, r1, ...
+        .map(key => rows[key]);
+    return maze;
 }
-
 
 /* (re‑use your existing generateMaze function) */
 function generateMaze(size = 21) {
@@ -122,6 +121,33 @@ function generateMaze(size = 21) {
     maze[size - 1][0] = 0;
     maze[size - 1][size - 1] = 0;
 
+    // Center of maze
+    const mid = Math.floor(size / 2);
+
+    // Clear inside of center box (3x3)
+    for (let y = mid - 1; y <= mid + 1; y++) {
+        for (let x = mid - 1; x <= mid + 1; x++) {
+            maze[y][x] = 0;
+        }
+    }
+
+    // Build walls around (5x5 box)
+    for (let i = -2; i <= 2; i++) {
+        // Top and bottom
+        maze[mid - 2][mid + i] = 1;
+        maze[mid + 2][mid + i] = 1;
+        // Left and right
+        maze[mid + i][mid - 2] = 1;
+        maze[mid + i][mid + 2] = 1;
+    }
+
+    // 🔓 Open 4 entrances (center of each side)
+    maze[mid - 2][mid] = 0; // top
+    maze[mid + 2][mid] = 0; // bottom
+    maze[mid][mid - 2] = 0; // left
+    maze[mid][mid + 2] = 0; // right
+
+
     return maze;
     console.log("MAZE GENERATED");
 }
@@ -134,4 +160,5 @@ module.exports = {
     getMaze,        // used by api/maze.js
     generateMaze,   // still handy for /reset
     STARTING_POSITIONS,
+    setMaze,
 };

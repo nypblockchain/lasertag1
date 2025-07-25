@@ -219,4 +219,6 @@ input:checked + .slider {
     font-size: 1.1rem;
 }
 
-
+.locked-entrance {
+    background-color: red;
+}

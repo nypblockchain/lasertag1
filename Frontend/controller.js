@@ -58,7 +58,26 @@ function renderMaze(maze, players = {}) {
             cell.classList.add("cell");
 
             if (y >= 0 && y < maze.length && x >= 0 && x < maze[0].length) {
-                cell.classList.add(maze[y][x] === 1 ? "wall" : "path");
+                if (maze[y][x] === 1) {
+                    cell.classList.add("wall");
+
+                    // Optional: mark locked entrances visually
+                    const mid = Math.floor(maze.length / 2);
+                    const entranceCoords = [
+                        [mid, mid - 2],
+                        [mid, mid + 2],
+                        [mid - 2, mid],
+                        [mid + 2, mid],
+                    ];
+
+                    for (const [ex, ey] of entranceCoords) {
+                        if (x === ex && y === ey) {
+                            cell.classList.add("locked-entrance");
+                        }
+                    }
+                } else {
+                    cell.classList.add("path");
+                }
 
                 for (const [id, pos] of Object.entries(players)) {
                     if (pos.lives !== undefined && pos.lives <= 0) continue; // skip dead players

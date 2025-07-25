@@ -55,6 +55,22 @@ module.exports = async (req, res) => {
         // ✅ Apply move and save to Firestore
         await updatePlayerPos(playerId, newX, newY);
 
+        const entrances = {
+            top: { x: mid, y: mid - 2 },
+            bottom: { x: mid, y: mid + 2 },
+            left: { x: mid - 2, y: mid },
+            right: { x: mid + 2, y: mid },
+        };
+
+        for (const [label, pos] of Object.entries(entrances)) {
+            if (newX === pos.x && newY === pos.y && maze[pos.y][pos.x] === 0) {
+                maze[pos.y][pos.x] = 1;
+                await setMaze(maze);
+                console.log(`🔒 Entrance '${label}' locked by ${playerId}`);
+                break;
+            }
+        }
+
         return res.json({
             success: true,
             playerId,
