@@ -1,4 +1,4 @@
-let mazeCache = [];
+﻿let mazeCache = [];
 let isPolling = false;
 let pollingInterval = null;
 
@@ -63,9 +63,10 @@ function renderMaze(maze, players = {}) {
                 cell.classList.add(playerClass);
             } else if (maze[i][j] === 1) {
                 cell.classList.add("wall");
-                cell.textContent = "??";
+                cell.textContent = "🧱";
             } else {
                 cell.classList.add("path");
+                cell.textContent = "";
             }
 
             mazeDiv.appendChild(cell);
