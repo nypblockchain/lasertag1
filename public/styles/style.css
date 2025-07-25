@@ -28,15 +28,18 @@ h2 {
 .cell {
     width: 24px;
     height: 24px;
+    display: flex; /* makes the emoji center nicely */
+    justify-content: center;
+    align-items: center;
+    font-size: 24px; /* same as height */
+    line-height: 1; /* prevent vertical spacing */
+    padding: 0;
+    margin: 0;
+    border: none;
     box-sizing: border-box;
 }
 
-.wall {
-    background-color: white;
-    text-align: center;
-    line-height: 24px;
-    font-size: 24px;
-}
+
 
 .path {
     background-color: white; /* ? path is black now */
