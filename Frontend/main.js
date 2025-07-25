@@ -63,7 +63,7 @@ function renderMaze(maze, players = {}) {
                 cell.classList.add(playerClass);
             } else if (maze[i][j] === 1) {
                 cell.classList.add("wall");
-                cell.textContent = "🧱";
+                cell.textContent = "";
             } else {
                 cell.classList.add("path");
                 cell.textContent = "";
