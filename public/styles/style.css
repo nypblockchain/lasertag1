@@ -32,7 +32,10 @@ h2 {
 }
 
 .wall {
-    background-color: lightgray; /* ? wall is white now */
+    background-color: transparent;
+    text-align: center;
+    line-height: 24px;
+    font-size: 18px;
 }
 
 .path {
