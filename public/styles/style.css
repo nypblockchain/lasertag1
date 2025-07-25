@@ -34,17 +34,18 @@ h2 {
     box-sizing: border-box;
 }
 
-
 .wall {
-    background-image: url('/styles/images/copper-block (1).png');
+    background-image: url('/styles/images/oak-block.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-
 .path {
-    background-color: white; /* ? path is black now */
+    background-image: url('/styles/images/cobblestone.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .player1 {
