@@ -1,4 +1,4 @@
-﻿const { getMaze, getPlayers, updatePlayerPos } = require("./shared");
+﻿const { getMaze, getPlayers, updatePlayerPos, setMaze } = require("./shared");
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
         const maze = await getMaze();
         const players = await getPlayers();
         const player = players[playerId];
+        const mid = Math.floor(maze.length / 2);
 
         if (!player) {
             return res.status(404).json({ error: `Player '${playerId}' not found` });
