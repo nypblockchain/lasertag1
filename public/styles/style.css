@@ -1,4 +1,4 @@
-body {
+﻿body {
     background-color: black;
     color: #000;
     font-family: monospace;
@@ -28,27 +28,28 @@ h2 {
 .cell {
     width: 24px;
     height: 24px;
-    display: flex; /* makes the emoji center nicely */
-    justify-content: center;
-    align-items: center;
-    font-size: 24px; /* same as height */
-    line-height: 1; /* prevent vertical spacing */
-    padding: 0;
-    margin: 0;
-    border: none;
-    box-sizing: border-box;
-}
-
-.wall {
-    background-color: white; /* fallback */
-    font-size: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 24px; /* matches width/height */
+    line-height: 1;
     padding: 0;
     margin: 0;
-    line-height: 1;
+    border: none;
+    box-sizing: content-box; /* ← change this */
     font-family: "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", sans-serif;
+}
+
+.wall {
+    background-color: white;
+    font-size: inherit; /* ← get from .cell */
+    display: inherit;
+    justify-content: inherit;
+    align-items: inherit;
+    padding: 0;
+    margin: 0;
+    line-height: inherit;
+    font-family: inherit;
 }
 
 
