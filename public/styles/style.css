@@ -26,30 +26,20 @@ h2 {
 }
 
 .cell {
-    width: 24px;
+    width: 24px; /* or match your PNG size */
     height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px; /* matches width/height */
-    line-height: 1;
     padding: 0;
     margin: 0;
     border: none;
-    box-sizing: content-box; /* ← change this */
-    font-family: "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", sans-serif;
+    box-sizing: border-box;
 }
 
+
 .wall {
-    background-color: white;
-    font-size: inherit; /* ← get from .cell */
-    display: inherit;
-    justify-content: inherit;
-    align-items: inherit;
-    padding: 0;
-    margin: 0;
-    line-height: inherit;
-    font-family: inherit;
+    background-image: url('/styles/images/copper-block(1).png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 
