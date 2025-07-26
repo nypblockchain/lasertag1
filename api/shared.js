@@ -30,10 +30,27 @@ const MAZE_DOC = db.collection("maze_state").doc("maze");
 /* --------- 2.5. Starting Positions and Respawn Points -------- */
 const STARTING_POSITIONS = {
     player1: { x: 0, y: 0 },
-    player2: { x: 0, y: 20 },
+    player2: { x: 10, y: 0 },
     player3: { x: 20, y: 0 },
-    player4: { x: 20, y: 20 },
+    player4: { x: 20, y: 10 },
+    player5: { x: 20, y: 20 },
+    player6: { x: 10, y: 20 },
+    player7: { x: 0, y: 20 },
+    player8: { x: 0, y: 10 },
+    player9: { x: 5, y: 0 },
+    player10: { x: 15, y: 0 },
+    player11: { x: 20, y: 5 },
+    player12: { x: 20, y: 15 },
+    player13: { x: 15, y: 20 },
+    player14: { x: 5, y: 20 },
+    player15: { x: 0, y: 15 },
+    player16: { x: 0, y: 5 },
+    player17: { x: 2, y: 0 },
+    player18: { x: 18, y: 0 },
+    player19: { x: 2, y: 20 },
+    player20: { x: 18, y: 20 }
 };
+
 
 /* ----------------- 3. Players helpers ----------------- */
 async function getPlayers() {
@@ -43,9 +60,25 @@ async function getPlayers() {
     // If doc doesn’t exist, create the default positions
     const seed = {
         player1: { x: 0, y: 0 },
-        player2: { x: 0, y: 20 },
+        player2: { x: 10, y: 0 },
         player3: { x: 20, y: 0 },
-        player4: { x: 20, y: 20 },
+        player4: { x: 20, y: 10 },
+        player5: { x: 20, y: 20 },
+        player6: { x: 10, y: 20 },
+        player7: { x: 0, y: 20 },
+        player8: { x: 0, y: 10 },
+        player9: { x: 5, y: 0 },
+        player10: { x: 15, y: 0 },
+        player11: { x: 20, y: 5 },
+        player12: { x: 20, y: 15 },
+        player13: { x: 15, y: 20 },
+        player14: { x: 5, y: 20 },
+        player15: { x: 0, y: 15 },
+        player16: { x: 0, y: 5 },
+        player17: { x: 2, y: 0 },
+        player18: { x: 18, y: 0 },
+        player19: { x: 2, y: 20 },
+        player20: { x: 18, y: 20 }
     };
     await PLAYERS_DOC.set(seed);
     return seed;
@@ -110,10 +143,10 @@ function generateMaze(size = 21) {
     carve(1, 1);
 
     for (let i = 0; i < size; i++) {
-        maze[0][i] = (i % 5 === 0 && i !== 0 && i !== size - 1) ? 1 : 0;
-        maze[size - 1][i] = (i % 6 === 0 && i !== 0 && i !== size - 1) ? 1 : 0;
-        maze[i][0] = (i % 6 === 0 && i !== 0 && i !== size - 1) ? 1 : 0;
-        maze[i][size - 1] = (i % 5 === 0 && i !== 0 && i !== size - 1) ? 1 : 0;
+        maze[0][i] = 0;              // top row
+        maze[size - 1][i] = 0;       // bottom row
+        maze[i][0] = 0;              // left column
+        maze[i][size - 1] = 0;       // right column
     }
 
     maze[0][0] = 0;

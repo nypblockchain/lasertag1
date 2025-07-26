@@ -39,17 +39,97 @@ body {
 }
 
 .player2 {
-    background-color: blue;
-    box-sizing: border-box;
-}
-
-.player3 {
     background-color: green;
     box-sizing: border-box;
 }
 
+.player3 {
+    background-color: blue;
+    box-sizing: border-box;
+}
+
 .player4 {
-    background-color: black;
+    background-color: orange;
+    box-sizing: border-box;
+}
+
+.player5 {
+    background-color: purple;
+    box-sizing: border-box;
+}
+
+.player6 {
+    background-color: teal;
+    box-sizing: border-box;
+}
+
+.player7 {
+    background-color: gold;
+    box-sizing: border-box;
+}
+
+.player8 {
+    background-color: pink;
+    box-sizing: border-box;
+}
+
+.player9 {
+    background-color: cyan;
+    box-sizing: border-box;
+}
+
+.player10 {
+    background-color: limegreen;
+    box-sizing: border-box;
+}
+
+.player11 {
+    background-color: magenta;
+    box-sizing: border-box;
+}
+
+.player12 {
+    background-color: navy;
+    box-sizing: border-box;
+}
+
+.player13 {
+    background-color: coral;
+    box-sizing: border-box;
+}
+
+.player14 {
+    background-color: darkgreen;
+    box-sizing: border-box;
+}
+
+.player15 {
+    background-color: royalblue;
+    box-sizing: border-box;
+}
+
+.player16 {
+    background-color: deeppink;
+    box-sizing: border-box;
+}
+
+.player17 {
+    background-color: steelblue;
+    box-sizing: border-box;
+}
+
+.player18 {
+    background-color: darkorange;
+    box-sizing: border-box;
+}
+
+.player19 {
+    background-color: tomato;
+    box-sizing: border-box;
+}
+
+.player20 {
+    background-color: indigo;
     box-sizing: border-box;
 }
 
