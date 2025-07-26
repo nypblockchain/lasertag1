@@ -14,7 +14,7 @@ body {
 #maze {
     border: 2px solid lime;
     display: grid;
-    gap: 1px;
+    gap: 0;
     width: fit-content;
     height: fit-content;
 }
@@ -22,15 +22,24 @@ body {
 .cell {
     width: 32px;
     height: 32px;
+    padding: 0;
+    margin: 0;
+    border: none;
     box-sizing: border-box;
 }
 
 .wall {
-    background-color: lightgray;
+    background-image: url('/styles/images/crying_obsidian.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .path {
-    background-color: white;
+    background-image: url('/styles/images/end_stone.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .player1 {
