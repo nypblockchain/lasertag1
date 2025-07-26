@@ -38,38 +38,48 @@ function renderMaze(maze, players = {}) {
     const mazeDiv = document.getElementById("maze");
     mazeDiv.innerHTML = "";
 
-    const rows = maze.length;
-    const cols = maze[0].length;
+    const playerId = getCurrentPlayer();
+    const player = players[playerId];
+    if (!player) return;
+
+    const size = 7;
+    const half = Math.floor(size / 2);
 
     mazeDiv.style.display = "grid";
-    mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 32px)`;
-    mazeDiv.style.gridTemplateRows = `repeat(${rows}, 32px)`;
+    mazeDiv.style.gridTemplateColumns = `repeat(${size}, 32px)`;
+    mazeDiv.style.gridTemplateRows = `repeat(${size}, 32px)`;
 
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
+    for (let dy = -half; dy <= half; dy++) {
+        for (let dx = -half; dx <= half; dx++) {
+            const y = player.y + dy;
+            const x = player.x + dx;
+
             const cell = document.createElement("div");
             cell.classList.add("cell");
 
-            // Check for player at (j, i)
-            let playerClass = null;
-            for (const [playerId, pos] of Object.entries(players)) {
-                if (pos.lives !== undefined && pos.lives <= 0) continue;
-                if (pos.x === j && pos.y === i) {
-                    playerClass = playerId;
-                    break;
+            if (y >= 0 && y < maze.length && x >= 0 && x < maze[0].length) {
+                // Check if a player is at (x, y)
+                let playerClass = null;
+                for (const [id, pos] of Object.entries(players)) {
+                    if (pos.lives !== undefined && pos.lives <= 0) continue;
+                    if (pos.x === x && pos.y === y) {
+                        playerClass = id;
+                        break;
+                    }
                 }
-            }
 
-            // Apply appropriate class
-            if (playerClass) {
-                cell.classList.add(playerClass);
-                cell.textContent = ""; // Or: cell.textContent = playerClass.replace("player", "P");
-            } else if (maze[i][j] === 1) {
-                cell.classList.add("wall");
-                cell.textContent = "";
+                if (playerClass) {
+                    cell.classList.add(playerClass);
+                    cell.textContent = ""; // Or playerClass.replace("player", "P")
+                } else if (maze[y][x] === 1) {
+                    cell.classList.add("wall");
+                    cell.textContent = "";
+                } else {
+                    cell.classList.add("path");
+                    cell.textContent = "";
+                }
             } else {
-                cell.classList.add("path");
-                cell.textContent = "";
+                cell.classList.add("wall");
             }
 
             mazeDiv.appendChild(cell);
