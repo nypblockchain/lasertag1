@@ -38,61 +38,45 @@ function renderMaze(maze, players = {}) {
     const mazeDiv = document.getElementById("maze");
     mazeDiv.innerHTML = "";
 
-    const playerId = getCurrentPlayer();
-    const player = players[playerId];
-    if (!player) return;
-
-    const size = 7;
-    const half = Math.floor(size / 2);
+    const rows = maze.length;
+    const cols = maze[0].length;
 
     mazeDiv.style.display = "grid";
-    mazeDiv.style.gridTemplateColumns = `repeat(${size}, 32px)`;
-    mazeDiv.style.gridTemplateRows = `repeat(${size}, 32px)`;
+    mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 32px)`;
+    mazeDiv.style.gridTemplateRows = `repeat(${rows}, 32px)`;
 
-    for (let dy = -half; dy <= half; dy++) {
-        for (let dx = -half; dx <= half; dx++) {
-            const y = player.y + dy;
-            const x = player.x + dx;
-
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
 
-            if (y >= 0 && y < maze.length && x >= 0 && x < maze[0].length) {
-                if (maze[y][x] === 1) {
-                    cell.classList.add("wall");
-
-                    // Optional: mark locked entrances visually
-                    const mid = Math.floor(maze.length / 2);
-                    const entranceCoords = [
-                        [mid, mid - 2],
-                        [mid, mid + 2],
-                        [mid - 2, mid],
-                        [mid + 2, mid],
-                    ];
-
-                    for (const [ex, ey] of entranceCoords) {
-                        if (x === ex && y === ey) {
-                            cell.classList.add("locked-entrance");
-                        }
-                    }
-                } else {
-                    cell.classList.add("path");
+            // Check for player at (j, i)
+            let playerClass = null;
+            for (const [playerId, pos] of Object.entries(players)) {
+                if (pos.lives !== undefined && pos.lives <= 0) continue;
+                if (pos.x === j && pos.y === i) {
+                    playerClass = playerId;
+                    break;
                 }
+            }
 
-                for (const [id, pos] of Object.entries(players)) {
-                    if (pos.lives !== undefined && pos.lives <= 0) continue; // skip dead players
-                    if (pos.x === x && pos.y === y) {
-                        cell.classList.add(id);
-                    }
-                }
-            } else {
+            // Apply appropriate class
+            if (playerClass) {
+                cell.classList.add(playerClass);
+                cell.textContent = ""; // Or: cell.textContent = playerClass.replace("player", "P");
+            } else if (maze[i][j] === 1) {
                 cell.classList.add("wall");
+                cell.textContent = "";
+            } else {
+                cell.classList.add("path");
+                cell.textContent = "";
             }
 
             mazeDiv.appendChild(cell);
         }
     }
 }
+
 
 function getCurrentPlayer() {
     return document.getElementById("playerSelect").value || "player1";
