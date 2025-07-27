@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,7 @@
     </style>
 </head>
 <body>
-    <h1>?? Welcome to the Maze</h1>
+    <h1>🚪 Welcome to the Maze</h1>
     <div class="button-group">
         <button onclick="goToIndex()">Start Game (index.html)</button>
         <button onclick="goToNickname()">Set Nickname</button>
@@ -40,20 +40,20 @@
 
     <script>
         function goToIndex() {
-            window.location.href = "/index.html";
+            window.location.href = "/index";
         }
 
         function goToNickname() {
-            window.location.href = "/nickname.html";
+            window.location.href = "/nickname";
         }
 
         function goToController() {
             const nickname = localStorage.getItem("nickname");
             const playerId = localStorage.getItem("playerId");
             if (nickname && playerId) {
-                window.location.href = "/controller.html";
+                window.location.href = "/controller";
             } else {
-                alert("?? You must register a nickname first!");
+                alert("⚠️ You must register a nickname first!");
             }
         }
     </script>
