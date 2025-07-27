@@ -180,6 +180,33 @@ function generateMaze(size = 21) {
     maze[mid][mid - 2] = 0; // left
     maze[mid][mid + 2] = 0; // right
 
+    function forceCarvePath(x, y) {
+        const directions = [
+            [0, -1], [0, 1], [-1, 0], [1, 0]
+        ];
+
+        for (const [dx, dy] of directions) {
+            const nx = x + dx;
+            const ny = y + dy;
+
+            if (
+                ny > 0 && ny < size - 1 &&
+                nx > 0 && nx < size - 1 &&
+                maze[ny][nx] === 0
+            ) {
+                maze[x][y] = 0;
+                maze[(y + ny) >> 1][(x + nx) >> 1] = 0;
+                return;
+            }
+        }
+
+        maze[y + 1][x] = 0;
+    }
+
+    forceCarvePath(mid, mid - 2); // left
+    forceCarvePath(mid, mid + 2) // right
+    forceCarvePath(mid - 2, mid) // top
+    forceCarvePath(mid + 2, mid) // bottom
 
     return maze;
     console.log("MAZE GENERATED");
