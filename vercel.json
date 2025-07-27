@@ -32,6 +32,10 @@
       "dest": "/Frontend/landing.html"
     },
     {
+      "src": "/admin",
+      "dest": "/Frontend/admin.html"
+    },
+    {
       "src": "/Frontend/(.*)",
       "dest": "/Frontend/$1"
     },

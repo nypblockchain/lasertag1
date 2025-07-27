@@ -57,6 +57,18 @@
                 alert("⚠️ You must register a nickname first!");
             }
         }
+
+        function goToAdmin() {
+            const passkey = prompt("Enter admin passkey: ")
+            const correctPassKey = "silkyqt123";
+
+            if (passkey === correctPassKey) {
+                window.location.href = "/admin";
+            }
+            else if (passkey !== null) {
+                alert("❌ Incorrect passkey.");
+            }
+        }
     </script>
 </body>
 </html>
