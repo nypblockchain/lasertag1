@@ -4,6 +4,22 @@ let countdownInterval = null;
 let pollingInterval = null;
 let isPolling = false;
 let nicknamesMap = {};
+let mazeStartTime = null;
+let mazeTimerInterval = null;
+
+function startMazeTimer() {
+    mazeStartTime = Date.now();
+
+    const timerDisplay = document.getElementById("mazeTimerDisplay");
+    clearInterval(mazeTimerInterval);
+
+    mazeTimerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
+        const minutes = Math.floor(elapsed / 60).toString();
+        const seconds = (elapsed % 60).toString().padStart(2, "0");
+        timerDisplay.textContent = `⏱️ Time: ${minutes}:${seconds}`;
+    }, 1000);
+}
 
 async function fetchNicknames() {
     try {
@@ -101,7 +117,6 @@ function renderMaze(maze, players = {}) {
     }
 }
 
-
 function getCurrentPlayer() {
     return document.getElementById("playerSelect").value || "player1";
 }
@@ -118,13 +133,17 @@ function appendLog(text, playerId = null) {
     logDiv.scrollTop = logDiv.scrollHeight;
 }
 
-
 async function submitCommand() {
     const input = document.getElementById("commandInput");
     const command = input.value.trim();
     const playerId = getCurrentPlayer();
 
     if (!command) return;
+
+    if (!window.hasStartedMaze) {
+        startMazeTimer();
+        window.hasStartedMaze = true;
+    }
 
     appendLog(`🎮 ${command}`, playerId);
     input.value = "";
@@ -163,8 +182,8 @@ async function submitCommand() {
             appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`, playerId);
         }
 
-
         await fetchMazeAndPlayers();
+
     } catch (err) {
         appendLog("❌ Network or Server Error");
         console.error(err);
@@ -184,24 +203,6 @@ document.getElementById("overlayResetBtn").addEventListener("click", async () =>
     }
 });
 
-function startCountdownTimer() {
-    const display = document.getElementById("countdownDisplay");
-
-    clearInterval(countdownInterval);
-    timeLeft = 120;
-
-    countdownInterval = setInterval(() => {
-        const minutes = Math.floor(timeLeft / 60).toString();
-        const seconds = (timeLeft % 60).toString().padStart(2, "0");
-        display.textContent = `${minutes}:${seconds}`;
-        timeLeft--;
-
-        if (timeLeft < 0) {
-            clearInterval(countdownInterval);
-            triggerTimeUpOverlay();
-        }
-    }, 1000);
-}
 async function fireAttack(direction = "up") {
     const playerId = getCurrentPlayer();
     if (!playerId) return;
