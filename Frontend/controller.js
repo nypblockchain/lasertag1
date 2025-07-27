@@ -245,6 +245,10 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
 });
 
 document.getElementById("playerSelect").addEventListener("change", fetchMazeAndPlayers);
-window.onload = fetchMazeAndPlayers;
 
-stopPolling();
+window.onload = async () => {
+    await fetchNicknames(); // ✅ Load nickname map first
+    await fetchMazeAndPlayers(); // ✅ Then render maze with players
+    stopPolling(); // optional, disables polling on load
+};
+
