@@ -158,7 +158,6 @@ async function submitCommand() {
         const data = await res.json();
 
         if (data.success && data.actions) {
-            startCountdownTimer();
 
             // 💬 Replace .moved with .actions and format output
             appendLog(`🤖 Gemini ? ${data.actions.map(a =>
