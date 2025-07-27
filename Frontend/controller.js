@@ -244,11 +244,18 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
     }
 });
 
+const savedPlayerId = localStorage.getItem("playerId");
+const playerSelect = document.getElementById("playerSelect");
+
+if (savedPlayerId) {
+    playerSelect.value = savedPlayerId;
+    playerSelect.disabled = true;
+}
+
 document.getElementById("playerSelect").addEventListener("change", fetchMazeAndPlayers);
 
 window.onload = async () => {
-    await fetchNicknames(); // ✅ Load nickname map first
-    await fetchMazeAndPlayers(); // ✅ Then render maze with players
-    stopPolling(); // optional, disables polling on load
+    await fetchNicknames();
+    await fetchMazeAndPlayers();
+    stopPolling();
 };
-
