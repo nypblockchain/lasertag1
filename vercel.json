@@ -24,6 +24,14 @@
       "dest": "/Frontend/controller.html"
     },
     {
+      "src": "/nickname",
+      "dest": "/Frontend/nickname.html"
+    },
+    {
+      "src": "/landing",
+      "dest": "/Frontend/landing.html"
+    },
+    {
       "src": "/Frontend/(.*)",
       "dest": "/Frontend/$1"
     },

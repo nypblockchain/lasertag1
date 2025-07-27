@@ -185,6 +185,22 @@ function generateMaze(size = 21) {
     console.log("MAZE GENERATED");
 }
 
+/* Writing nicknames to Firestore */
+const NICKNAMES_DOC = db.collection("maze_state").doc("nicknames");
+
+async function setNickname(playerId, nickname) {
+    await NICKNAMES_DOC.set({ [playerId]: nickname }, { merge: true });
+}
+
+async function getNicknames() {
+    const snap = await NICKNAMES_DOC.get();
+    return snap.exists ? snap.data() : {};
+}
+
+async function resetNicknames() {
+    await NICKNAMES_DOC.set({});
+}
+
 /* ----------------- 5. Exports ----------------- */
 module.exports = {
     db,
@@ -194,4 +210,7 @@ module.exports = {
     generateMaze,   // still handy for /reset
     STARTING_POSITIONS,
     setMaze,
-};
+    setNicknames,
+    getNicknames,
+    resetNicknames,
+}

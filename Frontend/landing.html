@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maze Game Portal</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <style>
+        body {
+            background-color: black;
+            color: #0f0;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+            .button-group button {
+                font-size: 18px;
+            }
+    </style>
+</head>
+<body>
+    <h1>?? Welcome to the Maze</h1>
+    <div class="button-group">
+        <button onclick="goToIndex()">Start Game (index.html)</button>
+        <button onclick="goToNickname()">Set Nickname</button>
+        <button onclick="goToController()">Enter Controller</button>
+    </div>
+
+    <script>
+        function goToIndex() {
+            window.location.href = "/index.html";
+        }
+
+        function goToNickname() {
+            window.location.href = "/nickname.html";
+        }
+
+        function goToController() {
+            const nickname = localStorage.getItem("nickname");
+            const playerId = localStorage.getItem("playerId");
+            if (nickname && playerId) {
+                window.location.href = "/controller.html";
+            } else {
+                alert("?? You must register a nickname first!");
+            }
+        }
+    </script>
+</body>
+</html>

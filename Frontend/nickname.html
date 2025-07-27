@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Your Nickname</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <h2>Enter Your Nickname</h2>
+    <form id="nicknameForm">
+        <label for="playerIdInput">Select Player ID:</label>
+        <select id="playerIdInput" required></select>
+
+        <label for="nicknameInput">Enter Nickname:</label>
+        <input type="text" id="nicknameInput" placeholder="e.g., Silk" required>
+
+        <button type="submit">Next</button>
+    </form>
+
+    <p id="errorText" style="color: red; margin-top: 10px;"></p>
+
+    <script src="/Frontend/nickname.js"></script>
+</body>
+</html>

@@ -61,6 +61,7 @@ function renderMaze(maze, players = {}) {
 
             if (playerClass) {
                 cell.classList.add(playerClass);
+                cell.textContent = ""; // or e.g., "P1" if you want
             } else if (maze[i][j] === 1) {
                 cell.classList.add("wall");
                 cell.textContent = "";
