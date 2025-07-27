@@ -3,6 +3,20 @@ let timeLeft = 120;
 let countdownInterval = null;
 let pollingInterval = null;
 let isPolling = false;
+let nicknamesMap = {};
+
+async function fetchNicknames() {
+    try {
+        const res = await fetch("/api/get-nicknames");
+        const data = await res.json();
+        if (data.success) {
+            nicknamesMap = data.nicknames;
+        }
+    }
+    catch (err) {
+        console.error("Failed to fetch nicknames", err);
+    }
+}
 
 function startPolling() {
     if (!pollingInterval) {
@@ -92,13 +106,18 @@ function getCurrentPlayer() {
     return document.getElementById("playerSelect").value || "player1";
 }
 
-function appendLog(text) {
+function appendLog(text, playerId = null) {
     const logDiv = document.getElementById("log");
     const line = document.createElement("div");
-    line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+
+    const name = playerId ? (nicknamesMap[playerId] || playerId) : "";
+    const label = name ? `${name}: ` : "";
+
+    line.textContent = `[${new Date().toLocaleTimeString()}] ${label}${text}`;
     logDiv.appendChild(line);
     logDiv.scrollTop = logDiv.scrollHeight;
 }
+
 
 async function submitCommand() {
     const input = document.getElementById("commandInput");
@@ -107,7 +126,7 @@ async function submitCommand() {
 
     if (!command) return;
 
-    appendLog(`🎮 ${playerId}: ${command}`);
+    appendLog(`🎮 ${command}`, playerId);
     input.value = "";
 
     try {
@@ -133,13 +152,15 @@ async function submitCommand() {
                     result.hits.forEach(hit => {
                         const emoji = hit.livesLeft > 0 ? `❤️ (${hit.livesLeft})` : "💀";
                         const resetInfo = hit.resetTo ? ` → reset to (${hit.resetTo.x},${hit.resetTo.y})` : "";
-                        appendLog(`🔫 ${playerId} hit ${hit.player} ${emoji}${resetInfo}`);
-                    });
+
+                        const victim = nicknamesMap[hit.player] || hit.player;
+                        appendLog(`🔫 hit ${victim} ${emoji}${resetInfo}`, playerId);
+
                 }
             });
 
         } else {
-            appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`);
+            appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`, playerId);
         }
 
 
@@ -199,10 +220,12 @@ async function fireAttack(direction = "up") {
             data.hits.forEach(hit => {
                 const emoji = hit.livesLeft > 0 ? `❤️ (${hit.livesLeft})` : "💀";
                 const resetInfo = hit.resetTo ? ` → reset to (${hit.resetTo.x},${hit.resetTo.y})` : "";
-                appendLog(`🔫 ${playerId} hit ${hit.player} ${emoji}${resetInfo}`);
+                const victim = nicknamesMap[hit.player] || hit.player;
+                appendLog(`🔫 hit ${victim} ${emoji}${resetInfo}`, playerId);
+
             });
         } else {
-            appendLog(`🔫 ${playerId} fired ${direction}… missed`);
+            appendLog(`🔫 fired ${direction}… missed`, playerId);
         }
 
         await fetchMazeAndPlayers(); // refresh maze & lives
