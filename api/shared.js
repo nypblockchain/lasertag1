@@ -208,6 +208,12 @@ function generateMaze(size = 21) {
     forceCarvePath(mid - 2, mid) // top
     forceCarvePath(mid + 2, mid) // bottom
 
+    // Ensure surrounding cells are not walls (prevent blocked entrances)
+    maze[mid - 3][mid] = 0; // just above top entrance
+    maze[mid + 3][mid] = 0; // just below bottom entrance
+    maze[mid][mid - 3] = 0; // just left of left entrance
+    maze[mid][mid + 3] = 0; // just right of right entrance
+
     return maze;
     console.log("MAZE GENERATED");
 }
