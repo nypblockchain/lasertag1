@@ -40,6 +40,10 @@
       "dest": "/public/styles/$1"
     },
     {
+      "src": "/",
+      "dest": "/Frontend/landing.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/Frontend/index.html"
     }
