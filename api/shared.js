@@ -210,7 +210,7 @@ module.exports = {
     generateMaze,   // still handy for /reset
     STARTING_POSITIONS,
     setMaze,
-    setNicknames,
+    setNickname,
     getNicknames,
     resetNicknames,
 }
