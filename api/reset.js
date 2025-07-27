@@ -24,9 +24,25 @@ module.exports = async (req, res) => {
         // ♻️ Reset player positions
         const resetPlayers = {
             player1: { x: 0, y: 0 },
-            player2: { x: 0, y: 20 },
+            player2: { x: 10, y: 0 },
             player3: { x: 20, y: 0 },
-            player4: { x: 20, y: 20 },
+            player4: { x: 20, y: 10 },
+            player5: { x: 20, y: 20 },
+            player6: { x: 10, y: 20 },
+            player7: { x: 0, y: 20 },
+            player8: { x: 0, y: 10 },
+            player9: { x: 5, y: 0 },
+            player10: { x: 15, y: 0 },
+            player11: { x: 20, y: 5 },
+            player12: { x: 20, y: 15 },
+            player13: { x: 15, y: 20 },
+            player14: { x: 5, y: 20 },
+            player15: { x: 0, y: 15 },
+            player16: { x: 0, y: 5 },
+            player17: { x: 2, y: 0 },
+            player18: { x: 18, y: 0 },
+            player19: { x: 2, y: 20 },
+            player20: { x: 18, y: 20 }
         };
 
         // 🔥 Overwrite maze_state/maze
