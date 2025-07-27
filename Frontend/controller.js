@@ -155,7 +155,7 @@ async function submitCommand() {
 
                         const victim = nicknamesMap[hit.player] || hit.player;
                         appendLog(`🔫 hit ${victim} ${emoji}${resetInfo}`, playerId);
-
+                    });
                 }
             });
 
