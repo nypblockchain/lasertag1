@@ -133,6 +133,12 @@ function appendLog(text, playerId = null) {
     logDiv.scrollTop = logDiv.scrollHeight;
 }
 
+async function leave() {
+    localStorage.clear();
+    console.log("Local Storage Cleared");
+    window.location.href("/landing");
+}
+
 async function submitCommand() {
     const input = document.getElementById("commandInput");
     const command = input.value.trim();
