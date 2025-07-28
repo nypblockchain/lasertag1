@@ -136,7 +136,7 @@ function appendLog(text, playerId = null) {
 async function leave() {
     localStorage.clear();
     console.log("Local Storage Cleared");
-    window.location.href("/landing");
+    window.location.href = "/landing";
 }
 
 async function submitCommand() {
