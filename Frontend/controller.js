@@ -21,7 +21,7 @@ function startMazeTimer() {
     }, 1000);
 }
 
-async function stopMazeTimer() {
+async function stopMazeTimer(playerId) {
     if (!mazeTimerInterval) return;
 
     clearInterval(mazeTimerInterval);
@@ -30,7 +30,7 @@ async function stopMazeTimer() {
     const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
     const nickname = nicknamesMap[playerId] || playerId;
 
-    appendLog(`🏁 ${nickname} (${playerId}) reached the center in ${elapsed}s`)
+    appendLog(`🏁 ${nickname} (${playerId}) reached the center in ${elapsed}s`, playerId);
 
     try {
         await fetch("/api/log-winner", {
@@ -38,8 +38,7 @@ async function stopMazeTimer() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ playerId, nickname, elapsed })
         });
-    }
-    catch (err) {
+    } catch (err) {
         console.error("Failed to log winner:", err);
     }
 }
