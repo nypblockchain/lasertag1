@@ -87,7 +87,7 @@ async function fetchMazeAndPlayers() {
     }
 }
 
-function renderMaze(maze, players = {}) {
+async function renderMaze(maze, players = {})  {
     const mazeDiv = document.getElementById("maze");
     mazeDiv.innerHTML = "";
 
