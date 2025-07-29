@@ -21,6 +21,29 @@ function startMazeTimer() {
     }, 1000);
 }
 
+async function stopMazeTimer() {
+    if (!mazeTimerInterval) return;
+
+    clearInterval(mazeTimeInterval);
+    mazeTimerInterval = null;
+
+    const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
+    const nickname = nicknamesMap[playerId] || playerId;
+
+    appendLog(`🏁 ${nickname} (${playerId}) reached the center in ${elapsed}s`)
+
+    try {
+        await fetch("/api/log-winner", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playerId, nickname, elapsed })
+        });
+    }
+    catch (err) {
+        console.error("Failed to log winner:", err);
+    }
+}
+
 async function fetchNicknames() {
     try {
         const res = await fetch("/api/get-nicknames");
@@ -70,6 +93,22 @@ function renderMaze(maze, players = {}) {
 
     const playerId = getCurrentPlayer();
     const player = players[playerId];
+
+    const mid = Math.floor(maze.length / 2);
+    const entrancePositions = [
+        { x: mid, y: mid - 2 }, // top
+        { x: mid, y: mid + 2 }, // bottom
+        { x: mid - 2, y: mid }, // left
+        { x: mid + 2, y: mid }  // right
+    ];
+
+    const onEntrance = entrancePositions.some(pos => player.x === pos.x && player.y === pos.y);
+
+    if (onEntrance && window.hasStartedMaze && mazeTimerInterval) {
+        stopMazeTimer(playerId);
+        triggerTimeUpOverlay();
+    }
+
     if (!player) return;
 
     const size = 7;
