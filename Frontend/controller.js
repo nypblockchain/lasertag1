@@ -24,7 +24,7 @@ function startMazeTimer() {
 async function stopMazeTimer() {
     if (!mazeTimerInterval) return;
 
-    clearInterval(mazeTimeInterval);
+    clearInterval(mazeTimerInterval);
     mazeTimerInterval = null;
 
     const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
@@ -102,11 +102,15 @@ function renderMaze(maze, players = {}) {
         { x: mid + 2, y: mid }  // right
     ];
 
-    const onEntrance = entrancePositions.some(pos => player.x === pos.x && player.y === pos.y);
+    const inCenterBox = (
+        player.x >= mid - 1 && player.x <= mid + 1 &&
+        player.y >= mid - 1 && player.y <= mid + 1
+    );
 
-    if (onEntrance && window.hasStartedMaze && mazeTimerInterval) {
-        stopMazeTimer(playerId);
+    if (inCenterBox && window.hasStartedMaze && mazeTimerInterval) {
+        await stopMazeTimer(playerId);
         triggerTimeUpOverlay();
+        window.hasStartedMaze = false;
     }
 
     if (!player) return;
