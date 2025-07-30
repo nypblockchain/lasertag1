@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
 
     try {
         // 🔁 Generate new maze (2D array)
-        const newMaze = generateMaze(21);
+        const newMaze = generateMaze(35);
 
         // 🔃 Convert to Firestore-compatible format: flat object
         const rows = {};

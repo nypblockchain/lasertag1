@@ -8,8 +8,10 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: "Missing required fields" });
     }
 
+    const docId = `${playerId}_${Date.now()}`;
+
     try {
-        await db.collection("maze_winners").add({
+        await db.collection("maze_winners").doc(docId).set({
             playerId,
             nickname,
             elapsed,

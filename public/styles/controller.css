@@ -14,7 +14,7 @@ body {
 #maze {
     border: 2px solid lime;
     display: grid;
-    gap: 1px;
+    gap: 0;
     width: fit-content;
     height: fit-content;
 }
@@ -308,8 +308,4 @@ input:checked + .slider {
 #pollingStatusLabel {
     margin-top: 4px;
     font-size: 1.1rem;
-}
-
-.locked-entrance {
-    background-color: red;
 }

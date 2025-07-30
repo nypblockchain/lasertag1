@@ -110,7 +110,7 @@ async function getMaze() {
 }
 
 /* (re‑use your existing generateMaze function) */
-function generateMaze(size = 21) {
+function generateMaze(size = 35) {
     if (size % 2 === 0) size += 1;
     const maze = Array.from({ length: size }, () => Array(size).fill(1));
 
