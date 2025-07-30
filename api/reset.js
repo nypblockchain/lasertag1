@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
         });
 
         // ♻️ Reset player positions
-        const resetPlayers = {
+        const players = {
             player1: { x: 0, y: 0 },
             player2: { x: 10, y: 0 },
             player3: { x: 20, y: 0 },
@@ -42,7 +42,32 @@ module.exports = async (req, res) => {
             player17: { x: 2, y: 0 },
             player18: { x: 18, y: 0 },
             player19: { x: 2, y: 20 },
-            player20: { x: 18, y: 20 }
+            player20: { x: 18, y: 20 },
+
+            // Newly added perimeter players:
+            player21: { x: 7, y: 0 },
+            player22: { x: 12, y: 0 },
+            player23: { x: 23, y: 0 },
+            player24: { x: 28, y: 0 },
+
+            player25: { x: 34, y: 2 },
+            player26: { x: 34, y: 7 },
+            player27: { x: 34, y: 12 },
+            player28: { x: 34, y: 17 },
+            player29: { x: 34, y: 23 },
+            player30: { x: 34, y: 28 },
+
+            player31: { x: 28, y: 34 },
+            player32: { x: 23, y: 34 },
+            player33: { x: 17, y: 34 },
+            player34: { x: 12, y: 34 },
+            player35: { x: 7, y: 34 },
+
+            player36: { x: 2, y: 34 },
+            player37: { x: 0, y: 28 },
+            player38: { x: 0, y: 23 },
+            player39: { x: 0, y: 17 },
+            player40: { x: 0, y: 12 }
         };
 
         // 🔥 Overwrite maze_state/maze
