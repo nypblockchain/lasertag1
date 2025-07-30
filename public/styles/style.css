@@ -149,6 +149,106 @@ h2 {
     box-sizing: border-box;
 }
 
+.player21 {
+    background-color: mediumvioletred;
+    box-sizing: border-box;
+}
+
+.player22 {
+    background-color: turquoise;
+    box-sizing: border-box;
+}
+
+.player23 {
+    background-color: darkslateblue;
+    box-sizing: border-box;
+}
+
+.player24 {
+    background-color: chartreuse;
+    box-sizing: border-box;
+}
+
+.player25 {
+    background-color: firebrick;
+    box-sizing: border-box;
+}
+
+.player26 {
+    background-color: dodgerblue;
+    box-sizing: border-box;
+}
+
+.player27 {
+    background-color: peru;
+    box-sizing: border-box;
+}
+
+.player28 {
+    background-color: slategray;
+    box-sizing: border-box;
+}
+
+.player29 {
+    background-color: orchid;
+    box-sizing: border-box;
+}
+
+.player30 {
+    background-color: darkcyan;
+    box-sizing: border-box;
+}
+
+.player31 {
+    background-color: darkred;
+    box-sizing: border-box;
+}
+
+.player32 {
+    background-color: aquamarine;
+    box-sizing: border-box;
+}
+
+.player33 {
+    background-color: saddlebrown;
+    box-sizing: border-box;
+}
+
+.player34 {
+    background-color: lawngreen;
+    box-sizing: border-box;
+}
+
+.player35 {
+    background-color: royalblue;
+    box-sizing: border-box;
+}
+
+.player36 {
+    background-color: mediumseagreen;
+    box-sizing: border-box;
+}
+
+.player37 {
+    background-color: plum;
+    box-sizing: border-box;
+}
+
+.player38 {
+    background-color: lightcoral;
+    box-sizing: border-box;
+}
+
+.player39 {
+    background-color: sienna;
+    box-sizing: border-box;
+}
+
+.player40 {
+    background-color: mediumslateblue;
+    box-sizing: border-box;
+}
+
 input#commandInput {
     background-color: #111;
     border: 2px solid #0ff; /* Neon cyan border */

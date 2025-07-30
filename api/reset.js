@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
         });
 
         // ♻️ Reset player positions
-        const players = {
+        const resetPlayers = {
             player1: { x: 0, y: 0 },
             player2: { x: 10, y: 0 },
             player3: { x: 20, y: 0 },
@@ -69,6 +69,7 @@ module.exports = async (req, res) => {
             player39: { x: 0, y: 17 },
             player40: { x: 0, y: 12 }
         };
+
 
         // 🔥 Overwrite maze_state/maze
         await db.collection("maze_state").doc("maze").set({ rows });
