@@ -169,6 +169,33 @@ function startCountdownTimer() {
     }, 1000);
 }
 
+function injectPlayerStyles(maxPlayers = 136) {
+    const style = document.createElement("style");
+    const seedColor = (id) => {
+        // Hash-based color generator (consistent per id)
+        let hash = 0;
+        for (let i = 0; i < id.length; i++) {
+            hash = id.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const hue = Math.abs(hash) % 360;
+        return `hsl(${hue}, 80%, 60%)`;
+    };
+
+    let css = "";
+    for (let i = 1; i <= maxPlayers; i++) {
+        const playerId = `player${i}`;
+        const color = seedColor(playerId);
+        css += `.${playerId} { background-color: ${color}; box-sizing: border-box; }\n`;
+    }
+
+    style.innerHTML = css;
+    document.head.appendChild(style);
+}
+
+// Call this once on page load
+injectPlayerStyles();
+
+
 function triggerTimeUpOverlay() {
     document.getElementById("timeUpOverlay").classList.remove("hidden");
 }
@@ -184,4 +211,5 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
 
 // setInterval(fetchMazeAndPlayers, 750);
 window.onload = fetchMazeAndPlayers;
+injectPlayerStyles();
 stopPolling();
