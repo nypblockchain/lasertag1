@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
     try {
         // 🔁 Generate new maze (2D array)
-        const newMaze = generateMaze(35);
+        const newMaze = generateMaze(25);
 
         // 🔃 Convert to Firestore-compatible format: flat object
         const rows = {};
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
         });
 
         // ♻️ Reset player positions
-        const resetPlayers = generatePerimeterPlayers(25)
+        const resetPlayers = generatePerimeterPlayers(48)
 
         // 🔥 Overwrite maze_state/maze
         await db.collection("maze_state").doc("maze").set({ rows });
