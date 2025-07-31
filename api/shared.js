@@ -213,7 +213,7 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
-function generateSpacedPerimeterPlayers(size = 35) {
+function generatePerimeterPlayers(size = 35) {
     const players = {};
     let i = 1;
 
