@@ -57,11 +57,10 @@ async function getPlayers() {
     const snap = await PLAYERS_DOC.get();
     if (snap.exists) return snap.data();
 
-    // If doc doesn’t exist, create the default positions
     const players = generatePerimeterPlayers(35, 136);
+    await PLAYERS_DOC.set(players);
+    return players;
 
-    await PLAYERS_DOC.set(seed);
-    return seed;
 }
 
 async function setMaze(maze) {
