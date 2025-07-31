@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leaderboard</title>
     <link rel="stylesheet" href="/styles/leaderboard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>?? Maze Escape Leaderboard</h1>
-    <div id="leaderboard">
-        <p>Loading...</p>
+    
+    <div id="loadingContainer">
+        <img id="loadingGif" src="/styles/images/loading.gif" alt="Loading..."/>
     </div>
+
+    <div id="leaderboard" style="display: none;"></div>
 
     <script src="/Frontend/leaderboard.js"></script>
 </body>
