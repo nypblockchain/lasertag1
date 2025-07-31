@@ -57,7 +57,7 @@ async function getPlayers() {
     const snap = await PLAYERS_DOC.get();
     if (snap.exists) return snap.data();
 
-    const players = generatePerimeterPlayers(35, 136);
+    const players = generatePerimeterPlayers(35);
     await PLAYERS_DOC.set(players);
     return players;
 
