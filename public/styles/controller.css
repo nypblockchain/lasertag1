@@ -211,7 +211,7 @@ input:checked + .slider {
 }
 
 .player1 {
-    background-image: url('/styles/images/sprites/TArk.png');
+    background-image: url('/styles/images/sprites/ThousandArk.png');
     box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
