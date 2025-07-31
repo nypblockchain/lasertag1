@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
 
     const { playerId, nickname } = req.body;
 
-    if (!/^player(1[0-9]|20|[1-9])$/.test(playerId)) {
+    if (!/^player([1-9][0-9]{0,2})$/.test(playerId)) {
         return res.status(400).json({ error: "Invalid player ID" });
     }
 
