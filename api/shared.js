@@ -264,6 +264,33 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
+function generatePerimeterPlayers(size = 35, count = 136) {
+    const players = {};
+    const visited = new Set();
+    let i = 1;
+
+    // Clockwise perimeter walk: top → right → bottom → left
+    for (let x = 0; x < size && i <= count; x++) {
+        const key = `player${i++}`;
+        players[key] = { x, y: 0 };
+    }
+    for (let y = 1; y < size - 1 && i <= count; y++) {
+        const key = `player${i++}`;
+        players[key] = { x: size - 1, y };
+    }
+    for (let x = size - 1; x >= 0 && i <= count; x--) {
+        const key = `player${i++}`;
+        players[key] = { x, y: size - 1 };
+    }
+    for (let y = size - 2; y > 0 && i <= count; y--) {
+        const key = `player${i++}`;
+        players[key] = { x: 0, y };
+    }
+
+    return players;
+}
+
+
 /* ----------------- 5. Exports ----------------- */
 module.exports = {
     db,
@@ -276,4 +303,5 @@ module.exports = {
     setNickname,
     getNicknames,
     resetNicknames,
+    generatePerimeterPlayers,
 }
