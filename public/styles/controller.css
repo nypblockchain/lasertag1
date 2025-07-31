@@ -213,4 +213,7 @@ input:checked + .slider {
 .player1 {
     background-image: url('/styles/images/sprites/TArk.png');
     box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
