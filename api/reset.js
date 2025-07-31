@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
         });
 
         // ♻️ Reset player positions
-        const resetPlayers = generatePerimeterPlayers(48)
+        const resetPlayers = generatePerimeterPlayers(25)
 
         // 🔥 Overwrite maze_state/maze
         await db.collection("maze_state").doc("maze").set({ rows });
