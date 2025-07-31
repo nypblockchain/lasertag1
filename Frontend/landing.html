@@ -37,10 +37,15 @@
         <button onclick="goToIndex()">Start Game (index.html)</button>
         <button onclick="goToNickname()">Set Nickname</button>
         <button onclick="goToController()">Enter Controller</button>
+        <button onclick="goToLeaderboard()">Leaderboards</button>
         <button onclick="goToAdmin()">Enter Administrator Page</button>
     </div>
 
     <script>
+        function goToLeaderboard() {
+            window.location.href = "/leaderboard";
+        }
+
         function goToIndex() {
             window.location.href = "/index";
         }

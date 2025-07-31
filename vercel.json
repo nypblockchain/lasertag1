@@ -20,6 +20,10 @@
       "dest": "/api/$1.js"
     },
     {
+      "src": "/leaderboard",
+      "dest": "/Frontend/leaderboard.html"
+    },
+    {
       "src": "/controller",
       "dest": "/Frontend/controller.html"
     },
