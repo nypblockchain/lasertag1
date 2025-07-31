@@ -194,7 +194,7 @@ function injectPlayerStyles() {
 
     let css = "";
 
-    for (let i = 1; i <= 136; i++) {
+    for (let i = 1; i <= 48; i++) {
         const playerId = `player${i}`;
         const color = colors[i - 1];
         css += `.${playerId} {

@@ -57,7 +57,7 @@ async function getPlayers() {
     const snap = await PLAYERS_DOC.get();
     if (snap.exists) return snap.data();
 
-    const players = generatePerimeterPlayers(35);
+    const players = generatePerimeterPlayers(25);
     await PLAYERS_DOC.set(players);
     return players;
 
@@ -89,7 +89,7 @@ async function getMaze() {
 }
 
 /* (re‑use your existing generateMaze function) */
-function generateMaze(size = 35) {
+function generateMaze(size = 25) {
     if (size % 2 === 0) size += 1;
     const maze = Array.from({ length: size }, () => Array(size).fill(1));
 
@@ -213,7 +213,7 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
-function generatePerimeterPlayers(size = 35) {
+function generatePerimeterPlayers(size = 25) {
     const players = {};
     let i = 1;
 
