@@ -213,32 +213,32 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
-function generatePerimeterPlayers(size = 35, count = 136) {
+function generateSpacedPerimeterPlayers(size = 35) {
     const players = {};
-    const visited = new Set();
     let i = 1;
 
-    // Clockwise perimeter walk: top → right → bottom → left
-    for (let x = 0; x < size && i <= count; x++) {
-        const key = `player${i++}`;
-        players[key] = { x, y: 0 };
+    // Top row: every 2nd cell
+    for (let x = 0; x < size && i <= 999; x += 2) {
+        players[`player${i++}`] = { x, y: 0 };
     }
-    for (let y = 1; y < size - 1 && i <= count; y++) {
-        const key = `player${i++}`;
-        players[key] = { x: size - 1, y };
+
+    // Right column: skip top and bottom corners
+    for (let y = 2; y < size - 1 && i <= 999; y += 2) {
+        players[`player${i++}`] = { x: size - 1, y };
     }
-    for (let x = size - 1; x >= 0 && i <= count; x--) {
-        const key = `player${i++}`;
-        players[key] = { x, y: size - 1 };
+
+    // Bottom row: right to left
+    for (let x = size - 1; x >= 0 && i <= 999; x -= 2) {
+        players[`player${i++}`] = { x, y: size - 1 };
     }
-    for (let y = size - 2; y > 0 && i <= count; y--) {
-        const key = `player${i++}`;
-        players[key] = { x: 0, y };
+
+    // Left column: bottom to top
+    for (let y = size - 3; y > 0 && i <= 999; y -= 2) {
+        players[`player${i++}`] = { x: 0, y };
     }
 
     return players;
 }
-
 
 /* ----------------- 5. Exports ----------------- */
 module.exports = {
