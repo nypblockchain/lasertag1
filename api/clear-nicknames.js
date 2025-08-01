@@ -1,4 +1,4 @@
-const { resetNicknames } = require("./shared");
+﻿const { resetNicknames } = require("./shared");
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -6,18 +6,18 @@ module.exports = async (req, res) => {
     }
 
     const { passkey } = req.body;
-    const expectedPasskey = process.env.ADMIN_PASSKEY;
+    const expectedPasskey = process.env.ADMIN_PASSWORD;
 
-    // ?? Check passkey from frontend against the secure environment variable
+    // 🔐 Check passkey from frontend against the secure environment variable
     if (!passkey || passkey !== expectedPasskey) {
-        return res.status(403).json({ success: false, error: "? Invalid admin passkey." });
+        return res.status(403).json({ success: false, error: "❌ Invalid admin passkey." });
     }
 
     try {
         await resetNicknames();
         res.json({ success: true });
     } catch (error) {
-        console.error("? Failed to clear nicknames:", error);
+        console.error("❌ Failed to clear nicknames:", error);
         res.status(500).json({ success: false, error: "Internal server error." });
     }
 };
