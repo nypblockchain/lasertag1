@@ -3,78 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Maze Game Portal</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/landing.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: black;
-            color: #0f0;
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            padding-top: 100px;
-        }
-
-        h1 {
-            margin-bottom: 40px;
-        }
-
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-            .button-group button {
-                font-size: 18px;
-            }
-    </style>
 </head>
 <body>
     <h1>🚪 Welcome to the Maze</h1>
     <div class="button-group">
-        <button onclick="goToIndex()">Start Game (index.html)</button>
+        <button onclick="goToController()">Start Game</button>
         <button onclick="goToNickname()">Set Nickname</button>
-        <button onclick="goToController()">Enter Controller</button>
         <button onclick="goToLeaderboard()">Leaderboards</button>
-        <button onclick="goToAdmin()">Enter Administrator Page</button>
     </div>
 
-    <script>
-        function goToLeaderboard() {
-            window.location.href = "/leaderboard";
-        }
+    <div class="admin-circle" onclick="goToAdmin()">
+        <img src="/styles/images/admin.gif" alt="Admin Access"/>
+    </div>
 
-        function goToIndex() {
-            window.location.href = "/index";
-        }
-
-        function goToNickname() {
-            window.location.href = "/nickname";
-        }
-
-        function goToController() {
-            const nickname = localStorage.getItem("nickname");
-            const playerId = localStorage.getItem("playerId");
-            if (nickname && playerId) {
-                window.location.href = "/controller";
-            } else {
-                alert("⚠️ You must register a nickname first!");
-            }
-        }
-
-        function goToAdmin() {
-            const passkey = prompt("Enter admin passkey: ")
-            const correctPassKey = "silkyqt123";
-
-            if (passkey === correctPassKey) {
-                window.location.href = "/admin";
-            }
-            else if (passkey !== null) {
-                alert("❌ Incorrect passkey.");
-            }
-        }
-    </script>
+    <script src="/Frontend/landing.js"></script>
 </body>
 </html>

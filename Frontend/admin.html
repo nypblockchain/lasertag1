@@ -41,28 +41,6 @@
     <button onclick="clearLocal()">🧹 Clear localStorage</button>
     <button onclick="clearFirestore()">🔥 Clear Firestore Nicknames</button>
 
-    <script>
-        function clearLocal() {
-            localStorage.clear();
-            alert("✅ localStorage cleared.");
-        }
-
-        async function clearFirestore() {
-            try {
-                const res = await fetch("/api/clear-nicknames", {
-                    method: "POST"
-                });
-                const data = await res.json();
-                if (data.success) {
-                    alert("✅ Firestore nicknames cleared.");
-                } else {
-                    alert("❌ Failed to clear nicknames.");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("❌ Error clearing Firestore.");
-            }
-        }
-    </script>
+    <script src="/Frontend/admin.js"></script>
 </body>
 </html>
