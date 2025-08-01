@@ -25,7 +25,7 @@ function stopPolling() {
 
 async function fetchMazeAndPlayers() {
     const loading = document.getElementById("loading");
-    loading.classList.remove("hidden");
+    if (loading) loading.classList.remove("hidden"); // ✅ show loader
 
     try {
         const res = await fetch("/api/maze");
@@ -34,6 +34,8 @@ async function fetchMazeAndPlayers() {
         renderMaze(data.maze, data.players);
     } catch (err) {
         console.error("Failed to fetch maze:", err);
+    } finally {
+        if (loading) loading.classList.add("hidden"); // ✅ hide loader
     }
 }
 
