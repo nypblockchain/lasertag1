@@ -240,3 +240,7 @@ input:checked + .slider {
     display: none;
 }
 
+.center-wall {
+    background-color: gold;
+    box-sizing: border-box;
+}

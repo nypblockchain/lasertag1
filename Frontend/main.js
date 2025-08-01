@@ -55,6 +55,7 @@ function renderMaze(maze, players = {}) {
 
     const rows = maze.length;
     const cols = maze[0].length;
+    const mid = Math.floor(rows / 2); // find center
 
     mazeDiv.style.display = "grid";
     mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 24px)`;
@@ -67,7 +68,7 @@ function renderMaze(maze, players = {}) {
 
             let playerClass = null;
             for (const [playerId, pos] of Object.entries(players)) {
-                if (pos.lives !== undefined && pos.lives <= 0) continue;  // ?? new guard
+                if (pos.lives !== undefined && pos.lives <= 0) continue;
                 if (pos.y === i && pos.x === j) {
                     playerClass = playerId;
                     break;
@@ -76,13 +77,15 @@ function renderMaze(maze, players = {}) {
 
             if (playerClass) {
                 cell.classList.add(playerClass);
-                cell.textContent = ""; // or e.g., "P1" if you want
             } else if (maze[i][j] === 1) {
-                cell.classList.add("wall");
-                cell.textContent = "";
+                // Highlight walls that are part of the 5×5 center box
+                if (Math.abs(i - mid) <= 2 && Math.abs(j - mid) <= 2) {
+                    cell.classList.add("center-wall"); 
+                } else {
+                    cell.classList.add("wall");
+                }
             } else {
                 cell.classList.add("path");
-                cell.textContent = "";
             }
 
             mazeDiv.appendChild(cell);
