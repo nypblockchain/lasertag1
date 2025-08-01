@@ -21,7 +21,7 @@ function goToController() {
 }
 
 function goToAdmin() {
-    const correctPasskey = "noSignificance123";
+    const correctPasskey = "noid";
 
     const entered = prompt("?? Enter admin passkey:");
 

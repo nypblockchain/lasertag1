@@ -3,6 +3,10 @@ function clearLocal() {
     alert("? localStorage cleared.");
 }
 
+function openMaze() {
+    window.location.href = '/index';
+}
+
 async function clearFirestore() {
     const passkey = prompt("?? Enter admin passkey:");
     if (!passkey) return; // User cancelled prompt
