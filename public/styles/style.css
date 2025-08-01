@@ -48,6 +48,20 @@ h2 {
     background-size: cover;
 }
 
+.player2 {
+    background-image: url('/styles/images/sprites/Skull.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.player3 {
+    background-image: url('/styles/images/sprites/Juuga.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .path {
     /* background-image: url('/styles/images/end_stone.png'); */
     background-color: white;
