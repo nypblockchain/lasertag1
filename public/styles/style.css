@@ -221,3 +221,22 @@ input:checked + .slider {
     margin-top: 4px;
     font-size: 1.1rem;
 }
+
+#loading {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 20px;
+    color: #0f0;
+    font-family: 'Orbitron', sans-serif;
+}
+
+    #loading img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+.hidden {
+    display: none;
+}
+

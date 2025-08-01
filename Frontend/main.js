@@ -24,6 +24,9 @@ function stopPolling() {
 }
 
 async function fetchMazeAndPlayers() {
+    const loading = document.getElementById("loading");
+    loading.classList.remove("hidden");
+
     try {
         const res = await fetch("/api/maze");
         const data = await res.json();
