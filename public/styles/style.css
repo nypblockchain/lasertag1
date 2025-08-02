@@ -1,31 +1,34 @@
 ﻿body {
-    background-color: black;
-    color: #000;
-    font-family: monospace;
+    background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
+    color: #f0f0f0;
+    font-family: 'Orbitron', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    color: #0f0; /* Neon green text */
-    font-family: 'Orbitron', sans-serif; /* Optional futuristic font */
+    padding: 30px;
     text-align: center;
 }
 
 h2 {
-    margin-bottom: 10px;
-    color: #0f0;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
+    font-size: 30px;
+    margin-bottom: 20px;
 }
 
 #maze {
-    border: 2px solid lime;
+    border: 2px solid #7f00ff;
+    box-shadow: 0 0 20px #7f00ff;
     display: grid;
     gap: 0;
     width: fit-content;
     height: fit-content;
+    margin-bottom: 30px;
 }
 
+/* Cells and walls (no change as per request) */
 .cell {
-    width: 24px; /* or match your PNG size */
+    width: 24px;
     height: 24px;
     padding: 0;
     margin: 0;
@@ -34,7 +37,6 @@ h2 {
 }
 
 .wall {
-    /* background-image: url('/styles/images/crying_obsidian.png'); */
     background-color: lightgray;
     background-size: cover;
     background-repeat: no-repeat;
@@ -43,27 +45,23 @@ h2 {
 
 .player1 {
     background-image: url('/styles/images/sprites/ThousandArk.png');
-    box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .player2 {
     background-image: url('/styles/images/sprites/Skull.png');
-    box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .player3 {
     background-image: url('/styles/images/sprites/Juuga.png');
-    box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .path {
-    /* background-image: url('/styles/images/end_stone.png'); */
     background-color: white;
     background-size: cover;
     background-repeat: no-repeat;
@@ -71,63 +69,127 @@ h2 {
 }
 
 input#commandInput {
-    background-color: #111;
-    border: 2px solid #0ff; /* Neon cyan border */
-    color: #0ff;
-    padding: 8px;
-    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ff00cc;
+    color: #ff00cc;
+    padding: 10px;
+    margin: 12px 0;
     font-size: 14px;
-    border-radius: 5px;
-    box-shadow: 0 0 8px #0ff;
+    border-radius: 8px;
+    box-shadow: 0 0 12px #ff00cc;
+    width: 260px;
     outline: none;
-    font-family: "Orbitron", sans-serif;
 }
 
     input#commandInput::placeholder {
-        color: #099;
+        color: #cc66ff;
     }
 
 button {
     font-family: 'Orbitron', sans-serif;
-    background-color: #111;
-    color: #0f0;
-    border: 2px solid #0f0;
-    padding: 8px 16px;
-    margin-top: 8px;
+    background: rgba(255, 0, 204, 0.1);
+    color: #ff00cc;
+    border: 2px solid #ff00cc;
+    padding: 10px 20px;
+    margin: 6px;
     font-size: 14px;
     cursor: pointer;
-    border-radius: 5px;
-    box-shadow: 0 0 6px #0f0;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+    box-shadow: 0 0 12px #ff00cc;
+    transition: all 0.2s ease-in-out;
 }
 
     button:hover {
-        background-color: #0f0;
+        background-color: #ff00cc;
         color: #000;
-        box-shadow: 0 0 16px #0f0;
+        box-shadow: 0 0 20px #ff00cc;
     }
 
 select {
     font-family: 'Orbitron', sans-serif;
-    background-color: #111;
-    color: #0f0;
-    border: 2px solid #0f0;
-    border-radius: 5px;
-    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #7f00ff;
+    border: 2px solid #7f00ff;
+    border-radius: 8px;
+    margin-top: 12px;
+    padding: 6px 12px;
+    font-size: 14px;
+    box-shadow: 0 0 10px #7f00ff;
 }
 
-select:hover {
-    background-color: #0f0;
-    color: #000;
-    box-shadow: 0 0 16px #0f0;
-}
+    select:hover {
+        background-color: #7f00ff;
+        color: #000;
+    }
 
 #countdownDisplay {
-    color: #0ff;
-    font-size: 18px;
-    margin-top: 10px;
-    font-family: 'Orbitron', sans-serif;
+    color: #00ffff;
+    font-size: 20px;
+    margin-top: 16px;
+    text-shadow: 0 0 10px #00ffff;
 }
+
+#pollingToggleContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+#pollingStatusLabel {
+    margin-top: 6px;
+    font-size: 1.1rem;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+/* Neon-style toggle switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #333;
+    border-radius: 32px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.4s;
+    box-shadow: 0 0 8px #999;
+}
+
+    .slider::before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #fff;
+        border-radius: 50%;
+        transition: 0.4s;
+    }
+
+input:checked + .slider {
+    background-color: #00ffff;
+    box-shadow: 0 0 12px #00ffff;
+}
+
+    input:checked + .slider::before {
+        transform: translateX(28px);
+    }
 
 #timeUpOverlay {
     position: fixed;
@@ -135,13 +197,13 @@ select:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(10, 0, 30, 0.95);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    color: white;
-    font-family: 'Orbitron', sans-serif;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
 }
 
     #timeUpOverlay.hidden {
@@ -154,86 +216,27 @@ select:hover {
 
 #overlayResetBtn {
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-size: 16px;
-    border: 2px solid #0f0;
+    border: 2px solid #ff00cc;
     background-color: transparent;
-    color: #0f0;
+    color: #ff00cc;
     cursor: pointer;
-    box-shadow: 0 0 8px #0f0;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 32px;
-    margin-right: 10px;
-}
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    background-color: #ccc;
-    border-radius: 32px;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transition: 0.4s;
-}
-
-    .slider::before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        border-radius: 50%;
-        transition: 0.4s;
-    }
-
-input:checked + .slider {
-    background-color: #4cd964; /* iOS green */
-}
-
-    input:checked + .slider::before {
-        transform: translateX(28px);
-    }
-
-#pollingToggleContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 12px;
-}
-
-#pollingStatusLabel {
-    margin-top: 4px;
-    font-size: 1.1rem;
+    box-shadow: 0 0 10px #ff00cc;
 }
 
 #loading {
     text-align: center;
     margin: 20px 0;
     font-size: 20px;
-    color: #0f0;
-    font-family: 'Orbitron', sans-serif;
+    color: #00ffff;
 }
 
     #loading img {
         width: 100px;
         height: 100px;
         margin-bottom: 10px;
+        filter: drop-shadow(0 0 10px #00ffff);
     }
 
 .hidden {
