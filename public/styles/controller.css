@@ -210,6 +210,24 @@ input:checked + .slider {
     font-size: 1.1rem;
 }
 
+#loading {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 28px;
+    color: #00ffff;
+}
+
+#loading img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 10px #00ffff);
+}
+
+.hidden {
+    display: none;
+}
+
 .player1 {
     background-image: url('/styles/images/sprites/ThousandArk.png');
     box-sizing: border-box;

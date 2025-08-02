@@ -93,60 +93,6 @@ function renderMaze(maze, players = {}) {
     }
 }
 
-function getCurrentPlayer() {
-    return document.getElementById("playerSelect").value || "player1";
-}
-
-const keyMap = {
-    ArrowUp: { direction: "up" },
-    ArrowDown: { direction: "down" },
-    ArrowLeft: { direction: "left" },
-    ArrowRight: { direction: "right" }
-};
-
-document.addEventListener("keydown", async (e) => {
-    const key = e.key;
-    const action = keyMap[key];
-    if (!action) return;
-
-    try {
-        const res = await fetch("/api/move", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ...action, playerId: getCurrentPlayer() })
-        });
-
-        const data = await res.json();
-        renderMaze(mazeCache, data.players);
-    } catch (err) {
-        console.error("Failed to move player:", err);
-    }
-});
-
-async function submitCommand() {
-    const input = document.getElementById("commandInput");
-    const command = input.value.trim();
-    const playerId = getCurrentPlayer();
-    if (!command || !playerId) return;
-
-    try {
-        const res = await fetch("/api/command", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ command, playerId })
-        });
-
-        const data = await res.json();
-        console.log("Command result:", data);
-
-        await fetchMazeAndPlayers(); // ? re-render updated positions
-    } catch (err) {
-        console.error("Command error:", err);
-    }
-
-    input.value = "";
-}
-
 document.getElementById("resetMazeBtn").addEventListener("click", async () => {
     try {
         const res = await fetch("/api/reset", { method: "POST" });
@@ -157,38 +103,6 @@ document.getElementById("resetMazeBtn").addEventListener("click", async () => {
         console.error("Maze reset failed:", err);
     }
 });
-
-document.getElementById("overlayResetBtn").addEventListener("click", async () => {
-    try {
-        await fetch("/api/reset", { method: "POST" });
-        window.location.reload();
-    } catch (err) {
-        console.error("Overlay reset failed:", err);
-    }
-});
-
-let countdownInterval = null;
-let timeLeft = 120;
-let timerStarted = false;
-
-function startCountdownTimer() {
-    const display = document.getElementById("countdownDisplay");
-
-    countdownInterval = setInterval(() => {
-        const minutes = Math.floor(timeLeft / 60).toString();
-        const seconds = (timeLeft % 60).toString().padStart(2, "0");
-        display.textContent = `? ${minutes}:${seconds}`;
-        timeLeft--;
-
-        if (timeLeft < 0) {
-            clearInterval(countdownInterval);
-            triggerTimeUpOverlay();
-        }
-    }, 1000);
-}
-function triggerTimeUpOverlay() {
-    document.getElementById("timeUpOverlay").classList.remove("hidden");
-}
 
 document.getElementById("pollingToggle").addEventListener("change", (e) => {
     if (e.target.checked) {

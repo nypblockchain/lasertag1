@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4-Player Maze</title>
     <link rel="stylesheet" href="/styles/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
@@ -10,35 +11,12 @@
 
     <div id="loading" class="hidden">
         <img src="/styles/images/sparkle_loading.gif" alt="Loading..."/>
-        <p>Loading</p>
+        <p>Loading...</p>
     </div>
 
     <div id="maze"></div>
-    <input id="commandInput" placeholder="Tell Gemini where to go" />
-    <button onclick="submitCommand()">Send Command</button>
+
     <button id="resetMazeBtn">Reset Maze</button>
-    <select id="playerSelect">
-        <option value="player1">Player 1</option>
-        <option value="player2">Player 2</option>
-        <option value="player3">Player 3</option>
-        <option value="player4">Player 4</option>
-        <option value="player5">Player 5</option>
-        <option value="player6">Player 6</option>
-        <option value="player7">Player 7</option>
-        <option value="player8">Player 8</option>
-        <option value="player9">Player 9</option>
-        <option value="player10">Player 10</option>
-        <option value="player11">Player 11</option>
-        <option value="player12">Player 12</option>
-        <option value="player13">Player 13</option>
-        <option value="player14">Player 14</option>
-        <option value="player15">Player 15</option>
-        <option value="player16">Player 16</option>
-        <option value="player17">Player 17</option>
-        <option value="player18">Player 18</option>
-        <option value="player19">Player 19</option>
-        <option value="player20">Player 20</option>
-    </select>
 
     <div id="pollingToggleContainer">
         <label class="switch">
@@ -47,17 +25,6 @@
         </label>
         <span id="pollingStatusLabel">Polling Off</span>
     </div>
-
-    <!-- Overlay that appears when time is up -->
-    <div id="timeUpOverlay" class="hidden">
-        <div class="overlay-content">
-            <h2>? Time's Up!</h2>
-            <button id="overlayResetBtn">Reset Maze</button>
-        </div>
-    </div>
-
-    <!-- Countdown display -->
-    <div id="countdownDisplay">? 2:00</div>
 
     <script src="/Frontend/main.js"></script>
 </body>

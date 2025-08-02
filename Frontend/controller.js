@@ -75,14 +75,29 @@ function stopPolling() {
     }
 }
 
+let isInitialLoad = true;
+
 async function fetchMazeAndPlayers() {
+    const loading = document.getElementById("loading");
+
+    if (isInitialLoad && loading) {
+        loading.classList.remove("hidden");
+    }
+
     try {
         const res = await fetch("/api/maze");
         const data = await res.json();
         mazeCache = data.maze;
         renderMaze(data.maze, data.players);
-    } catch (err) {
-        console.error("Failed to fetch maze:", err);
+    }
+    catch (err) {
+        console.error("Failed to fetch the maze:", err);
+    }
+    finally {
+        if (isInitialLoad && loading) {
+            loading.classList.add("hidden");
+            isInitialLoad = false;
+        }
     }
 }
 
