@@ -1,18 +1,28 @@
 let onPasskeyConfirmed = null;
 
+function closeModal() {
+    const box = document.getElementById("passkeyBox");
+    box.classList.add("fade-out");
+
+    setTimeout(() => {
+        document.getElementById("passkeyOverlay").style.display = "none";
+        box.classList.remove("fade-out");
+        document.getElementById("maskedPasskey").value = "";
+    }, 300);
+}
+
 function confirmPasskey() {
     const passkey = document.getElementById("maskedPasskey").value;
-    document.getElementById("passkeyOverlay").style.display = "none";
-    document.getElementById("maskedPasskey").value = "";
 
     if (onPasskeyConfirmed && passkey) {
         onPasskeyConfirmed(passkey);
     }
+
+    closeModal();
 }
 
 function cancelPasskey() {
-    document.getElementById("passkeyOverlay").style.display = "none";
-    document.getElementById("maskedPasskey").value = "";
+    closeModal();
 }
 
 function clearLocal() {
