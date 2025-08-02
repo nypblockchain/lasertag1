@@ -91,5 +91,5 @@ async function clearFirestore() {
 
 if (sessionStorage.getItem("adminAccess") !== "true") {
     alert("Access denied. Redirecting...");
-    window.location.href = "/landing.html";
+    window.location.href = "/landing";
 }

@@ -1,0 +1,72 @@
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(180deg, #000000 0%, #0b0b0f 100%);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.nickname-container {
+    background-color: rgba(20, 20, 30, 0.9);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #ff00cc;
+    width: 400px;
+    text-align: center;
+}
+
+.glow-title {
+    color: #ff00cc;
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+select, input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    background: #111;
+    color: #fff;
+    border: 2px solid #ff00cc;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: 0 0 8px #ff00cc80 inset;
+    font-size: 14px;
+}
+
+    select:focus, input[type="text"]:focus {
+        box-shadow: 0 0 12px #ff00cc, 0 0 6px #ff00cc inset;
+    }
+
+.glow-btn {
+    background: #ff00cc;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 0 12px #ff00cc, 0 0 20px #ff00cc;
+    transition: transform 0.2s ease-in-out;
+}
+
+    .glow-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 16px #ff33dd, 0 0 30px #ff33dd;
+    }

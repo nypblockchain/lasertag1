@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <title>Choose Your Nickname</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/nickname.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h2>Enter Your Nickname</h2>
-    <form id="nicknameForm">
-        <label for="playerIdInput">Select Player ID:</label>
-        <select id="playerIdInput" required></select>
+    <div class="nickname-container">
+        <h2 class="glow-title">Enter Your Nickname</h2>
 
-        <label for="nicknameInput">Enter Nickname:</label>
-        <input type="text" id="nicknameInput" placeholder="e.g., Silk" required>
+        <form id="nicknameForm">
+            <div class="form-group">
+                <label for="playerIdInput">Select Player ID:</label>
+                <select id="playerIdInput" required></select>
+            </div>
 
-        <button type="submit">Next</button>
-    </form>
+            <div class="form-group">
+                <label for="nicknameInput">Enter Nickname:</label>
+                <input type="text" id="nicknameInput" placeholder="e.g., Silk" required>
+            </div>
 
-    <p id="errorText" style="color: red; margin-top: 10px;"></p>
+            <button type="submit" class="glow-btn">Next</button>
+        </form>
+
+        <p id="errorText" style="color: #ff3366; margin-top: 10px;"></p>
+    </div>
 
     <script src="/Frontend/nickname.js"></script>
 </body>
