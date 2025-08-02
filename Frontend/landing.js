@@ -1,4 +1,4 @@
-async function isControllerLocked {
+async function isControllerLocked() {
     try {
         const res = await fetch("/api/get-nicknames");
         const data = await res.json();
