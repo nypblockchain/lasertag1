@@ -3,44 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/admin.css" />
+    <link rel="stylesheet" href="/styles/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: black;
-            color: #0f0;
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            padding-top: 100px;
-        }
-
-        h1 {
-            margin-bottom: 40px;
-        }
-
-        button {
-            font-size: 18px;
-            margin: 10px;
-            padding: 12px 24px;
-            background-color: #111;
-            border: 2px solid #0f0;
-            color: #0f0;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-            button:hover {
-                background-color: #0f0;
-                color: black;
-            }
-    </style>
 </head>
 <body>
     <h1>🛠️ Admin Panel</h1>
 
-    <button onclick="openMaze()">Open Maze Render</button>
-    <button onclick="clearLocal()">🧹 Clear localStorage</button>
-    <button onclick="clearFirestore()">🔥 Clear Firestore Nicknames</button>
+    <button onclick="openMaze()">Open 25×25 Maze Render</button>
+    <button onclick="clearLocal()">Clear Local Storage</button>
+    <button onclick="clearFirestore()">Clear Firestore Nicknames</button>
+    <button onclick="clearLeaderboard()">Clear Leaderboard</button>
+    <button onclick="openMainMenu()">Main Menu</button>
 
     <script src="/Frontend/admin.js"></script>
 </body>

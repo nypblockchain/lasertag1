@@ -1,0 +1,27 @@
+body {
+    background-color: black;
+    color: #0f0;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    padding-top: 100px;
+}
+
+h1 {
+    margin-bottom: 40px;
+}
+
+button {
+    font-size: 18px;
+    margin: 10px;
+    padding: 12px 24px;
+    background-color: #111;
+    border: 2px solid #0f0;
+    color: #0f0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    button:hover {
+        background-color: #0f0;
+        color: black;
+    }
