@@ -183,12 +183,13 @@ select {
     }
 
 input:checked + .slider {
-    background-color: #00ffff;
-    box-shadow: 0 0 12px #00ffff;
+    background-color: #ff00cc;
+    box-shadow: 0 0 12px #ff00cc;
 }
 
     input:checked + .slider::before {
         transform: translateX(28px);
+        background-color: #000; /* Optional: make knob dark when active */
     }
 
 #timeUpOverlay {
