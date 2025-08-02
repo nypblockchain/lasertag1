@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Admin Panel</title>
     <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/admin.css" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -14,6 +15,15 @@
     <button onclick="clearFirestore()">Clear Firestore Nicknames</button>
     <button onclick="clearLeaderboard()">Clear Leaderboard</button>
     <button onclick="openMainMenu()">Main Menu</button>
+
+    <div id="passkeyOverlay" style="display: none;">
+        <div id="passkeyBox">
+            <p>Enter Admin Passkey:</p>
+            <input type="password" id="maskedPasskey" />
+            <button onclick="confirmPasskey()">Submit</button>
+            <button onclick="cancelPasskey()">Cancel</button>
+        </div>
+    </div>
 
     <script src="/Frontend/admin.js"></script>
 </body>

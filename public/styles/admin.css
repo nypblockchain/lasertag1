@@ -1,0 +1,26 @@
+#passkeyOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#passkeyBox {
+    background: #111;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+}
+
+    #passkeyBox input {
+        padding: 8px;
+        width: 100%;
+        margin: 10px 0;
+    }
