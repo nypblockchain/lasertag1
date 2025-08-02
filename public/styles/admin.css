@@ -1,3 +1,45 @@
+﻿/* --- Admin Panel Layout --- */
+body {
+    margin: 0;
+    padding: 30px;
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
+}
+
+button {
+    font-family: 'Orbitron', sans-serif;
+    background: rgba(255, 0, 204, 0.1);
+    color: #ff00cc;
+    border: 2px solid #ff00cc;
+    padding: 12px 20px;
+    margin: 8px 0; /* ⬅️ vertical spacing only */
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 0 12px #ff00cc;
+    transition: all 0.2s ease-in-out;
+    width: 240px; /* ⬅️ fixed width for consistency */
+    text-align: center;
+}
+
+    button:hover {
+        background-color: #ff00cc;
+        color: #000;
+        box-shadow: 0 0 20px #ff00cc;
+    }
+
 @keyframes FadeIn {
     0% {
         opacity: 0;
