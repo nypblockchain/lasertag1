@@ -89,6 +89,49 @@ async function clearFirestore() {
     document.getElementById("passkeyOverlay").style.display = "flex";
 }
 
+async function lockController() {
+    try {
+        const res = await fetch("/api/reset", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lockState: true })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            alert("Controller locked.");
+        }
+        else {
+            alert("Failed to lock controller.");
+        }
+    }
+    catch (err) {
+        console.error("Something went wrong with locking controller", err);
+        alert("Error locking controller.");
+    }
+}
+
+async function unlockController() {
+    try {
+        const res = await fetch("/api/reset", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lockState: false })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            alert("Controller unlocked.");
+        } else {
+            alert("Failed to unlock controller.");
+        }
+    }
+    catch (err) {
+        console.error("Error unlocking controller", err);
+        alert("Error unlocking controller.")
+    }
+}
+
 if (sessionStorage.getItem("adminAccess") !== "true") {
     alert("Access denied. Redirecting...");
     window.location.href = "/landing";

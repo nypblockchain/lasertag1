@@ -1,5 +1,4 @@
-﻿// api/maze-reset.js
-const {
+﻿const {
     db,
     generateMaze,
     setMazeCache,
@@ -13,6 +12,18 @@ module.exports = async (req, res) => {
     }
 
     try {
+        if ("password" in req.body) {
+            const correctPassword = process.env.CONTROLLER_PASSWORD;
+            const isValid = req.body.password === correctPassword;
+            return res.status(200).json({ valid: isValid });
+        }
+
+        // ✅ Controller lock toggle shortcut
+        if ("lockState" in req.body) {
+            await db.collection("maze_state").doc("controller_lock").set({ locked: req.body.lockState });
+            return res.json({ success: true, message: `Controller ${req.body.lockState ? "locked" : "unlocked"}` });
+        }
+
         // 🔁 Generate new maze (2D array)
         const newMaze = generateMaze(25);
 
@@ -23,7 +34,7 @@ module.exports = async (req, res) => {
         });
 
         // ♻️ Reset player positions
-        const resetPlayers = generatePerimeterPlayers(25)
+        const resetPlayers = generatePerimeterPlayers(25);
 
         // 🔥 Overwrite maze_state/maze
         await db.collection("maze_state").doc("maze").set({ rows });
@@ -48,5 +59,3 @@ module.exports = async (req, res) => {
         });
     }
 };
-
-

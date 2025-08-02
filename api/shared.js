@@ -199,14 +199,22 @@ function generateMaze(size = 25) {
 
 /* Writing nicknames to Firestore */
 const NICKNAMES_DOC = db.collection("maze_state").doc("nicknames");
+const CONTROLLER_LOCK_DOC = db.collection("maze_state").doc("controller_lock");
 
 async function setNickname(playerId, nickname) {
     await NICKNAMES_DOC.set({ [playerId]: nickname }, { merge: true });
 }
 
 async function getNicknames() {
-    const snap = await NICKNAMES_DOC.get();
-    return snap.exists ? snap.data() : {};
+    const [nickSnap, lockSnap] = await Promise.all([
+        NICKNAMES_DOC.get(),
+        CONTROLLER_LOCK_DOC.get()
+    ])
+
+    const nicknames = nickSnap.exists ? nickSnap.data() : {};
+    const locked = lockSnap.exists ? lockSnap.data().locked : false;
+
+    return { nicknames, locked };
 }
 
 async function resetNicknames() {
