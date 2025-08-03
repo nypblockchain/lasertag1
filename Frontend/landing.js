@@ -85,7 +85,6 @@ async function goToController() {
     }
 }
 
-
 function goToAdmin() {
     const correctPasskey = "noid";
 
@@ -98,3 +97,10 @@ function goToAdmin() {
         alert("? Incorrect passkey.");
     }
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    const loadingOverlay = document.getElementById("loading-overlay");
+    if (loadingOverlay) {
+        loadingOverlay.style.display = "none";
+    }
+});

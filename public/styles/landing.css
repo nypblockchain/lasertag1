@@ -79,7 +79,7 @@ button {
     justify-content: center;
 }
 
-#loading-overlay img {
-    width: 100px;
-    height: 100px;
-}
+    #loading-overlay img {
+        width: 100px;
+        height: 100px;
+    }
