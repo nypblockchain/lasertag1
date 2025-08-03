@@ -19,52 +19,72 @@ function goToIndex() {
 }
 
 async function goToNickname() {
-    const locked = await isControllerLocked();
+    const loadingOverlay = document.getElementById("loading-overlay");
+    loadingOverlay.style.display = "flex"; // Show overlay
 
-    if (locked) {
-        const password = prompt(" Controller is locked. Enter password:");
-        const res = await fetch("/api/reset", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: password })
-        });
+    try {
+        const locked = await isControllerLocked();
 
-        const data = await res.json();
-        if (!data.valid) {
-            alert("Incorrect password");
-            return;
+        if (locked) {
+            const password = prompt(" Controller is locked. Enter password:");
+            const res = await fetch("/api/reset", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: password })
+            });
+
+            const data = await res.json();
+            if (!data.valid) {
+                alert("Incorrect password");
+                return;
+            }
         }
-    }
 
-    window.location.href = "/nickname";
+        window.location.href = "/nickname";
+    } catch (err) {
+        console.error("Error in goToNickname:", err);
+    } finally {
+        loadingOverlay.style.display = "none"; // Hide overlay
+    }
 }
 
 async function goToController() {
-    const locked = await isControllerLocked();
+    const loadingOverlay = document.getElementById("loading-overlay");
+    loadingOverlay.style.display = "flex"; // Show overlay
 
-    if (locked) {
-        const password = prompt(" Controller is locked. Enter password:");
-        const res = await fetch("/api/reset", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: password })
-        });
+    try {
+        const locked = await isControllerLocked();
 
-        const data = await res.json();
-        if (!data.valid) {
-            alert("Incorrect password");
-            return;
+        if (locked) {
+            const password = prompt(" Controller is locked. Enter password:");
+            const res = await fetch("/api/reset", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: password })
+            });
+
+            const data = await res.json();
+            if (!data.valid) {
+                alert("Incorrect password");
+                return;
+            }
         }
-    }
-    
-    const nickname = localStorage.getItem("nickname");
-    const playerId = localStorage.getItem("playerId");
-    if (nickname && playerId) {
-        window.location.href = "/controller";
-    } else {
-        alert("You must register a nickname first!");
+
+        const nickname = localStorage.getItem("nickname");
+        const playerId = localStorage.getItem("playerId");
+        if (nickname && playerId) {
+            window.location.href = "/controller";
+        } else {
+            alert("You must register a nickname first!");
+        }
+
+    } catch (err) {
+        console.error("Error in goToController:", err);
+    } finally {
+        loadingOverlay.style.display = "none"; // Hide overlay
     }
 }
+
 
 function goToAdmin() {
     const correctPasskey = "noid";
