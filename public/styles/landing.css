@@ -77,6 +77,17 @@ button {
     }
 }
 
+@keyframes glowText {
+    from {
+        opacity: 0.6;
+        text-shadow: 0 0 4px #00ffff, 0 0 6px #ff00ff;
+    }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+    }
+}
+
 #loading-overlay {
     opacity: 0;
     visibility: hidden;
@@ -104,4 +115,13 @@ button {
         height: 180px;
         animation: neon-pulse 1.2s ease-in-out infinite alternate;
         filter: drop-shadow(0 0 12px #ff00ff) drop-shadow(0 0 24px #ff00ff);
+    }
+
+    #loading-overlay p {
+        margin-top: 12px;
+        font-size: 1.2rem;
+        font-family: 'Orbitron', sans-serif;
+        color: #00ffcc;
+        text-shadow: 0 0 6px #00ffff, 0 0 10px #ff00ff;
+        animation: glowText 1.5s ease-in-out infinite alternate;
     }
