@@ -20,7 +20,7 @@ function goToIndex() {
 
 async function goToNickname() {
     const loadingOverlay = document.getElementById("loading-overlay");
-    loadingOverlay.style.display = "flex"; // Show overlay
+    loadingOverlay.classList.add("visible"); // Show overlay
 
     try {
         const locked = await isControllerLocked();
@@ -44,13 +44,13 @@ async function goToNickname() {
     } catch (err) {
         console.error("Error in goToNickname:", err);
     } finally {
-        loadingOverlay.style.display = "none"; // Hide overlay
+        loadingOverlay.classList.remove("visible"); // Hide overlay
     }
 }
 
 async function goToController() {
     const loadingOverlay = document.getElementById("loading-overlay");
-    loadingOverlay.style.display = "flex"; // Show overlay
+    loadingOverlay.classList.add("visible");
 
     try {
         const locked = await isControllerLocked();
@@ -81,7 +81,7 @@ async function goToController() {
     } catch (err) {
         console.error("Error in goToController:", err);
     } finally {
-        loadingOverlay.style.display = "none"; // Hide overlay
+        loadingOverlay.classList.remove("visible"); // Hide overlay
     }
 }
 
@@ -101,6 +101,6 @@ function goToAdmin() {
 window.addEventListener("DOMContentLoaded", () => {
     const loadingOverlay = document.getElementById("loading-overlay");
     if (loadingOverlay) {
-        loadingOverlay.style.display = "none";
+        loadingOverlay.classList.remove("visible");
     }
 });
