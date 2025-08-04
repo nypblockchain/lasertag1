@@ -151,7 +151,7 @@ async function unlockController() {
 }
 
 function showLoading() {
-    const loadingOverlay = document.getElementbyId("loading-overlay");
+    const loadingOverlay = document.getElementById("loading-overlay");
     if (loadingOverlay) {
         loadingOverlay.classList.add("visible");
     }
