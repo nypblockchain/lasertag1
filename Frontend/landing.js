@@ -1,4 +1,4 @@
-let onPasskeyConfirmed = null;
+﻿let onPasskeyConfirmed = null;
 
 function showPasskeyPrompt(callback) {
     onPasskeyConfirmed = callback;
@@ -18,6 +18,7 @@ function confirmPasskey() {
 function cancelPasskey() {
     document.getElementById("passkeyOverlay").style.display = "none";
 }
+
 
 async function isControllerLocked() {
     try {
@@ -109,15 +110,16 @@ async function goToController() {
 function goToAdmin() {
     const correctPasskey = "noid";
 
-    const entered = prompt("?? Enter admin passkey:");
-
-    if (entered === correctPasskey) {
-        sessionStorage.setItem("adminAccess", "true");
-        window.location.href = "/admin";
-    } else if (entered !== null) {
-        alert("? Incorrect passkey.");
-    }
+    showPasskeyPrompt((entered) => {
+        if (entered === correctPasskey) {
+            sessionStorage.setItem("adminAccess", "true");
+            window.location.href = "/admin";
+        } else {
+            alert("❌ Incorrect passkey.");
+        }
+    });
 }
+
 
 window.addEventListener("DOMContentLoaded", () => {
     const loadingOverlay = document.getElementById("loading-overlay");
