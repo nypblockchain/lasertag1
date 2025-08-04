@@ -41,6 +41,8 @@ function openMainMenu() {
 
 async function clearFirestore() {
     onPasskeyConfirmed = async (passkey) => {
+        showLoading();
+
         try {
             const res = await fetch("/api/clear-nicknames", {
                 method: 'POST',
@@ -61,35 +63,44 @@ async function clearFirestore() {
             console.error("Error clearing nicknames: ", err);
             alert("Something went wrong while clearing nicknames in Firestore.");
         }
-    };
-    document.getElementById("passkeyOverlay").style.display = "flex";
-}
-
- async function clearLeaderboard() {
-    onPasskeyConfirmed = async (passkey) => {
-        try {
-            const res = await fetch("/api/clear-nicknames", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passkey, mode: "winners" })
-            });
-
-            const data = await res.json();
-
-            if (res.ok && data.success) {
-                alert(data.message);
-            } else {
-                alert(data.error || "Failed to clear leaderboard.");
-            }
-        } catch (err) {
-            console.error("Error clearing leaderboard: ", err);
-            alert("Something went wrong while clearing the leaderboard.");
+        finally {
+            hideLoading();
         }
     };
     document.getElementById("passkeyOverlay").style.display = "flex";
 }
 
+ async function clearLeaderboard() {
+     onPasskeyConfirmed = async (passkey) => {
+         showLoading();
+
+         try {
+             const res = await fetch("/api/clear-nicknames", {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ passkey, mode: "winners" })
+             });
+
+             const data = await res.json();
+
+             if (res.ok && data.success) {
+                 alert(data.message);
+             } else {
+                 alert(data.error || "Failed to clear leaderboard.");
+             }
+         } catch (err) {
+             console.error("Error clearing leaderboard: ", err);
+             alert("Something went wrong while clearing the leaderboard.");
+         }
+         finally {
+             hideLoading();
+         }
+    };
+    document.getElementById("passkeyOverlay").style.display = "flex";
+}
+
 async function lockController() {
+    showLoading();
     try {
         const res = await fetch("/api/reset", {
             method: 'POST',
@@ -109,9 +120,13 @@ async function lockController() {
         console.error("Something went wrong with locking controller", err);
         alert("Error locking controller.");
     }
+    finally {
+        hideLoading();
+    }
 }
 
 async function unlockController() {
+    showLoading();
     try {
         const res = await fetch("/api/reset", {
             method: 'POST',
@@ -130,7 +145,31 @@ async function unlockController() {
         console.error("Error unlocking controller", err);
         alert("Error unlocking controller.")
     }
+    finally {
+        hideLoading();
+    }
 }
+
+function showLoading() {
+    const loadingOverlay = document.getElementbyId("loading-overlay");
+    if (loadingOverlay) {
+        loadingOverlay.classList.add("visible");
+    }
+}
+
+function hideLoading() {
+    const loadingOverlay = document.getElementById("loading-overlay");
+    if (loadingOverlay) {
+        loadingOverlay.classList.remove("visible");
+    }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    const loadingOverlay = document.getElementById("loading-overlay");
+    if (loadingOverlay) {
+        loadingOverlay.classList.remove("visible");
+    }
+});
 
 if (sessionStorage.getItem("adminAccess") !== "true") {
     alert("Access denied. Redirecting...");
