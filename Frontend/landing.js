@@ -1,3 +1,24 @@
+let onPasskeyConfirmed = null;
+
+function showPasskeyPrompt(callback) {
+    onPasskeyConfirmed = callback;
+    document.getElementById("passkeyInput").value = "";
+    document.getElementById("passkeyOverlay").style.display = "flex";
+    document.getElementById("passkeyInput").focus();
+}
+
+function confirmPasskey() {
+    const input = document.getElementById("passkeyInput").value;
+    if (onPasskeyConfirmed) {
+        onPasskeyConfirmed(input);
+    }
+    document.getElementById("passkeyOverlay").style.display = "none";
+}
+
+function cancelPasskey() {
+    document.getElementById("passkeyOverlay").style.display = "none";
+}
+
 async function isControllerLocked() {
     try {
         const res = await fetch("/api/get-nicknames");
