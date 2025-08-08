@@ -58,23 +58,396 @@ h4 {
     background-position: center;
 }
 
+/* Clubs */
+
 .player1 {
-    /* background-image: url('/styles/images/sprites/ThousandArk.png'); */
-    background-color: red;
+    background-image: url('/styles/images/sprites/Avatars/ClubKing.png');
+    box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
 }
 
 .player2 {
-    background-image: url('/styles/images/sprites/Skull.png');
+    background-image: url('/styles/images/sprites/Avatars/ClubA.png');
+    box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
 }
 
 .player3 {
-    background-image: url('/styles/images/sprites/Juuga.png');
+    background-image: url('/styles/images/sprites/Avatars/Club1.png');
+    box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
+}
+
+.player4 {
+    background-image: url('/styles/images/sprites/Avatars/Club2.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player5 {
+    background-image: url('/styles/images/sprites/Avatars/Club3.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player6 {
+    background-image: url('/styles/images/sprites/Avatars/Club4.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player7 {
+    background-image: url('/styles/images/sprites/Avatars/Club5.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player8 {
+    background-image: url('/styles/images/sprites/Avatars/Club6.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player9 {
+    background-image: url('/styles/images/sprites/Avatars/Club7.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player10 {
+    background-image: url('/styles/images/sprites/Avatars/Club8.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player11 {
+    background-image: url('/styles/images/sprites/Avatars/Club9.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player12 {
+    background-image: url('/styles/images/sprites/Avatars/Club10.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Diamonds */
+
+.player13 {
+    background-image: url('/styles/images/sprites/Avatars/DiamondQueen.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player14 {
+    background-image: url('/styles/images/sprites/Avatars/DiamondA.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player15 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond1.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player16 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond2.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player17 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond3.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player18 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond4.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player19 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond5.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player20 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond6.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player21 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond7.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player22 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond8.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player23 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond9.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player24 {
+    background-image: url('/styles/images/sprites/Avatars/Diamond10.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Spades */
+
+.player25 {
+    background-image: url('/styles/images/sprites/Avatars/SpadeKing.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player26 {
+    background-image: url('/styles/images/sprites/Avatars/SpadeA.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player27 {
+    background-image: url('/styles/images/sprites/Avatars/Spade1.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player28 {
+    background-image: url('/styles/images/sprites/Avatars/Spade2.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player29 {
+    background-image: url('/styles/images/sprites/Avatars/Spade3.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player30 {
+    background-image: url('/styles/images/sprites/Avatars/Spade4.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player31 {
+    background-image: url('/styles/images/sprites/Avatars/Spade5.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player32 {
+    background-image: url('/styles/images/sprites/Avatars/Spade6.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player33 {
+    background-image: url('/styles/images/sprites/Avatars/Spade7.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player34 {
+    background-image: url('/styles/images/sprites/Avatars/Spade8.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player35 {
+    background-image: url('/styles/images/sprites/Avatars/Spade9.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player36 {
+    background-image: url('/styles/images/sprites/Avatars/Spade10.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Hearts */
+
+.player37 {
+    background-image: url('/styles/images/sprites/Avatars/HeartQueen.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player38 {
+    background-image: url('/styles/images/sprites/Avatars/HeartA.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player39 {
+    background-image: url('/styles/images/sprites/Avatars/Heart1.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player40 {
+    background-image: url('/styles/images/sprites/Avatars/Heart2.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player41 {
+    background-image: url('/styles/images/sprites/Avatars/Heart3.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player42 {
+    background-image: url('/styles/images/sprites/Avatars/Heart4.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player43 {
+    background-image: url('/styles/images/sprites/Avatars/Heart5.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player44 {
+    background-image: url('/styles/images/sprites/Avatars/Heart6.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player45 {
+    background-image: url('/styles/images/sprites/Avatars/Heart7.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player46 {
+    background-image: url('/styles/images/sprites/Avatars/Heart8.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player47 {
+    background-image: url('/styles/images/sprites/Avatars/Heart9.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.player48 {
+    background-image: url('/styles/images/sprites/Avatars/Heart10.png');
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .path {
