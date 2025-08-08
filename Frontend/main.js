@@ -95,10 +95,24 @@ function renderMaze(maze, players = {}) {
 
 document.getElementById("resetMazeBtn").addEventListener("click", async () => {
     try {
-        const res = await fetch("/api/reset", { method: "POST" });
+        const res = await fetch("/api/reset", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({}) // important
+        });
+
+        if (!res.ok) {
+            const text = await res.text();
+            console.error("Reset failed:", res.status, text);
+            alert("Reset failed. Check console for details.");
+            return;
+        }
+
         const data = await res.json();
         console.log(data.message || "Maze reset");
-        window.location.reload();
+
+        // Instead of full page reload, just refetch the maze
+        await fetchMazeAndPlayers();
     } catch (err) {
         console.error("Maze reset failed:", err);
     }
