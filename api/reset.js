@@ -1,9 +1,7 @@
 ﻿const {
     db,
     generateMaze,
-    setMazeCache,
-    setPlayersCache,
-    generatePerimeterPlayers,
+    generatePerimeterPlayers
 } = require("./shared");
 
 module.exports = async (req, res) => {
@@ -12,50 +10,52 @@ module.exports = async (req, res) => {
     }
 
     try {
+        // ✅ Password check only (optional)
         if ("password" in req.body) {
             const correctPassword = process.env.CONTROLLER_PASSWORD;
             const isValid = req.body.password === correctPassword;
             return res.status(200).json({ valid: isValid });
         }
 
-        // ✅ Controller lock toggle shortcut
+        // ✅ Lock/unlock controller
         if ("lockState" in req.body) {
-            await db.collection("maze_state").doc("controller_lock").set({ locked: req.body.lockState });
-            return res.json({ success: true, message: `Controller ${req.body.lockState ? "locked" : "unlocked"}` });
+            await db.collection("maze_state").doc("controller_lock").set({
+                locked: req.body.lockState
+            });
+            return res.json({
+                success: true,
+                message: `Controller ${req.body.lockState ? "locked" : "unlocked"}`
+            });
         }
 
-        // 🔁 Generate new maze (2D array)
+        // 🔁 Generate new maze
         const newMaze = generateMaze(25);
 
-        // 🔃 Convert to Firestore-compatible format: flat object
+        // Convert to Firestore format
         const rows = {};
         newMaze.forEach((row, i) => {
             rows[`r${i}`] = row;
         });
 
-        // ♻️ Reset player positions
+        // ♻️ Reset players
         const resetPlayers = generatePerimeterPlayers(25);
 
-        // 🔥 Overwrite maze_state/maze
+        // Save to Firestore
         await db.collection("maze_state").doc("maze").set({ rows });
-
-        // 🔥 Overwrite maze_state/players
         await db.collection("maze_state").doc("players").set(resetPlayers);
 
-        setMazeCache(newMaze);
-        setPlayersCache(resetPlayers);
-
+        // No in-memory cache calls here (Vercel safe)
         return res.json({
             success: true,
             message: "Maze and players reset",
             maze: newMaze,
-            players: resetPlayers,
+            players: resetPlayers
         });
     } catch (err) {
         console.error("🔥 Reset error:", err);
         return res.status(500).json({
             error: "Failed to reset maze",
-            detail: err.message || String(err),
+            detail: err.message || String(err)
         });
     }
 };
