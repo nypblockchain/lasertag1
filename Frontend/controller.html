@@ -10,7 +10,7 @@
     <h2>Controller</h2>
 
     <div id="loading" class="hidden">
-        <img src="/styles/images/sparkle_loading.gif" alt="Loading..."/>
+        <img src="/styles/images/sparkle_loading.gif" alt="Loading..." />
         <p>Loading...</p>
     </div>
 
@@ -77,8 +77,24 @@
         <option value="player48">Player 48</option>
     </select>
 
-    <input id="commandInput" placeholder="Tell Gemini where to go" />
-    <button onclick="submitCommand()">Send Command</button>
+    <button id="toggleModeBtn">Switch to D-Pad</button>
+    <p id="controlModeLabel">Control Mode: Gemini Input</p>
+
+    <div id="geminiInputControls">
+        <input id="commandInput" placeholder="Tell Gemini where to go" />
+        <button onclick="submitCommand()">Send Command</button>
+    </div>
+
+    <div id="dpadControls" style="display: none">
+        <div class="dpad-row">
+            <button onclick="sendGeminiFromButton('move up')">?</button>
+        </div>
+        <div class="dpad-row">
+            <button onclick="sendGeminiFromButton('move left')">?</button>
+            <button onclick="sendGeminiFromButton('move down')">?</button>
+            <button onclick="sendGeminiFromButton('move right')">?</button>
+        </div>
+    </div>
 
     <div id="mazeTimerDisplay"></div>
 

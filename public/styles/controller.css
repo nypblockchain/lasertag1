@@ -236,6 +236,54 @@ input:checked + .slider {
     display: none;
 }
 
+#toggleModeBtn {
+    margin-top: 12px;
+    border-color: #0ff;
+    color: #0ff;
+    box-shadow: 0 0 6px #0ff;
+}
+
+    #toggleModeBtn:hover {
+        background-color: #0ff;
+        color: #000;
+        box-shadow: 0 0 12px #0ff;
+    }
+
+#dpadControls {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+    #dpadControls button {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+.dpad-row {
+    display: flex;
+    gap: 10px;
+}
+
+#controlModeLabel {
+    margin-top: 6px;
+    font-size: 1.1rem;
+    color: #0ff;
+    text-shadow: 0 0 4px #0ff;
+}
+
+#geminiInputControls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+}
+
 /* Clubs */
 
 .player1 {

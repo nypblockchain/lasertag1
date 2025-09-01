@@ -298,6 +298,55 @@ async function fireAttack(direction = "up") {
     }
 }
 
+async function sendGeminiFromButton(command) {
+    const input = document.getElementById("commandInput");
+    const playerId = getCurrentPlayer();
+
+    if (!window.hasStartedMaze) {
+        startMazeTimer();
+        window.hasStartedMaze = true;
+    }
+
+    appendLog(`🎮 ${command}`, playerId);
+
+    try {
+        const res = await fetch("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command, playerId })
+        });
+
+        const data = await res.json();
+
+        if (data.success && data.actions) {
+            appendLog(`🤖 Gemini ? ${data.actions.map(a =>
+                a.type === "move" ? `🧭 ${a.dir}` : `🔫 ${a.dir}`
+            ).join(", ")}`);
+
+            data.results.forEach(result => {
+                if (result.action.type === "fire" && result.hits && result.hits.length > 0) {
+                    result.hits.forEach(hit => {
+                        const emoji = hit.livesLeft > 0 ? `❤️ (${hit.livesLeft})` : "💀";
+                        const resetInfo = hit.resetTo ? ` → reset to (${hit.resetTo.x},${hit.resetTo.y})` : "";
+
+                        const victim = nicknamesMap[hit.player] || hit.player;
+                        appendLog(`🔫 hit ${victim} ${emoji}${resetInfo}`, playerId);
+
+                    })
+                }
+            });
+        } else {
+            appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`, playerId);
+        }
+
+        await fetchMazeAndPlayers();
+
+    } catch (err) {
+        appendLog("❌ Network or Server Error");
+        console.error(err);
+    }
+}
+
 document.getElementById("pollingToggle").addEventListener("change", (e) => {
     if (e.target.checked) {
         startPolling();
@@ -305,6 +354,22 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
     else {
         stopPolling();
     }
+});
+
+let usingGeminiInput = true;
+document.getElementById("toggleModeBtn").addEventListener("click", () => {
+    usingGeminiInput = !usingGeminiInput;
+
+    document.getElementById("geminiInputControls").style.display = usingGeminiInput ? "block" : "none";
+    document.getElementById("dpadControls").style.display = usingGeminiInput ? "none" : "block";
+
+    document.getElementById("toggleModeBtn").innerText = usingGeminiInput
+        ? "Switch to D-Pad"
+        : "Switch to Gemini Input";
+
+    document.getElementById("controlModeLabel").innerText = usingGeminiInput
+        ? "Control Mode: Gemini Input"
+        : "Control Mode: D-Pad";
 });
 
 const savedPlayerId = localStorage.getItem("playerId");
@@ -321,4 +386,10 @@ window.onload = async () => {
     await fetchNicknames();
     await fetchMazeAndPlayers();
     stopPolling();
+
+    // Set default visibility for control modes
+    document.getElementById("geminiInputControls").style.display = "block";
+    document.getElementById("dpadControls").style.display = "none";
+    document.getElementById("controlModeLabel").innerText = "Control Mode: Gemini Input";
+    document.getElementById("toggleModeBtn").innerText = "Switch to D-Pad";
 };
