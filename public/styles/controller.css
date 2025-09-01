@@ -249,24 +249,36 @@ input:checked + .slider {
         box-shadow: 0 0 12px #0ff;
     }
 
-#dpadControls {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
+.dpad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(3, 60px);
+    gap: 8px;
+    justify-content: center;
+    margin: 20px auto;
 }
 
-    #dpadControls button {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-        font-weight: bold;
+.dpad-button {
+    font-size: 24px;
+    font-family: Orbitron, sans-serif;
+    color: lime;
+    background-color: black;
+    border: 2px solid limegreen;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 8px limegreen;
+    transition: transform 0.1s;
+}
+
+    .dpad-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 12px #0f0;
     }
 
-.dpad-row {
-    display: flex;
-    gap: 10px;
+.dpad-center {
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
 }
 
 #controlModeLabel {

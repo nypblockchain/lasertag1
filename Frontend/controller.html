@@ -86,13 +86,18 @@
     </div>
 
     <div id="dpadControls" style="display: none">
-        <div class="dpad-row">
-            <button onclick="sendGeminiFromButton('move up')">?</button>
-        </div>
-        <div class="dpad-row">
-            <button onclick="sendGeminiFromButton('move left')">?</button>
-            <button onclick="sendGeminiFromButton('move down')">?</button>
-            <button onclick="sendGeminiFromButton('move right')">?</button>
+        <div class="dpad-grid">
+            <div></div>
+            <button class="dpad-button" onclick="sendGeminiFromButton('move up')">?</button>
+            <div></div>
+
+            <button class="dpad-button" onclick="sendGeminiFromButton('move left')">?</button>
+            <div class="dpad-center"></div>
+            <button class="dpad-button" onclick="sendGeminiFromButton('move right')">?</button>
+
+            <div></div>
+            <button class="dpad-button" onclick="sendGeminiFromButton('move down')">?</button>
+            <div></div>
         </div>
     </div>
 
