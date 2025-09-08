@@ -260,6 +260,17 @@ button {
     margin-bottom: 20px;
 }
 
+.credits {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #ff00ff;
+    opacity: 0.6;
+    text-shadow: 0 0 5px #ff00ff;
+}
+
 .passkey-modal input[type="password"] {
     width: 100%;
     padding: 12px;
