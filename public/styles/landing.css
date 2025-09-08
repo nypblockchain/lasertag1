@@ -268,7 +268,6 @@ button {
     font-size: 0.8rem;
     color: #ff00ff;
     opacity: 0.6;
-    text-shadow: 0 0 5px #ff00ff;
 }
 
 .passkey-modal input[type="password"] {
