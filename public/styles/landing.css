@@ -265,10 +265,22 @@ button {
     bottom: 10px;
     width: 100%;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #ff00ff;
-    text-shadow: 0 0 5px #ff00ff;
+    text-shadow: 0 0 1px #ff00ff, 0 0 4px #ff00ff;
+    font-family: 'Orbitron', sans-serif;
 }
+
+    .credits a {
+        color: #ff00ff;
+        text-decoration: underline;
+        text-shadow: 0 0 1px #ff00ff, 0 0 4px #ff00ff;
+        transition: color 0.2s ease-in-out;
+    }
+
+        .credits a:hover {
+            color: #ffffff;
+        }
 
 .passkey-modal input[type="password"] {
     width: 100%;
