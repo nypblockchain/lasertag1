@@ -50,6 +50,7 @@ button {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    overflow: hidden;
 }
 
     .admin-circle:hover {
