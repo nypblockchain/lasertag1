@@ -159,9 +159,15 @@ async function renderMaze(maze, players = {})  {
 
                 if (playerClass) {
                     cell.classList.add(playerClass);
-                    cell.textContent = ""; // Or playerClass.replace("player", "P")
+                    cell.textContent = "";
                 } else if (maze[y][x] === 1) {
-                    cell.classList.add("wall");
+                    // Add golden center wall for 5x5 center
+                    const mid = Math.floor(maze.length / 2);
+                    if (Math.abs(y - mid) <= 2 && Math.abs(x - mid) <= 2) {
+                        cell.classList.add("center-wall"); // golden wall
+                    } else {
+                        cell.classList.add("wall");
+                    }
                     cell.textContent = "";
                 } else {
                     cell.classList.add("path");

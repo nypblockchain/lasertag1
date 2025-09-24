@@ -51,6 +51,13 @@ body {
     background-position: center;
 }
 
+.center-wall {
+    background-image: url('/styles/images/gilded_blackstone.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 input#commandInput {
     background-color: #111;
     border: 2px solid #0ff;

@@ -65,6 +65,13 @@ h4 {
     background-position: center;
 }
 
+.center-wall {
+    background-image: url("/styles/images/gilded_blackstone.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 /* Clubs */
 
 .player1 {
@@ -638,9 +645,4 @@ input:checked + .slider {
 
 .hidden {
     display: none;
-}
-
-.center-wall {
-    background-color: gold;
-    box-sizing: border-box;
 }
