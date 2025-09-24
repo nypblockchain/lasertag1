@@ -179,7 +179,7 @@ async function resetMaze() {
     } catch (err) {
         console.error("Maze reset failed:", err)
     } finally {
-        hideloading();
+        hideLoading();
     }
 }
 
