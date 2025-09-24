@@ -203,7 +203,7 @@ async function leave() {
     console.log("Local Storage Cleared");
     window.location.href = "/landing";
 }
-}
+
 
 async function submitCommand() {
     const input = document.getElementById("commandInput");
