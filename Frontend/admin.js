@@ -150,6 +150,31 @@ async function unlockController() {
     }
 }
 
+async function resetMaze() {
+    showLoading();
+    try {
+        const res = await fetch("/api/reset", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({})
+        });
+
+        if (!res.ok) {
+            const text = await res.text();
+            console.error("Reset failed:", res.status, text);
+            alert("Reset failed. Check console for details.");
+            return;
+        }
+
+        const data = await res.json();
+        console.log(data.message || "Maze reset");
+
+        await fetchMazeAndPlayers();
+    } catch (err) {
+        console.error("Maze reset failed:", err)
+    }
+}
+
 function showLoading() {
     const loadingOverlay = document.getElementById("loading-overlay");
     if (loadingOverlay) {

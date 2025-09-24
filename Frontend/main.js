@@ -58,8 +58,8 @@ function renderMaze(maze, players = {}) {
     const mid = Math.floor(rows / 2); // find center
 
     mazeDiv.style.display = "grid";
-    mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 24px)`;
-    mazeDiv.style.gridTemplateRows = `repeat(${rows}, 24px)`;
+    mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
+    mazeDiv.style.gridTemplateRows = `repeat(${rows}, 30px)`;
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -92,31 +92,6 @@ function renderMaze(maze, players = {}) {
         }
     }
 }
-
-document.getElementById("resetMazeBtn").addEventListener("click", async () => {
-    try {
-        const res = await fetch("/api/reset", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({}) // important
-        });
-
-        if (!res.ok) {
-            const text = await res.text();
-            console.error("Reset failed:", res.status, text);
-            alert("Reset failed. Check console for details.");
-            return;
-        }
-
-        const data = await res.json();
-        console.log(data.message || "Maze reset");
-
-        // Instead of full page reload, just refetch the maze
-        await fetchMazeAndPlayers();
-    } catch (err) {
-        console.error("Maze reset failed:", err);
-    }
-});
 
 document.getElementById("pollingToggle").addEventListener("change", (e) => {
     if (e.target.checked) {

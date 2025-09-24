@@ -150,7 +150,9 @@ async function renderMaze(maze, players = {})  {
                 for (const [id, pos] of Object.entries(players)) {
                     if (pos.lives !== undefined && pos.lives <= 0) continue;
                     if (pos.x === x && pos.y === y) {
-                        playerClass = id;
+                        if (id === playerId) {
+                            playerClass = id;
+                        }
                         break;
                     }
                 }
