@@ -203,6 +203,7 @@ async function leave() {
     console.log("Local Storage Cleared");
     window.location.href = "/landing";
 }
+}
 
 async function submitCommand() {
     const input = document.getElementById("commandInput");
@@ -264,14 +265,10 @@ function triggerTimeUpOverlay() {
     document.getElementById("timeUpOverlay").classList.remove("hidden");
 }
 
-document.getElementById("overlayResetBtn").addEventListener("click", async () => {
-    try {
-        await fetch("/api/reset", { method: "POST" });
-        window.location.reload();
-    } catch (err) {
-        console.error("Overlay reset failed:", err);
-    }
-});
+async function backToMainMenu() {
+    window.location.href = "/landing";
+    localStorage.clear();
+}
 
 async function fireAttack(direction = "up") {
     const playerId = getCurrentPlayer();
