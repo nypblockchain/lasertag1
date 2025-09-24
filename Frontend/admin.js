@@ -169,9 +169,17 @@ async function resetMaze() {
         const data = await res.json();
         console.log(data.message || "Maze reset");
 
+        if (data.success) {
+            alert("Maze has been reset.")
+        } else {
+            alert("Failed to reset maze.")
+        }
+
         await fetchMazeAndPlayers();
     } catch (err) {
         console.error("Maze reset failed:", err)
+    } finally {
+        hideloading();
     }
 }
 

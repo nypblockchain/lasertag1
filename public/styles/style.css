@@ -52,7 +52,14 @@ h4 {
 }
 
 .wall {
-    background-color: lightgray;
+    background-image: url("/images/polished_deepslate.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.path {
+    background-image: url("/images/quartz_block_top.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

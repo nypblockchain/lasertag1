@@ -50,12 +50,7 @@ button {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    overflow: hidden;
 }
-
-    .admin-circle:hover {
-        transform: scale(1.1);
-    }
 
     .admin-circle img {
         width: 80px;
@@ -66,6 +61,11 @@ button {
         box-shadow: 0 0 10px #ff00ff;
         transition: transform 0.2s ease;
     }
+
+        .admin-circle img:hover {
+            transform: scale(1.1);
+            overflow: hidden;
+        }
 
 /* Loading overlay animations */
 @keyframes neon-pulse {

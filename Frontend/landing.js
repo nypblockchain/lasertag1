@@ -41,6 +41,7 @@ function goToIndex() {
 }
 
 async function goToNickname() {
+    localStorage.clear();
     const loadingOverlay = document.getElementById("loading-overlay");
     loadingOverlay.classList.add("visible"); // Show overlay
 
@@ -108,7 +109,7 @@ async function goToController() {
 }
 
 function goToAdmin() {
-    const correctPasskey = "noid";
+    const correctPasskey = "silk";
 
     showPasskeyPrompt((entered) => {
         if (entered === correctPasskey) {
