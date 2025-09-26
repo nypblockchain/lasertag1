@@ -264,6 +264,7 @@ async function getPings() {
             fresh[doc.id] = ts;
         }
     });
+    console.log("Fresh pings:", fresh);
     return fresh;
 }
 
