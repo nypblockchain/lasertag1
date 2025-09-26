@@ -36,7 +36,7 @@ async function fetchMazeAndPlayers() {
         const res = await fetch("/api/maze");
         const data = await res.json();
         mazeCache = data.maze;
-        renderMaze(data.maze, data.players);
+        renderMaze(data.maze, data.players, data.pings);
     }
     catch (err) {
         console.error("Failed to fetch the maze:", err);
@@ -49,7 +49,7 @@ async function fetchMazeAndPlayers() {
     }
 }
 
-function renderMaze(maze, players = {}) {
+function renderMaze(maze, players = {}, pings = {}) {
     const mazeDiv = document.getElementById("maze");
     mazeDiv.innerHTML = "";
 
@@ -69,6 +69,8 @@ function renderMaze(maze, players = {}) {
             cell.classList.add("cell");
 
             let playerClass = null;
+            let isPinged = false;
+
             for (const [playerId, pos] of Object.entries(players)) {
                 if (pos.lives !== undefined && pos.lives <= 0) continue;
                 if (pos.y === i && pos.x === j) {
@@ -83,6 +85,7 @@ function renderMaze(maze, players = {}) {
 
             if (playerClass) {
                 cell.classList.add(playerClass);
+                if (isPinged) cell.classList.add("pinged");
             } else if (maze[i][j] === 1) {
                 // Highlight walls that are part of the 5×5 center box
                 if (Math.abs(i - mid) <= 2 && Math.abs(j - mid) <= 2) {
