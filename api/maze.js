@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
         const players = await getPlayers();
         const pings = getPings();
 
-        res.status(200).json({ maze, players });
+        res.status(200).json({ maze, players, pings });
     } catch (err) {
         console.error("🔥 /api/maze error:", err);
         res.status(500).json({
