@@ -62,6 +62,7 @@ function renderMaze(maze, players = {}, pings = {}) {
     mazeDiv.style.gridTemplateRows = `repeat(${rows}, 30px)`;
 
     const now = Date.now();
+    console.log("RenderMaze input:", { pings, players, now})
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -78,6 +79,7 @@ function renderMaze(maze, players = {}, pings = {}) {
 
                     if (pings[playerId] && now - pings[playerId] < 2000) {
                         isPinged = true;
+                        console.log("Pinged cell detected:", playerId, { x: j, y: i}, "ts:", pings[playerId])
                     }
                     break;
                 }
