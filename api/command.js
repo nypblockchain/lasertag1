@@ -37,14 +37,23 @@ module.exports = async (req, res) => {
         // 1. Ask Gemini
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         const prompt = `
-        You control a player in a grid-based laser tag maze.
-        Valid commands:
-        - Movement: "up", "down", "left", "right"
-        - Firing: "fire up", "fire down", "fire left", "fire right" (or "shoot" instead of "fire")
+            You are a parser for a laser tag maze game.
 
-        Reply ONLY with a space- or comma-separated list of valid commands. No extra commentary.
+            The player gives an instruction, and your job is to output only the corresponding valid game command(s).
 
-        Instruction: "${command}"`;
+            Valid commands:
+            - Movement: "up", "down", "left", "right"
+            - Firing: "fire up", "fire down", "fire left", "fire right" (or "shoot" instead of "fire")
+
+            Rules:
+            - Only output commands that match the player's input.
+            - Do not list all possible commands.
+            - Do not add explanations.
+            - If input is unclear, output nothing.
+
+            Player's instruction: "${command}"
+            `;
+
 
         const result = await model.generateContent(prompt);
         const raw = result.response.text().trim().toLowerCase();
