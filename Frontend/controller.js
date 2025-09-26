@@ -387,6 +387,36 @@ if (savedPlayerId) {
 
 document.getElementById("playerSelect").addEventListener("change", fetchMazeAndPlayers);
 
+document.getElementById("pingBtn").addEventListener("click", async () => {
+    const playerId = getCurrentPlayer();
+    const statusEl = document.getElementById("status");
+
+    statusEl.textContent = "Sending Ping...";
+
+    try {
+        const res = await fetch("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command: "ping", playerId })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            statusEl.textContent = "Ping sent!";
+        } else {
+            statusEl.textContent = `Ping failed: ${data.error || "Unknown error"}`;
+        }
+    } catch (err) {
+        console.error("Ping error:", err);
+        statusEl.textContent = "Error sending ping";
+    }
+
+    setTimeout(() => {
+        statusEl.textContent = "";
+    }, 2000);
+});
+
 window.onload = async () => {
     await fetchNicknames();
     await fetchMazeAndPlayers();

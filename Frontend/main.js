@@ -61,6 +61,8 @@ function renderMaze(maze, players = {}) {
     mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
     mazeDiv.style.gridTemplateRows = `repeat(${rows}, 30px)`;
 
+    const now = Date.now();
+
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             const cell = document.createElement("div");
@@ -71,6 +73,10 @@ function renderMaze(maze, players = {}) {
                 if (pos.lives !== undefined && pos.lives <= 0) continue;
                 if (pos.y === i && pos.x === j) {
                     playerClass = playerId;
+
+                    if (pings[playerId] && now - pings[playerId] < 2000) {
+                        isPinged = true;
+                    }
                     break;
                 }
             }

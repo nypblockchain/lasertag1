@@ -26,6 +26,9 @@
         <span id="pollingStatusLabel">Polling Off</span>
     </div>
 
+    <button id="pingBtn">Where I am</button>
+    <p id="status"></p>
+
     <select id="playerSelect">
         <option value="player1">Player 1</option>
         <option value="player2">Player 2</option>
@@ -81,7 +84,8 @@
     <p id="controlModeLabel">Control Mode: Gemini Input</p>
 
     <div id="geminiInputControls">
-        <input id="commandInput" placeholder="Tell Gemini where to go" />
+        <input id="commandInput" placeholder="Tell Gemini where to go" /> 
+        <br />
         <button onclick="submitCommand()">Send Command</button>
     </div>
 

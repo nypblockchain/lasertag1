@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     }
 
     if (command.toLowerCase() === "ping") {
-        const ts = await setPing(playerId);
+        const ts = setPing(playerId);
         return res.json({ success:true, message: "Ping stored", ts})
     }
 

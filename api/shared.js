@@ -257,7 +257,14 @@ function setPing(playerId) {
 }
 
 function getPings() {
-    return pings;
+    const now = Date.now();
+    const fresh = {};
+    for (const [id, ts] of Object.entries(pings)) {
+        if (now - ts < 2000) {
+            fresh[id] = ts;
+        }
+    }
+    return fresh;
 }
 
 /* ----------------- 5. Exports ----------------- */
