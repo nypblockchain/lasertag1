@@ -260,7 +260,7 @@ async function getPings() {
     const fresh = {};
     snap.forEach((doc) => {
         const { ts } = doc.data();
-        if (now - ts < 5000) {
+        if (now - ts < 15000) {
             fresh[doc.id] = ts;
         }
     });
