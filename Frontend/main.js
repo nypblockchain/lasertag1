@@ -77,9 +77,13 @@ function renderMaze(maze, players = {}, pings = {}) {
                 if (pos.y === i && pos.x === j) {
                     playerClass = playerId;
 
-                    if (pings[playerId] && now - pings[playerId] < 2000) {
+                    if (pings[playerId]) {
+                        console.log("Found ping for", playerId)
+                    }
+
+                    if (pings[playerId] && now - pings[playerId] < 10000) {
                         isPinged = true;
-                        console.log("Pinged cell detected:", playerId, { x: j, y: i}, "ts:", pings[playerId])
+                        console.log("Pinged cell detected:", playerId)
                     }
                     break;
                 }
@@ -92,6 +96,7 @@ function renderMaze(maze, players = {}, pings = {}) {
                     cell.classList.add(playerClass);
                     if (isPinged) {
                         cell.classList.add("pinged");
+                        console.log("Added ping to", playerClass, { x: j, y: i });
                         void cell.offsetWidth;
                         cell.classList.remove("pinged");
                         void cell.offsetWidth;
