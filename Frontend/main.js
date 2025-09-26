@@ -87,7 +87,18 @@ function renderMaze(maze, players = {}, pings = {}) {
 
             if (playerClass) {
                 cell.classList.add(playerClass);
-                if (isPinged) cell.classList.add("pinged");
+
+                if (playerClass) {
+                    cell.classList.add(playerClass);
+                    if (isPinged) {
+                        cell.classList.add("pinged");
+                        void cell.offsetWidth;
+                        cell.classList.remove("pinged");
+                        void cell.offsetWidth;
+                        cell.classList.add("pinged");
+                    }
+                }
+
             } else if (maze[i][j] === 1) {
                 // Highlight walls that are part of the 5×5 center box
                 if (Math.abs(i - mid) <= 2 && Math.abs(j - mid) <= 2) {
