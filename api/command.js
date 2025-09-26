@@ -1,5 +1,6 @@
 ﻿const fetch = require("node-fetch");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { setPing } = require("./shared");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -27,18 +28,23 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: "Missing command or playerId" });
     }
 
+    if (command.toLowerCase() === "ping") {
+        const ts = await setPing(playerId);
+        return res.json({ success:true, message: "Ping stored", ts})
+    }
+
     try {
         // 1. Ask Gemini
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         const prompt = `
-You control a player in a grid-based laser tag maze.
-Valid commands:
-- Movement: "up", "down", "left", "right"
-- Firing: "fire up", "fire down", "fire left", "fire right" (or "shoot" instead of "fire")
+        You control a player in a grid-based laser tag maze.
+        Valid commands:
+        - Movement: "up", "down", "left", "right"
+        - Firing: "fire up", "fire down", "fire left", "fire right" (or "shoot" instead of "fire")
 
-Reply ONLY with a space- or comma-separated list of valid commands. No extra commentary.
+        Reply ONLY with a space- or comma-separated list of valid commands. No extra commentary.
 
-Instruction: "${command}"`;
+        Instruction: "${command}"`;
 
         const result = await model.generateContent(prompt);
         const raw = result.response.text().trim().toLowerCase();

@@ -1,4 +1,6 @@
 ﻿const admin = require("firebase-admin");
+const pings = {};
+
 
 console.log("🔥 Initializing Firebase Admin...");
 
@@ -248,6 +250,16 @@ function generatePerimeterPlayers(size = 25) {
     return players;
 }
 
+function setPing(playerId) {
+    const ts = Date.now();
+    pings[playerId] = ts;
+    return ts;
+}
+
+function getPings() {
+    return pings;
+}
+
 /* ----------------- 5. Exports ----------------- */
 module.exports = {
     db,
@@ -261,4 +273,7 @@ module.exports = {
     getNicknames,
     resetNicknames,
     generatePerimeterPlayers,
+    pings,
+    setPing,
+    getPings
 }
