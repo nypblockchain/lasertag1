@@ -1,6 +1,4 @@
 ﻿const admin = require("firebase-admin");
-const pings = {};
-
 
 console.log("🔥 Initializing Firebase Admin...");
 
@@ -250,20 +248,22 @@ function generatePerimeterPlayers(size = 25) {
     return players;
 }
 
-function setPing(playerId) {
+async function setPing(playerId) {
     const ts = Date.now();
-    pings[playerId] = ts;
+    await db.collection("pings").doc(playerId).set({ ts });
     return ts;
 }
 
-function getPings() {
+async function getPings() {
+    const snap = await db.collection("pings").get();
     const now = Date.now();
     const fresh = {};
-    for (const [id, ts] of Object.entries(pings)) {
+    snap.forEach((doc) => {
+        const { ts } = doc.data();
         if (now - ts < 2000) {
-            fresh[id] = ts;
+            fresh[doc.id] = ts;
         }
-    }
+    });
     return fresh;
 }
 
@@ -280,7 +280,6 @@ module.exports = {
     getNicknames,
     resetNicknames,
     generatePerimeterPlayers,
-    pings,
     setPing,
     getPings
 }

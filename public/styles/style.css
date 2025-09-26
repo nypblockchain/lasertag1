@@ -663,6 +663,6 @@ input:checked + .slider {
 }
 
 .cell.pinged {
-    animation: pingPulse 0.8s ease-out;
+    animation: pingPulse 0.8s ease-out infinite;
     z-index: 10;
 }
