@@ -29,13 +29,13 @@ module.exports = async (req, res) => {
     }
 
     if (command.toLowerCase() === "ping") {
-        const ts = setPing(playerId);
+        const ts = await setPing(playerId);
         return res.json({ success:true, message: "Ping stored", ts})
     }
 
     try {
         // 1. Ask Gemini
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-002" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         const prompt = `
         You control a player in a grid-based laser tag maze.
         Valid commands:
