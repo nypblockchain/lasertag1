@@ -221,16 +221,22 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
-function generatePerimeterPlayers(size = 20, count = 20, parity = 'auto') {
+function generatePerimeterPlayers(size = 21, count = 20, parity = 'auto') {
     if (size < 3) throw new Error("size must be >= 3");
     if (count < 1) throw new Error("count must be >= 1");
 
     const perim = [];
-    for (let x = 0; x < size; x++) perim.push({ x, y: 0 });
-    for (let y = 1; y < size - 1; y++) perim.push({ x: size - 1, y });
-    for (let x = size - 1; x >= 0; x--) perim.push({ x, y: size - 1 });
-    for (let y = size - 2; y >= 1; y--) perim.push({ x: 0, y });
 
+    // Top row (y=0)
+    for (let x = 0; x < size; x++) perim.push({ x, y: 0 });
+    // Right column (x=size-1)
+    for (let y = 1; y < size - 1; y++) perim.push({ x: size - 1, y });
+    // Bottom row (y=size-1)
+    for (let x = size - 1; x >= 0; x--) perim.push({ x, y: size - 1 });
+    // Left column (x=0)
+    for (let y = size - 2; y > 0; y--) perim.push({ x: 0, y });
+
+    // Optional parity filter (for matching walkable parity if you ever add wall gaps)
     const byParity = (p) => perim.filter(({ x, y }) => ((x + y) & 1) === p);
     let ring = perim;
     if (parity === 'auto') {
@@ -241,20 +247,16 @@ function generatePerimeterPlayers(size = 20, count = 20, parity = 'auto') {
         if (forced.length >= count) ring = forced;
     }
 
-    if (ring.length < count) {
-        throw new Error(`Perimeter (len=${ring.length}) too small for ${count} equidistant spawns at size=${size}.`);
-    }
-
+    // Evenly distribute players around the ring
     const players = {};
     const step = ring.length / count;
     const offset = step / 2;
-
     const used = new Set();
+
     for (let i = 0; i < count; i++) {
         let j = Math.floor(i * step + offset) % ring.length;
         while (used.has(j)) j = (j + 1) % ring.length;
         used.add(j);
-
         const { x, y } = ring[j];
         players[`player${i + 1}`] = { x, y };
     }
