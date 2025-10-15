@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
         });
 
         // ♻️ Reset players
-        const resetPlayers = generatePerimeterPlayers(25);
+        const resetPlayers = generatePerimeterPlayers(9);
 
         // Save to Firestore
         await db.collection("maze_state").doc("maze").set({ rows });
