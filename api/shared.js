@@ -89,7 +89,7 @@ async function getMaze() {
 }
 
 /* (re‑use your existing generateMaze function) */
-function generateMaze(size = 9) {
+function generateMaze(size = 20) {
     if (size % 2 === 0) size += 1;
     const maze = Array.from({ length: size }, () => Array(size).fill(1));
 
@@ -221,28 +221,42 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
-function generatePerimeterPlayers(size = 9) {
+function generatePerimeterPlayers(size = 20, count = 20, parity = 'auto') {
+    if (size < 3) throw new Error("size must be >= 3");
+    if (count < 1) throw new Error("count must be >= 1");
+
+    const perim = [];
+    for (let x = 0; x < size; x++) perim.push({ x, y: 0 });
+    for (let y = 1; y < size - 1; y++) perim.push({ x: size - 1, y });
+    for (let x = size - 1; x >= 0; x--) perim.push({ x, y: size - 1 });
+    for (let y = size - 2; y >= 1; y--) perim.push({ x: 0, y });
+
+    const byParity = (p) => perim.filter(({ x, y }) => ((x + y) & 1) === p);
+    let ring = perim;
+    if (parity === 'auto') {
+        const even = byParity(0), odd = byParity(1);
+        ring = even.length >= count ? even : (odd.length >= count ? odd : perim);
+    } else if (parity === 0 || parity === 1) {
+        const forced = byParity(parity);
+        if (forced.length >= count) ring = forced;
+    }
+
+    if (ring.length < count) {
+        throw new Error(`Perimeter (len=${ring.length}) too small for ${count} equidistant spawns at size=${size}.`);
+    }
+
     const players = {};
-    let i = 1;
+    const step = ring.length / count;
+    const offset = step / 2;
 
-    // Top row: every 2nd cell
-    for (let x = 0; x < size && i <= 999; x += 2) {
-        players[`player${i++}`] = { x, y: 0 };
-    }
+    const used = new Set();
+    for (let i = 0; i < count; i++) {
+        let j = Math.floor(i * step + offset) % ring.length;
+        while (used.has(j)) j = (j + 1) % ring.length;
+        used.add(j);
 
-    // Right column: skip top and bottom corners
-    for (let y = 2; y < size - 1 && i <= 999; y += 2) {
-        players[`player${i++}`] = { x: size - 1, y };
-    }
-
-    // Bottom row: right to left
-    for (let x = size - 1; x >= 0 && i <= 999; x -= 2) {
-        players[`player${i++}`] = { x, y: size - 1 };
-    }
-
-    // Left column: bottom to top
-    for (let y = size - 3; y > 0 && i <= 999; y -= 2) {
-        players[`player${i++}`] = { x: 0, y };
+        const { x, y } = ring[j];
+        players[`player${i + 1}`] = { x, y };
     }
 
     return players;

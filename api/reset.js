@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
         }
 
         // 🔁 Generate new maze
-        const newMaze = generateMaze(9);
+        const newMaze = generateMaze(20);
 
         // Convert to Firestore format
         const rows = {};
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
         });
 
         // ♻️ Reset players
-        const resetPlayers = generatePerimeterPlayers(9);
+        const resetPlayers = generatePerimeterPlayers(25, 20);
 
         // Save to Firestore
         await db.collection("maze_state").doc("maze").set({ rows });
