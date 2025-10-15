@@ -89,7 +89,7 @@ async function getMaze() {
 }
 
 /* (re‑use your existing generateMaze function) */
-function generateMaze(size = 25) {
+function generateMaze(size = 9) {
     if (size % 2 === 0) size += 1;
     const maze = Array.from({ length: size }, () => Array(size).fill(1));
 
@@ -221,7 +221,7 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
-function generatePerimeterPlayers(size = 25) {
+function generatePerimeterPlayers(size = 9) {
     const players = {};
     let i = 1;
 

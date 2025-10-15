@@ -9,19 +9,25 @@
 <body>
     <div class="nickname-container">
         <h2 class="glow-title">Enter Your Nickname</h2>
+        
+        <div id="assignedPlayer" class="player-preview">
+            <img id="playerImg" alt="Assgined Player" class="player-img" />
+            <p id="playerIdLabel" class="player-id"></p>
+            <button type="button" id="shuffleBtn" class="glow-btn glow-btn-secondary">Shuffle Player</button>
+        </div>
 
-        <form id="nicknameForm">
-            <div class="form-group">
-                <label for="playerIdInput">Select Player ID:</label>
-                <select id="playerIdInput" required></select>
-            </div>
+        <form id="nicknameForm" novalidate>
+            <input type="hidden" id="playerIdInput"/>
 
             <div class="form-group">
                 <label for="nicknameInput">Enter Nickname:</label>
-                <input type="text" id="nicknameInput" placeholder="e.g., Silk" required>
+                <input type="text" id="nicknameInput" placeholder="e.g., Silk" required />
+                <small id="nicknameHint" style="display:block;color:#aaa;margin-top:6px;">
+                    3-15 chars: letters, numbers, _ or -
+                </small>
             </div>
 
-            <button type="submit" class="glow-btn">Next</button>
+            <button type="submit" id="submitBtn" class="glow-btn">Next</button>
         </form>
 
         <p id="errorText" style="color: #ff3366; margin-top: 10px;"></p>
