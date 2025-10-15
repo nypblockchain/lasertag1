@@ -1,3 +1,3 @@
 function goToLanding() {
-    window.location.href = "/Frontend/landing";
+    window.location.href = "/landing";
 }
