@@ -15,10 +15,20 @@ function confirmPasskey() {
     document.getElementById("passkeyOverlay").style.display = "none";
 }
 
+const passkeyInput = document.getElementById("passkeyInput");
+
+if (passkeyInput) {
+    passkeyInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            confirmPasskey();
+        }
+    });
+}
+
 function cancelPasskey() {
     document.getElementById("passkeyOverlay").style.display = "none";
 }
-
 
 async function isControllerLocked() {
     try {
@@ -108,6 +118,10 @@ async function goToController() {
     }
 }
 
+function goToQR() {
+    window.location.href = "/qr";
+}
+
 function goToAdmin() {
     const correctPasskey = "silk";
 
@@ -120,7 +134,6 @@ function goToAdmin() {
         }
     });
 }
-
 
 window.addEventListener("DOMContentLoaded", () => {
     const loadingOverlay = document.getElementById("loading-overlay");

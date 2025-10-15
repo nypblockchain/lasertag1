@@ -2,16 +2,20 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
-    <title>Maze Game Portal</title>
+    <title>Escape Maze Portal</title>
     <link rel="stylesheet" href="/styles/landing.css">
+    <link rel="stylesheet" href="/styles/starfield.css" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <canvas id="starfield"></canvas>
+
     <h1>🚪 Welcome to the Maze</h1>
     <div class="button-group">
         <button onclick="goToController()">Start Game</button>
         <button onclick="goToNickname()">Set Nickname</button>
         <button onclick="goToLeaderboard()">Leaderboards</button>
+        <button onclick="goToQR()">Link QR Code</button>
     </div>
 
     <div class="admin-circle">
@@ -41,5 +45,6 @@
     </footer>
 
     <script src="/Frontend/landing.js"></script>
+    <script src="/Frontend/starfield.js"></script>
 </body>
 </html>

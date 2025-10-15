@@ -1,0 +1,30 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    font-family: 'Orbitron', sans-serif;
+}
+
+button {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #111;
+    color: #ff00ff;
+    border: 2px solid #ff00ff;
+    padding: 8px 16px;
+    margin-top: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 0 6px #ff00ff;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100vh;
+}
