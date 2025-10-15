@@ -40,6 +40,10 @@
       "dest": "/Frontend/admin.html"
     },
     {
+      "src": "/qr",
+      "dest": "/Frontend/qr.html"
+    },
+    {
       "src": "/Frontend/(.*)",
       "dest": "/Frontend/$1"
     },
