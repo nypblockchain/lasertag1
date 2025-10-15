@@ -173,14 +173,14 @@ function generateMaze(size = 20) {
                 nx > 0 && nx < size - 1 &&
                 maze[ny][nx] === 0
             ) {
-                maze[x][y] = 0;
-                maze[(y + ny) >> 1][(x + nx) >> 1] = 0;
+                maze[y][x] = 0;
                 return;
             }
         }
 
-        maze[y + 1][x] = 0;
+        if (y + 1 < size) maze[y + 1][x] = 0;
     }
+
 
     forceCarvePath(mid, mid - 2); // left
     forceCarvePath(mid, mid + 2) // right
