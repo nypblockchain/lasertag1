@@ -4,7 +4,7 @@ function getImageUrlForPlayer(playerId) {
     return `/styles/images/sprites/${playerId}.png`
 }
 
-function pickRandom(err) {
+function pickRandom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
