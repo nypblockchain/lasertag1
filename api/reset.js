@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
         }
 
         // 🔁 Generate new maze
-        const newMaze = generateMaze(25);
+        const newMaze = generateMaze(9);
 
         // Convert to Firestore format
         const rows = {};
