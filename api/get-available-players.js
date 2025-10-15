@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
         const data = doc.exists ? doc.data() : {};
 
         const available = [];
-        for (let i = 1; i <= 48; i++) {
+        for (let i = 1; i <= 20; i++) {
             const playerId = `player${i}`;
             if (!data[playerId]) available.push(playerId);
         }
