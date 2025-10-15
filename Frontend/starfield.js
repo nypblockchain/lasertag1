@@ -24,7 +24,7 @@ if (canvas) {
 
     function drawStars() {
         ctx.fillStyle = "black";
-        ctx.fillReact(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         for (let i = 0; i < numStars; i++) {
             const s = stars[i];
