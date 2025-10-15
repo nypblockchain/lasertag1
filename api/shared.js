@@ -89,7 +89,7 @@ async function getMaze() {
 }
 
 /* (re‑use your existing generateMaze function) */
-function generateMaze(size = 20) {
+function generateMaze(size = 19) {
     if (size % 2 === 0) size += 1;
     const maze = Array.from({ length: size }, () => Array(size).fill(1));
 
@@ -221,7 +221,7 @@ async function resetNicknames() {
     await NICKNAMES_DOC.set({});
 }
 
-function generatePerimeterPlayers(size = 21, count = 20, parity = 'auto') {
+function generatePerimeterPlayers(size = 19, count = 20, parity = 'auto') {
     if (size < 3) throw new Error("size must be >= 3");
     if (count < 1) throw new Error("count must be >= 1");
 
