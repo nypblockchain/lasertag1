@@ -1,7 +1,7 @@
 let assignedPlayerId = null;
 
 function getImageUrlForPlayer(playerId) {
-    return `/styles/images/sprites/Avatars/${playerId}.png`
+    return `/styles/images/sprites/PlayerIcons/${playerId}.png`
 }
 
 function pickRandom(arr) {

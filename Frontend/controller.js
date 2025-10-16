@@ -22,7 +22,7 @@ function startMazeTimer() {
 }
 
 async function stopMazeTimer(playerId) {
-    if (!mazeTimerInterval) return;
+    if (!mazeTimerInterval) return null;
 
     clearInterval(mazeTimerInterval);
     mazeTimerInterval = null;
@@ -41,6 +41,8 @@ async function stopMazeTimer(playerId) {
     } catch (err) {
         console.error("Failed to log winner:", err);
     }
+
+    return { elapsed, nickname };
 }
 
 async function fetchNicknames() {
@@ -122,8 +124,8 @@ async function renderMaze(maze, players = {})  {
     );
 
     if (inCenterBox && window.hasStartedMaze && mazeTimerInterval) {
-        await stopMazeTimer(playerId);
-        triggerTimeUpOverlay();
+        const result = await stopMazeTimer(playerId);
+        triggerTimeUpOverlay(result);
         window.hasStartedMaze = false;
     }
 
@@ -261,7 +263,19 @@ async function submitCommand() {
     }
 }
 
-function triggerTimeUpOverlay() {
+function triggerTimeUpOverlay(data = {}) {
+
+    const { elapsed = 0, nickname = "Player" } = data;
+
+    const mins = Math.floor(elapsed / 60);
+    const secs = String(elapsed % 60).padStart(2, "0");
+
+    const nameEl = document.getElementById("ovName");
+    const timeEl = document.getElementById("ovTime");
+
+    if (nameEl) nameEl.textContent = nickname;
+    if (timeEl) timeEl.textContent = `Time taken to escape the maze: ${mins}:${secs}`;
+
     document.getElementById("timeUpOverlay").classList.remove("hidden");
 }
 
