@@ -58,8 +58,8 @@ function renderMaze(maze, players = {}, pings = {}) {
     const mid = Math.floor(rows / 2); // find center
 
     mazeDiv.style.display = "grid";
-    mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 40px)`;
-    mazeDiv.style.gridTemplateRows = `repeat(${rows}, 40px)`;
+    mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 54px)`;
+    mazeDiv.style.gridTemplateRows = `repeat(${rows}, 54px)`;
 
     const now = Date.now();
     console.log("RenderMaze input:", { pings, players, now})
