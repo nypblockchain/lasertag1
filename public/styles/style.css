@@ -649,8 +649,8 @@ input:checked + .slider {
 }
 
 #qrCode {
-    width: 160px;
-    height: 160px;
+    width: 220px;
+    height: 220px;
     margin-top: 20px;
     border: 2px solid #ff00cc;
     border-radius: 10px;
@@ -661,8 +661,9 @@ input:checked + .slider {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 40px;
+    gap: 80px;
     margin-top: 20px;
+    padding-left: 60px;
 }
 
 #sidePanel {
@@ -703,4 +704,48 @@ input:checked + .slider {
     background-color: purple !important;
     animation: pingPulse 1s ease-out infinite;
     z-index: 9999;
+}
+
+#leaderboard {
+    max-width: 500px;
+    margin: auto;
+    background-color: #111;
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #0f0;
+    border: 2px solid #0f0;
+}
+
+    #leaderboard.loading {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+    }
+
+ol {
+    padding-left: 1.5rem;
+    text-align: left;
+}
+
+li {
+    margin: 0.7rem 0;
+    font-size: 1.2rem;
+    color: #0ff;
+    text-shadow: 0 0 4px #0ff;
+}
+
+#loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+#loadingGif {
+    background: transparent;
+    width: 80px;
+    height: 80px;
+    box-shadow: 0 0 16px #0f0;
+    filter: drop-shadow(0 0 16px #0ff);
+    object-fit: contain;
 }

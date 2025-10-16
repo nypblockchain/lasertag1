@@ -130,5 +130,5 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
 });
 
 // setInterval(fetchMazeAndPlayers, 750);
-window.onload = fetchMazeAndPlayers;
+window.addEventListener("load", fetchMazeAndPlayers);
 stopPolling();

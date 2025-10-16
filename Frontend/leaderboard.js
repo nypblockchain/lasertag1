@@ -39,4 +39,4 @@ async function loadLeaderboard() {
     }
 }
 
-window.onload = loadLeaderboard;
+window.addEventListener("load", loadLeaderboard);
