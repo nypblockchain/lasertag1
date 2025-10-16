@@ -543,7 +543,7 @@ select {
 #pollingStatusLabel {
     margin-top: 6px;
     font-size: 1.1rem;
-    color: #00ffff;
+    color: #00ffcc;
     text-shadow: 0 0 10px #00ffff;
 }
 
@@ -709,11 +709,10 @@ input:checked + .slider {
 #leaderboard {
     max-width: 500px;
     margin: auto;
-    background-color: #111;
     padding: 1.5rem 2rem;
     border-radius: 10px;
-    box-shadow: 0 0 15px #0f0;
-    border: 2px solid #0f0;
+    box-shadow: 0 0 15px #ff00cc;
+    border: 2px solid #ff00cc;
 }
 
     #leaderboard.loading {
@@ -730,11 +729,12 @@ ol {
 li {
     margin: 0.7rem 0;
     font-size: 1.2rem;
-    color: #0ff;
-    text-shadow: 0 0 4px #0ff;
+    color: #ff00cc;
+    text-shadow: 0 0 4px #ff00cc;
 }
 
 #loadingContainer {
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -745,7 +745,6 @@ li {
     background: transparent;
     width: 80px;
     height: 80px;
-    box-shadow: 0 0 16px #0f0;
     filter: drop-shadow(0 0 16px #0ff);
     object-fit: contain;
 }

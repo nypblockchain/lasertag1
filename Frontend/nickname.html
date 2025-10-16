@@ -21,7 +21,14 @@
 
             <div class="form-group">
                 <label for="nicknameInput">Enter Nickname:</label>
-                <input type="text" id="nicknameInput" placeholder="e.g., Silk" required />
+                <input type="text"
+                       id="nicknameInput"
+                       placeholder="e.g., Silk"
+                       required
+                       minlength="3"
+                       maxlength="8"
+                       pattern="^[A-Za-z0-9_-]{3,8}$"
+                       title="Nickname must be 3–8 characters long and can include letters, numbers, _ or -" />
                 <small id="nicknameHint" style="display:block;color:#aaa;margin-top:6px;">
                     3-15 chars: letters, numbers, _ or -
                 </small>
