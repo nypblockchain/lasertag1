@@ -48,6 +48,10 @@
       "dest": "/Frontend/$1"
     },
     {
+      "src": "/(.*\\.mp3)",
+      "dest": "/public/$1"
+    },
+    {
       "src": "/styles/(.*)",
       "dest": "/public/styles/$1"
     },
