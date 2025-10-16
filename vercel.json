@@ -53,7 +53,7 @@
     },
     {
       "src": "/",
-      "dest": "/Frontend/landing.html"
+      "dest": "/Frontend/nickname.html"
     },
     {
       "src": "/(.*)",

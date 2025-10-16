@@ -120,6 +120,81 @@ function renderMaze(maze, players = {}, pings = {}) {
     }
 }
 
+(function () {
+    const audio = document.getElementById("bgMusic");
+    const toggle = document.getElementById("musicToggle");
+    const label = document.getElementById("musicStatusLabel");
+    const LS_KEY = "bgMusicEnabled";
+    const TARGET_VOLUME = 0.4;
+    const FADE_MS = 400;
+
+    let saved = localStorage.getItem(LS_KEY);
+
+    let musicOn = saved === null ? true : saved === "true";
+
+    toggle.checked = musicOn;
+    label.textContent = musicOn ? "Music: ON" : "Music: OFF";
+
+    function fadeTo(target, done) {
+        const steps = 15;
+        const stepTime = FADE_MS / steps;
+        const start = audio.volume;
+        const diff = target - start;
+
+        let i = 0;
+        clearInterval(audio._fadeTimer);
+        audio._fadeTimer = setInterval(() => {
+            i++;
+            audio.volume = Math.max(0, Math.min(1, start + diff * (i / steps)));
+            if (i >= steps) {
+                clearInterval(audio._fadeTimer);
+                if (done) done();
+            }
+        }, stepTime);
+    }
+
+    if (musicOn) {
+        try {
+            audio.volume = 0;
+            audio.play().then(() => fadeTo(TARGET_VOLUME));
+        } catch {
+            console.warn("Autoplay blocked - will start after first user gesture.");
+
+            const resumeMusic = async () => {
+                try {
+                    await audio.play();
+                    fadeTo(TARGET_VOLUME);
+                    window.removeEventListener("click", resumeMusic);
+                    window.removeEventListener("keydown", resumeMusic);
+                    window.removeEventListener("touchstart", resumeMusic);
+                } catch { }
+            };
+
+            window.addEventListener("click", resumeMusic);
+            window.addEventListener("keydown", resumeMusic);
+            window.addEventListener("touchstart", resumeMusic);
+        }
+    }
+
+    toggle.addEventListener("change", async () => {
+        if (toggle.checked) {
+            try {
+                audio.volume = 0;
+                await audio.play();
+                fadeTo(TARGET_VOLUME);
+                label.textContent = "Music On";
+                localStorage.setItem(LS_KEY, "true");
+            } catch {
+                console.warn("Autoplay blocked - waiting for user gesture");
+            }
+        } else {
+            fadeTo(0, () => audio.pause());
+            label.textContent = "Music Off";
+            localStorage.setItem(LS_KEY, "false");
+        }
+    });
+})();
+
 document.getElementById("pollingToggle").addEventListener("change", (e) => {
     if (e.target.checked) {
         startPolling();

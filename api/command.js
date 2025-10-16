@@ -2,7 +2,24 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { setPing } = require("./shared");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const KEYS = [
+    process.env.KEY_1TO5,
+    process.env.KEY_6TO10,
+    process.env.KEY_11TO15,
+    process.env.KEY_16TO20,
+].filter(Boolean);
+
+if (KEYS.length === 0) {
+    throw new Error("No Gemini API Keys set. Please define Gemini API Keys.");
+}
+
+const CLIENTS = KEYS.map(k => new GoogleGenerativeAI(k));
+
+function getClientForPlayer(playerId) {
+    const n = parseInt(String(playerId).replace(/\D/g, ""), 10) || 1;
+    const keyIndex = Math.floor((n - 1) / 5) % CLIENTS.length;
+    return CLIENTS[keyIndex];
+}
 
 // helper: absolute URL for /api/move
 function getMoveURL(req) {
@@ -35,7 +52,11 @@ module.exports = async (req, res) => {
 
     try {
         // 1. Ask Gemini
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const client = getClientForPlayer(playerId);
+        const model = client.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+        console.log(`🧩 Player ${playerId} → key index ${CLIENTS.indexOf(client)} (${KEYS.length} total keys)`);
+
         const prompt = `
             You are a parser for a laser tag maze game.
 
@@ -52,7 +73,7 @@ module.exports = async (req, res) => {
             - If input is unclear, output nothing.
 
             Player's instruction: "${command}"
-            `;
+        `;
 
 
         const result = await model.generateContent(prompt);

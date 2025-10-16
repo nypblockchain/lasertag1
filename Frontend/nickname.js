@@ -82,6 +82,10 @@ async function submitNickname(e) {
     }
 }
 
+async function goToLanding() {
+    window.location.href = "/landing";
+}
+
 window.addEventListener("load", fetchAvailablePlayers);
 document.getElementById("nicknameForm").addEventListener("submit", submitNickname);
 document.getElementById("shuffleBtn").addEventListener("click", shuffleAssignedPlayer);

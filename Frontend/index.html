@@ -33,6 +33,17 @@
                 <img id="loadingGif" src="/styles/images/sparkle_loading.gif" alt="Loading..."/>
             </div>
             <div id="leaderboard" style="display: none;"></div>
+
+            <h3>Music</h3>
+            <div id="musicToggleContainer">
+                <label class="switch">
+                    <input type="checkbox" id="musicToggle" checked>
+                    <span class="slider"></span>
+                </label>
+                <span id="musicStatusLabel">Music On</span>
+            </div>
+
+            <audio id="bgMusic" src="/BGM.mp3" preload="auto" loop></audio>
         </div>
 
         <div id="maze"></div>
