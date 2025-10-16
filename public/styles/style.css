@@ -31,12 +31,13 @@ h4 {
     width: fit-content;
     height: fit-content;
     margin-bottom: 30px;
+    align-self: flex-end;
 }
 
 /* Cells and walls (no change as per request) */
 .cell {
-    width: 54px;
-    height: 54px;
+    width: 45px;
+    height: 45px;
     padding: 0;
     margin: 0;
     border: none;
@@ -645,6 +646,35 @@ input:checked + .slider {
 
 .hidden {
     display: none;
+}
+
+#qrCode {
+    width: 160px;
+    height: 160px;
+    margin-top: 20px;
+    border: 2px solid #ff00cc;
+    border-radius: 10px;
+    box-shadow: 0 0 12px #ff00cc;
+}
+
+#mazeWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+#sidePanel {
+    border: 2px solid #ff00cc;
+    box-shadow: 20px #ff00cc;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ff00cc;
+    width: 260px;
+    height: fit-content;
+    text-align: center;
 }
 
 @keyframes pingPulse {

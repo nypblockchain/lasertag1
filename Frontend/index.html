@@ -14,14 +14,22 @@
         <p>Loading...</p>
     </div>
 
-    <div id="maze"></div>
+    <div id="mazeWrapper">
+        <div id="sidePanel">
+            <h3>Scan to Join!</h3>
+            <img src="/styles/images/QR.png" alt="QR Code" id="qrCode"/>
 
-    <div id="pollingToggleContainer">
-        <label class="switch">
-            <input type="checkbox" id="pollingToggle">
-            <span class="slider"></span>
-        </label>
-        <span id="pollingStatusLabel">Polling Off</span>
+            <h3>Live interval toggle</h3>
+            <div id="pollingToggleContainer">
+                <label class="switch">
+                    <input type="checkbox" id="pollingToggle"/>
+                    <span class="slider"></span>
+                </label>
+                <span id="pollingStatusLabel">Polling Off</span>
+            </div>
+        </div>
+
+        <div id="maze"></div>
     </div>
 
     <script src="/Frontend/main.js"></script>
