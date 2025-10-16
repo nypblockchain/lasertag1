@@ -35,8 +35,8 @@ h4 {
 
 /* Cells and walls (no change as per request) */
 .cell {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     margin: 0;
     border: none;
