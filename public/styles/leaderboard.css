@@ -22,6 +22,12 @@ h1 {
     border: 2px solid #0f0;
 }
 
+#leaderboard.loading {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
 ol {
     padding-left: 1.5rem;
     text-align: left;
@@ -42,7 +48,9 @@ li {
 }
 
 #loadingGif {
+    background: transparent;
     width: 80px;
     height: 80px;
     box-shadow: 0 0 16px #0f0;
+    filter: drop-shadow(0 0 16px #0ff);
 }

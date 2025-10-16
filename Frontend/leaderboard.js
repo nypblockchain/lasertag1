@@ -25,7 +25,7 @@ async function loadLeaderboard() {
         const list = document.createElement("ol");
         sorted.forEach(entry => {
             const item = document.createElement("li");
-            item.textContent = `${entry.nickname} — ${entry.elapsed}s`;
+            item.textContent = `${entry.nickname}: ${entry.elapsed}s`;
             list.appendChild(item);
         });
 

@@ -17,7 +17,7 @@
     <div id="mazeWrapper">
         <div id="sidePanel">
             <h3>Scan to Join!</h3>
-            <img src="/styles/images/QR.png" alt="QR Code" id="qrCode"/>
+            <img src="/styles/images/QRCode.png" alt="QR Code" id="qrCode"/>
 
             <h3>Live interval toggle</h3>
             <div id="pollingToggleContainer">
@@ -27,12 +27,19 @@
                 </label>
                 <span id="pollingStatusLabel">Polling Off</span>
             </div>
+
+            <h3>Leaderboard</h3>
+            <div id="loadingContainer">
+                <img id="loadingGif" src="/styles/images/sparkle_loading.gif" alt="Loading..."/>
+            </div>
+            <div id="leaderboard" style="display: none;"></div>
         </div>
 
         <div id="maze"></div>
     </div>
 
     <script src="/Frontend/main.js"></script>
+    <script src="/Frontend/leaderboard.js"></script>
 </body>
 </html>
 
