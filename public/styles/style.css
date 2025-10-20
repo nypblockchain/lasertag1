@@ -516,3 +516,17 @@ li {
     filter: drop-shadow(0 0 16px #0ff);
     object-fit: contain;
 }
+
+#musicToggleContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+#musicStatusLabel {
+    margin-top: 6px;
+    font-size: 1.1rem;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
+}
