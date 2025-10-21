@@ -142,7 +142,7 @@ function renderMaze(maze, players = {}, pings = {}) {
         let i = 0;
         audio._fadeTimer = setInterval(() => {
             i++;
-            audio.volume = Math.max(0, math.min(1, start + diff * (i / steps)));
+            audio.volume = Math.max(0, Math.min(1, start + diff * (i / steps)));
             if (i >= steps) {
                 clearInterval(audio._fadeTimer);
                 if (done) done();
