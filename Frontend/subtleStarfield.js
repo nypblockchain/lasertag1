@@ -10,7 +10,7 @@ if (canvas) {
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    // Background stars that twinkle slightly
+    // Background stars for depth
     const stars = Array.from({ length: 150 }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -24,9 +24,12 @@ if (canvas) {
     let nextShootingStarTime = 0;
 
     function spawnShootingStar() {
-        const startX = Math.random() * canvas.width;
-        const startY = Math.random() * (canvas.height / 2);
-        const length = 150 + Math.random() * 150;
+        // ? Start near top-left corner with small random offsets
+        const startX = Math.random() * (canvas.width * 0.25);
+        const startY = Math.random() * (canvas.height * 0.25);
+
+        // Length & speed of streaks
+        const length = 180 + Math.random() * 180;
         const speed = 8 + Math.random() * 5;
 
         shootingStars.push({
@@ -34,18 +37,18 @@ if (canvas) {
             y: startY,
             length,
             speed,
-            angle: Math.PI / 4 + (Math.random() * 0.15 - 0.075), // slight angle variance
+            // Move diagonally (top-left ? bottom-right)
+            angle: Math.PI / 4 + (Math.random() * 0.1 - 0.05),
             opacity: 1,
-            hueShift: Math.random() * 40 // subtle color variation (pinkish to violet)
+            hueShift: Math.random() * 40 // subtle pink-violet variance
         });
     }
 
     function draw() {
-        // Transparent black layer for smooth fading trails
         ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Twinkling stars
+        // ? Background twinkles
         for (const s of stars) {
             s.alpha += s.twinkleSpeed * (Math.random() > 0.5 ? 1 : -1);
             if (s.alpha < 0) s.alpha = 0;
@@ -53,17 +56,16 @@ if (canvas) {
 
             ctx.beginPath();
             ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 180, 255, ${s.alpha})`; // soft pink-white twinkle
+            ctx.fillStyle = `rgba(255, 180, 255, ${s.alpha})`;
             ctx.fill();
         }
 
-        // Shooting stars
+        // ?? Shooting stars
         for (let i = shootingStars.length - 1; i >= 0; i--) {
             const s = shootingStars[i];
             const tailX = s.x - Math.cos(s.angle) * s.length;
             const tailY = s.y - Math.sin(s.angle) * s.length;
 
-            // Create a gradient from pink to purple with glow
             const grad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
             grad.addColorStop(0, `hsla(${300 + s.hueShift}, 100%, 85%, ${s.opacity})`);
             grad.addColorStop(0.5, `hsla(${290 + s.hueShift}, 100%, 70%, ${s.opacity * 0.6})`);
@@ -76,7 +78,7 @@ if (canvas) {
             ctx.lineTo(tailX, tailY);
             ctx.stroke();
 
-            // Movement and fading
+            // Movement & fading
             s.x += Math.cos(s.angle) * s.speed;
             s.y += Math.sin(s.angle) * s.speed;
             s.opacity -= 0.015;
@@ -85,7 +87,7 @@ if (canvas) {
             if (s.opacity <= 0) shootingStars.splice(i, 1);
         }
 
-        // Randomly spawn new ones every 1.5–3 seconds
+        // Spawn every 1.5–3s
         if (Date.now() > nextShootingStarTime) {
             spawnShootingStar();
             nextShootingStarTime = Date.now() + 1500 + Math.random() * 1500;

@@ -338,19 +338,71 @@ footer.credits a:hover {
     color: #ffffff;
 }
 
-@media (max-width: 600px) {
-    footer.credits {
-        font-size: 0.8rem;
-        line-height: 1.5;
-        padding-bottom: 2.5em;
+/* 📱 Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+    body {
+        padding-top: 60px; /* less top padding so header fits */
+        padding-bottom: 140px; /* add breathing room for footer */
+        overflow-x: hidden;
     }
 
-    footer.credits p{ 
-        margin: 0.5em 0;
-        display: block;
-        word-break: break-word;
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+
+    .button-group {
+        gap: 15px;
+        max-width: 90%; /* buttons fill screen better */
+    }
+
+        .button-group button {
+            font-size: 16px;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+    .admin-circle img {
+        width: 70px;
+        height: 70px;
+    }
+
+    footer.credits {
+        position: relative;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        padding: 1.5em 0.5em 4em; /* extra space for long text */
+        margin-top: 2em;
+        word-wrap: break-word;
+    }
+
+        footer.credits p {
+            margin: 0.4em 0;
+            display: block;
+        }
+
+        footer.credits a {
+            font-size: 0.8rem;
+            word-break: break-word;
+        }
+}
+
+@media (max-width: 400px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .button-group button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    footer.credits {
+        font-size: 0.75rem;
+        padding-bottom: 5em; /* ensures last line is visible */
     }
 }
+
 
 @keyframes fadeIn {
     from {
