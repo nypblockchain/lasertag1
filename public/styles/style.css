@@ -530,3 +530,21 @@ li {
     color: #ff00cc;
     text-shadow: 0 0 10px #ff00cc;
 }
+
+#musicSelector {
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ff00cc;
+    border-radius: 8px;
+    color: #ff00cc;
+    padding: 6px 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 0 10px #ff00cc;
+    cursor: pointer;
+}
+
+    #musicSelector:hover {
+        background-color: #ff00cc;
+        color: #000;
+    }

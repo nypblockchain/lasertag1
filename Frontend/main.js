@@ -124,16 +124,13 @@ function renderMaze(maze, players = {}, pings = {}) {
     const audio = document.getElementById("bgMusic");
     const toggle = document.getElementById("musicToggle");
     const label = document.getElementById("musicStatusLabel");
-    const LS_KEY = "bgMusicEnabled";
+    const selector = document.getElementById("musicSelector");
+
+    const LS_MUSIC_ENABLED = "bgMusicEnabled";
+    const LS_SELECTED_TRACK = "selectedTrack";
+
     const TARGET_VOLUME = 0.4;
     const FADE_MS = 400;
-
-    let saved = localStorage.getItem(LS_KEY);
-
-    let musicOn = saved === null ? true : saved === "true";
-
-    toggle.checked = musicOn;
-    label.textContent = musicOn ? "Music: ON" : "Music: OFF";
 
     function fadeTo(target, done) {
         const steps = 15;
@@ -141,11 +138,11 @@ function renderMaze(maze, players = {}, pings = {}) {
         const start = audio.volume;
         const diff = target - start;
 
-        let i = 0;
         clearInterval(audio._fadeTimer);
+        let i = 0;
         audio._fadeTimer = setInterval(() => {
             i++;
-            audio.volume = Math.max(0, Math.min(1, start + diff * (i / steps)));
+            audio.volume = Math.max(0, math.min(1, start + diff * (i / steps)));
             if (i >= steps) {
                 clearInterval(audio._fadeTimer);
                 if (done) done();
@@ -153,45 +150,53 @@ function renderMaze(maze, players = {}, pings = {}) {
         }, stepTime);
     }
 
-    if (musicOn) {
+    let savedEnabled = localStorage.getItem(LS_MUSIC_ENABLED);
+    let savedTrack = localStorage.getItem(LS_SELECTED_TRACK);
+
+    const musicOn = savedEnabled === null ? true : savedEnabled === "true";
+    const selectedTrack = savedTrack || selector.value;
+
+    toggle.checked = musicOn;
+    selector.value = selectedTrack;
+    label.textContent = musicOn ? "Music: ON" : "Music: OFF";
+
+    audio.src = selectedTrack;
+
+    async function playMusic() {
         try {
             audio.volume = 0;
-            audio.play().then(() => fadeTo(TARGET_VOLUME));
+            await audio.play();
+            fadeTo(TARGET_VOLUME);
         } catch {
-            console.warn("Autoplay blocked - will start after first user gesture.");
-
-            const resumeMusic = async () => {
-                try {
-                    await audio.play();
-                    fadeTo(TARGET_VOLUME);
-                    window.removeEventListener("click", resumeMusic);
-                    window.removeEventListener("keydown", resumeMusic);
-                    window.removeEventListener("touchstart", resumeMusic);
-                } catch { }
-            };
-
-            window.addEventListener("click", resumeMusic);
-            window.addEventListener("keydown", resumeMusic);
-            window.addEventListener("touchstart", resumeMusic);
+            console.warn("Autoplay blocked; waiting for gesture");
         }
+    }
+
+    async function stopMusic() {
+        fadeTo(0, () => audio.pause());
+    }
+
+    if (musicOn) {
+        playMusic();
     }
 
     toggle.addEventListener("change", async () => {
         if (toggle.checked) {
-            try {
-                audio.volume = 0;
-                await audio.play();
-                fadeTo(TARGET_VOLUME);
-                label.textContent = "Music On";
-                localStorage.setItem(LS_KEY, "true");
-            } catch {
-                console.warn("Autoplay blocked - waiting for user gesture");
-            }
+            localStorage.setItem(LS_MUSIC_ENABLED, "true");
+            label.textContent = "MUSIC: ON";
+            playMusic();
         } else {
-            fadeTo(0, () => audio.pause());
-            label.textContent = "Music Off";
-            localStorage.setItem(LS_KEY, "false");
+            localStorage.setItem(LS_MUSIC_ENABLED, "false");
+            label.textContent = "MUSIC: OFF";
+            stopMusic();
         }
+    });
+
+    selector.addEventListener("change", () => {
+        const newTrack = selector.value;
+        localStorage.setItem(LS_SELECTED_TRACK, newTrack);
+        audio.src = newTrack;
+        if (toggle.checked) playMusic();
     });
 })();
 
