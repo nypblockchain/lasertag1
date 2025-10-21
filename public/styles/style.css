@@ -7,6 +7,9 @@
     align-items: center;
     padding: 30px;
     text-align: center;
+    overflow-y: auto;
+    min-height: 100vh;
+    height: auto;
 }
 
 h2 {
