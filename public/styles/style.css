@@ -1,4 +1,9 @@
-﻿body {
+﻿html {
+    overflow-y: auto;
+    min-height: 100vh;
+}
+
+body {
     background: transparent;
     color: #f0f0f0;
     font-family: 'Orbitron', sans-serif;
@@ -7,9 +12,6 @@
     align-items: center;
     padding: 30px;
     text-align: center;
-    overflow-y: auto;
-    min-height: 100vh;
-    height: auto;
 }
 
 h2 {
@@ -447,6 +449,8 @@ input:checked + .slider {
     width: 260px;
     height: fit-content;
     text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 @keyframes pingPulse {
