@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: black;
+    background-color: transparent;
     color: #ff00ff;
     font-family: 'Orbitron', sans-serif;
     text-align: center;
@@ -262,28 +262,6 @@ button {
     margin-bottom: 20px;
 }
 
-.credits {
-    position: fixed;
-    bottom: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #ff00ff;
-    text-shadow: 0 0 1px #ff00ff, 0 0 4px #ff00ff;
-    font-family: 'Orbitron', sans-serif;
-}
-
-    .credits a {
-        color: #ff00ff;
-        text-decoration: underline;
-        text-shadow: 0 0 1px #ff00ff, 0 0 4px #ff00ff;
-        transition: color 0.2s ease-in-out;
-    }
-
-        .credits a:hover {
-            color: #ffffff;
-        }
-
 .passkey-modal input[type="password"] {
     width: 100%;
     padding: 12px;
@@ -334,32 +312,37 @@ button {
 }
 
 footer.credits {
+    position: relative;
     text-align: center;
     padding: 1.5em 1em;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    font-size: 0.9rem;
-    line-height: 1,4;
+    margin-top: 2em;
+    background: rgba(0, 0, 0, 0.4);
+    color: #ff00ff;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-shadow: 0 0 2px #ff00ff, 0 0 6px #ff00ff;
+    font-family: 'Orbitron', sans-serif;
 }
 
-footer.credits p {
+footer.credits p{
     margin: 0.4em 0;
 }
 
 footer.credits a {
-    margin: 0.4em 0;
-    text-decoration: none;
+    color: #ff00ff;
+    text-decoration: underline;
+    transition: color 0.2s ease-in-out;
 }
 
 footer.credits a:hover {
-    text-decoration: underline;
+    color: #ffffff;
 }
 
 @media (max-width: 600px) {
     footer.credits {
         font-size: 0.8rem;
         line-height: 1.5;
-        padding-bottom: 3em;
+        padding-bottom: 2.5em;
     }
 
     footer.credits p{ 

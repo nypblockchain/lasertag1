@@ -1,18 +1,25 @@
-body, html {
-    background: black;
-    overflow: hidden;
+
+html, body {
+    margin: 0;
+    padding: 0;
     height: 100%;
+    overflow: hidden;
+    background: transparent;
 }
 
-canvas#starfield {
+#starfield {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: -9999;
+    pointer-events: none;
+    display: block;
+    background: black;
 }
 
 h1, .button-group, .admin-circle, footer {
     position: relative;
-    z-index: 1;
+    z-index: 10;
 }

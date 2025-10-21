@@ -118,10 +118,6 @@ async function goToController() {
     }
 }
 
-function goToQR() {
-    window.location.href = "/qr";
-}
-
 function goToAdmin() {
     const correctPasskey = "silk";
 
