@@ -88,6 +88,19 @@ async function goToLanding() {
 
 window.addEventListener("load", fetchAvailablePlayers);
 document.getElementById("nicknameForm").addEventListener("submit", submitNickname);
+
+document.getElementById("nicknameInput").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("submitBtn").click();
+    }
+});
+
+window.addEventListener("load", () => {
+    fetchAvailablePlayers();
+    document.getElementById("nicknameInput").focus();
+})
+
 document.getElementById("shuffleBtn").addEventListener("click", shuffleAssignedPlayer);
 
 document.getElementById("playerImg").addEventListener("error", () => {

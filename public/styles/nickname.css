@@ -54,6 +54,14 @@ select, input[type="text"] {
         box-shadow: 0 0 12px #ff00cc, 0 0 6px #ff00cc inset;
     }
 
+.button-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
 .glow-btn {
     background: #ff00cc;
     color: #fff;
@@ -128,4 +136,32 @@ input:invalid {
 input:valid {
     border-color: #00ffcc;
     box-shadow: 0 0 8px #00ffcc;
+}
+
+@media (max-width: 600px) {
+    .nickname-container {
+        width: 90%;
+        padding: 25px;
+        box-shadow: 0 0 15px #ff00cc80;
+    }
+
+    .glow-title {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .player-img {
+        width: 130px;
+        height: 130px;
+    }
+
+    .button-row {
+        gap: 12px;
+    }
+
+    .glow-btn {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 14px;
+    }
 }
