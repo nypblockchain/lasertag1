@@ -91,7 +91,7 @@ async function getMaze() {
 /* (re‑use your existing generateMaze function) */
 function generateMaze(size = 19) {
     if (size % 2 === 0) size += 1;
-    const maze = Array.from({ length: size }, () => Array(size).fill(0)); // start all as walls (0 = wall)
+    const maze = Array.from({ length: size }, () => Array(size).fill(0)); // 0 = wall, 1 = path
 
     function shuffle(array) {
         return array.sort(() => Math.random() - 0.5);
@@ -118,45 +118,86 @@ function generateMaze(size = 19) {
         }
     }
 
-    // carve the main maze paths
+    // 🌀 Generate the base maze
     maze[1][1] = 1;
     carve(1, 1);
 
-    // make entire border walkable
+    // 🧭 Make borders open
     for (let i = 0; i < size; i++) {
-        maze[0][i] = 1;             // top border
-        maze[size - 1][i] = 1;      // bottom border
-        maze[i][0] = 1;             // left border
-        maze[i][size - 1] = 1;      // right border
+        maze[0][i] = 1;
+        maze[size - 1][i] = 1;
+        maze[i][0] = 1;
+        maze[i][size - 1] = 1;
     }
 
     const mid = Math.floor(size / 2);
 
-    // clear center area, then build 3×3 cage
+    // 🎯 Center cage pattern (010 / 111 / 010)
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
-            maze[y][x] = 0; // start with walls
+            maze[y][x] = 0;
         }
     }
+    maze[mid - 1][mid] = 1;
+    maze[mid][mid - 1] = 1;
+    maze[mid][mid] = 1;
+    maze[mid][mid + 1] = 1;
+    maze[mid + 1][mid] = 1;
 
-    // your desired pattern (0 = wall, 1 = path)
-    // 010
-    // 111
-    // 010
-    maze[mid - 1][mid] = 1; // top open
-    maze[mid][mid - 1] = 1; // left open
-    maze[mid][mid] = 1;     // center open
-    maze[mid][mid + 1] = 1; // right open
-    maze[mid + 1][mid] = 1; // bottom open
-
-    // connect paths into the center entrances
+    // connect paths into center
     maze[mid - 2][mid] = 1;
     maze[mid + 2][mid] = 1;
     maze[mid][mid - 2] = 1;
     maze[mid][mid + 2] = 1;
 
+    // ⚖️ Fairness adjustments
+    ensureBorderFairness(maze);
+    ensureCenterConnectivity(maze, mid);
+
     return maze;
 }
+
+// ✅ Make sure all edge cells next to player spawns are walkable
+function ensureBorderFairness(maze) {
+    const size = maze.length;
+    for (let i = 0; i < size; i++) {
+        if (maze[0][i] === 1 && maze[1][i] === 0) maze[1][i] = 1;               // top
+        if (maze[size - 1][i] === 1 && maze[size - 2][i] === 0) maze[size - 2][i] = 1; // bottom
+        if (maze[i][0] === 1 && maze[i][1] === 0) maze[i][1] = 1;               // left
+        if (maze[i][size - 1] === 1 && maze[i][size - 2] === 0) maze[i][size - 2] = 1; // right
+    }
+}
+
+// ✅ Guarantee every edge region connects to the center somehow
+function ensureCenterConnectivity(maze, mid) {
+    const size = maze.length;
+
+    const visited = Array.from({ length: size }, () => Array(size).fill(false));
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+    function dfs(y, x) {
+        if (y < 0 || y >= size || x < 0 || x >= size || maze[y][x] === 0 || visited[y][x]) return;
+        visited[y][x] = true;
+        for (const [dy, dx] of dirs) dfs(y + dy, x + dx);
+    }
+
+    dfs(mid, mid); // flood-fill from center
+
+    // find disconnected path cells near edges and reconnect them
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            if (maze[y][x] === 1 && !visited[y][x]) {
+                // open a path toward center
+                const dy = Math.sign(mid - y);
+                const dx = Math.sign(mid - x);
+                if (maze[y + dy] && maze[y + dy][x + dx] === 0) {
+                    maze[y + dy][x + dx] = 1;
+                }
+            }
+        }
+    }
+}
+
 
 
 /* Writing nicknames to Firestore */
