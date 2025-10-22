@@ -118,11 +118,11 @@ function generateMaze(size = 19) {
         }
     }
 
-    // Start carving
+    // carve maze
     maze[1][1] = 0;
     carve(1, 1);
 
-    // Open borders (optional, depending on your game design)
+    // make border all paths
     for (let i = 0; i < size; i++) {
         maze[0][i] = 0;
         maze[size - 1][i] = 0;
@@ -130,77 +130,30 @@ function generateMaze(size = 19) {
         maze[i][size - 1] = 0;
     }
 
+    // define center
     const mid = Math.floor(size / 2);
 
-    // First, fill a 3x3 area with walls (for control)
+    // reset a 3x3 area for the cage
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
-            maze[y][x] = 0; // start closed
+            maze[y][x] = 1; // default to path (1 = path in your definition)
         }
     }
 
-    // Now apply your desired pattern:
-    // 010
-    // 111
-    // 010
-    maze[mid - 1][mid] = 1; // top open
-    maze[mid][mid - 1] = 1; // left open
-    maze[mid][mid] = 1;     // center open
-    maze[mid][mid + 1] = 1; // right open
-    maze[mid + 1][mid] = 1; // bottom open
+    // now set walls (0 = wall)
+    maze[mid - 1][mid - 1] = 0;
+    maze[mid - 1][mid + 1] = 0;
+    maze[mid + 1][mid - 1] = 0;
+    maze[mid + 1][mid + 1] = 0;
 
-    // Connect outer paths to each entrance
-    maze[mid - 2][mid] = 1; // top path
-    maze[mid + 2][mid] = 1; // bottom path
-    maze[mid][mid - 2] = 1; // left path
-    maze[mid][mid + 2] = 1; // right path
+    // optionally ensure connectivity to maze
+    maze[mid - 2][mid] = 1;
+    maze[mid + 2][mid] = 1;
+    maze[mid][mid - 2] = 1;
+    maze[mid][mid + 2] = 1;
 
     return maze;
 }
-
-
-// ✅ Make sure all edge cells next to player spawns are walkable
-function ensureBorderFairness(maze) {
-    const size = maze.length;
-    for (let i = 0; i < size; i++) {
-        if (maze[0][i] === 1 && maze[1][i] === 0) maze[1][i] = 1;               // top
-        if (maze[size - 1][i] === 1 && maze[size - 2][i] === 0) maze[size - 2][i] = 1; // bottom
-        if (maze[i][0] === 1 && maze[i][1] === 0) maze[i][1] = 1;               // left
-        if (maze[i][size - 1] === 1 && maze[i][size - 2] === 0) maze[i][size - 2] = 1; // right
-    }
-}
-
-// ✅ Guarantee every edge region connects to the center somehow
-function ensureCenterConnectivity(maze, mid) {
-    const size = maze.length;
-
-    const visited = Array.from({ length: size }, () => Array(size).fill(false));
-    const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
-
-    function dfs(y, x) {
-        if (y < 0 || y >= size || x < 0 || x >= size || maze[y][x] === 0 || visited[y][x]) return;
-        visited[y][x] = true;
-        for (const [dy, dx] of dirs) dfs(y + dy, x + dx);
-    }
-
-    dfs(mid, mid); // flood-fill from center
-
-    // find disconnected path cells near edges and reconnect them
-    for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
-            if (maze[y][x] === 1 && !visited[y][x]) {
-                // open a path toward center
-                const dy = Math.sign(mid - y);
-                const dx = Math.sign(mid - x);
-                if (maze[y + dy] && maze[y + dy][x + dx] === 0) {
-                    maze[y + dy][x + dx] = 1;
-                }
-            }
-        }
-    }
-}
-
-
 
 /* Writing nicknames to Firestore */
 const NICKNAMES_DOC = db.collection("maze_state").doc("nicknames");
