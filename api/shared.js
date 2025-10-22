@@ -93,6 +93,7 @@ function generateMaze(size = 19) {
     if (size % 2 === 0) size += 1;
     const maze = Array.from({ length: size }, () => Array(size).fill(0)); // 0 = wall, 1 = path
 
+    // --- 1. Base maze carving ---
     function shuffle(array) {
         return array.sort(() => Math.random() - 0.5);
     }
@@ -101,7 +102,6 @@ function generateMaze(size = 19) {
         const directions = shuffle([
             [0, -2], [0, 2], [-2, 0], [2, 0]
         ]);
-
         for (const [dx, dy] of directions) {
             const nx = x + dx;
             const ny = y + dy;
@@ -118,40 +118,30 @@ function generateMaze(size = 19) {
         }
     }
 
-    // 🌀 Generate 1 quadrant, then mirror for balance
-    const half = Math.floor(size / 2);
     maze[1][1] = 1;
     carve(1, 1);
 
-    // Mirror horizontally and vertically for approximate symmetry
-    for (let y = 0; y <= half; y++) {
-        for (let x = 0; x <= half; x++) {
-            maze[y][size - 1 - x] = maze[y][x];
-            maze[size - 1 - y][x] = maze[y][x];
-            maze[size - 1 - y][size - 1 - x] = maze[y][x];
-        }
-    }
-
-    // 🧭 Make borders all paths
+    // --- 2. Open outer border for player movement ---
     for (let i = 0; i < size; i++) {
-        maze[0][i] = 1;
-        maze[size - 1][i] = 1;
-        maze[i][0] = 1;
-        maze[i][size - 1] = 1;
+        maze[0][i] = 1;             // top
+        maze[size - 1][i] = 1;      // bottom
+        maze[i][0] = 1;             // left
+        maze[i][size - 1] = 1;      // right
     }
 
-    // 🧱 Add wall layer 1 row in from border for challenge
+    // --- 3. Add second-row wall ring (for player spawn buffer) ---
     for (let i = 1; i < size - 1; i++) {
         if (i % 2 === 0) {
-            maze[1][i] = 0; // top inner wall
-            maze[size - 2][i] = 0; // bottom inner wall
-            maze[i][1] = 0; // left inner wall
-            maze[i][size - 2] = 0; // right inner wall
+            maze[1][i] = 0;             // top inner wall
+            maze[size - 2][i] = 0;      // bottom inner wall
+            maze[i][1] = 0;             // left inner wall
+            maze[i][size - 2] = 0;      // right inner wall
         }
     }
 
-    // 🎯 Center cage 3x3 cross (010 / 111 / 010)
     const mid = Math.floor(size / 2);
+
+    // --- 4. Center cage (010 / 111 / 010) ---
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
             maze[y][x] = 0;
@@ -169,11 +159,61 @@ function generateMaze(size = 19) {
     maze[mid][mid - 2] = 1;
     maze[mid][mid + 2] = 1;
 
-    // 🧩 Guarantee connection from each side to center
-    connectFromEdgesToCenter(maze, mid);
+    // --- 5. Fairness pass ---
+    balanceMazeFairness(maze, mid);
 
     return maze;
 }
+
+// Ensure fair routes from all directions
+function balanceMazeFairness(maze, mid) {
+    const size = maze.length;
+
+    // (A) Ensure each side has an open path toward the center
+    const midLeft = mid, midRight = mid;
+    for (let y = 1; y < size - 1; y++) {
+        if (maze[y][1] === 1) { maze[y][2] = 1; break; } // left edge
+    }
+    for (let y = 1; y < size - 1; y++) {
+        if (maze[y][size - 2] === 1) { maze[y][size - 3] = 1; break; } // right edge
+    }
+    for (let x = 1; x < size - 1; x++) {
+        if (maze[1][x] === 1) { maze[2][x] = 1; break; } // top
+    }
+    for (let x = 1; x < size - 1; x++) {
+        if (maze[size - 2][x] === 1) { maze[size - 3][x] = 1; break; } // bottom
+    }
+
+    // (B) Slightly increase open density if one side too walled
+    const density = { top: 0, bottom: 0, left: 0, right: 0 };
+    for (let i = 0; i < size; i++) {
+        density.top += maze[2][i];
+        density.bottom += maze[size - 3][i];
+        density.left += maze[i][2];
+        density.right += maze[i][size - 3];
+    }
+
+    const avg = (density.top + density.bottom + density.left + density.right) / 4;
+    for (const side in density) {
+        if (density[side] < avg * 0.6) {
+            openSide(maze, side, size);
+        }
+    }
+}
+
+// open small extra gaps for low-density sides
+function openSide(maze, side, size) {
+    if (side === "top") {
+        for (let x = 2; x < size - 2; x += 2) maze[2][x] = 1;
+    } else if (side === "bottom") {
+        for (let x = 2; x < size - 2; x += 2) maze[size - 3][x] = 1;
+    } else if (side === "left") {
+        for (let y = 2; y < size - 2; y += 2) maze[y][2] = 1;
+    } else if (side === "right") {
+        for (let y = 2; y < size - 2; y += 2) maze[y][size - 3] = 1;
+    }
+}
+
 
 function connectFromEdgesToCenter(maze, mid) {
     const size = maze.length;
