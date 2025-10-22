@@ -118,41 +118,83 @@ function generateMaze(size = 19) {
         }
     }
 
-    // carve maze
     maze[1][1] = 0;
     carve(1, 1);
 
-    // make border all paths
     for (let i = 0; i < size; i++) {
-        maze[0][i] = 0;
-        maze[size - 1][i] = 0;
-        maze[i][0] = 0;
-        maze[i][size - 1] = 0;
+        maze[0][i] = 0;              // top row
+        maze[size - 1][i] = 0;       // bottom row
+        maze[i][0] = 0;              // left column
+        maze[i][size - 1] = 0;       // right column
     }
 
-    // define center
+    maze[0][0] = 0;
+    maze[0][size - 1] = 0;
+    maze[size - 1][0] = 0;
+    maze[size - 1][size - 1] = 0;
+
+    // Center of maze
     const mid = Math.floor(size / 2);
 
-    // reset a 3x3 area for the cage
+    // Clear inside of center box (3x3)
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
-            maze[y][x] = 1; // default to path (1 = path in your definition)
+            maze[y][x] = 0;
         }
     }
 
-    // now set walls (0 = wall)
-    maze[mid - 1][mid - 1] = 0;
-    maze[mid - 1][mid + 1] = 0;
-    maze[mid + 1][mid - 1] = 0;
-    maze[mid + 1][mid + 1] = 0;
+    // Build walls around (5x5 box)
+    for (let i = -2; i <= 2; i++) {
+        // Top and bottom
+        maze[mid - 2][mid + i] = 1;
+        maze[mid + 2][mid + i] = 1;
+        // Left and right
+        maze[mid + i][mid - 2] = 1;
+        maze[mid + i][mid + 2] = 1;
+    }
 
-    // optionally ensure connectivity to maze
-    maze[mid - 2][mid] = 1;
-    maze[mid + 2][mid] = 1;
-    maze[mid][mid - 2] = 1;
-    maze[mid][mid + 2] = 1;
+    // 🔓 Open 4 entrances (center of each side)
+    maze[mid - 2][mid] = 0; // top
+    maze[mid + 2][mid] = 0; // bottom
+    maze[mid][mid - 2] = 0; // left
+    maze[mid][mid + 2] = 0; // right
+
+    function forceCarvePath(x, y) {
+        const directions = [
+            [0, -1], [0, 1], [-1, 0], [1, 0]
+        ];
+
+        for (const [dx, dy] of directions) {
+            const nx = x + dx;
+            const ny = y + dy;
+
+            if (
+                ny > 0 && ny < size - 1 &&
+                nx > 0 && nx < size - 1 &&
+                maze[ny][nx] === 0
+            ) {
+                maze[y][x] = 0;
+                return;
+            }
+        }
+
+        if (y + 1 < size) maze[y + 1][x] = 0;
+    }
+
+
+    forceCarvePath(mid, mid - 2); // left
+    forceCarvePath(mid, mid + 2) // right
+    forceCarvePath(mid - 2, mid) // top
+    forceCarvePath(mid + 2, mid) // bottom
+
+    // Ensure surrounding cells are not walls (prevent blocked entrances)
+    maze[mid - 3][mid] = 0; // just above top entrance
+    maze[mid + 3][mid] = 0; // just below bottom entrance
+    maze[mid][mid - 3] = 0; // just left of left entrance
+    maze[mid][mid + 3] = 0; // just right of right entrance
 
     return maze;
+    console.log("MAZE GENERATED");
 }
 
 /* Writing nicknames to Firestore */
