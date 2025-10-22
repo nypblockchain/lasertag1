@@ -91,7 +91,7 @@ async function getMaze() {
 /* (re‑use your existing generateMaze function) */
 function generateMaze(size = 19) {
     if (size % 2 === 0) size += 1;
-    const maze = Array.from({ length: size }, () => Array(size).fill(0)); // 0 = wall, 1 = path
+    const maze = Array.from({ length: size }, () => Array(size).fill(1));
 
     function shuffle(array) {
         return array.sort(() => Math.random() - 0.5);
@@ -109,53 +109,55 @@ function generateMaze(size = 19) {
             if (
                 ny > 0 && ny < size - 1 &&
                 nx > 0 && nx < size - 1 &&
-                maze[ny][nx] === 0
+                maze[ny][nx] === 1
             ) {
-                maze[y + dy / 2][x + dx / 2] = 1;
-                maze[ny][nx] = 1;
+                maze[y + dy / 2][x + dx / 2] = 0;
+                maze[ny][nx] = 0;
                 carve(nx, ny);
             }
         }
     }
 
-    // 🌀 Generate the base maze
-    maze[1][1] = 1;
+    // Start carving
+    maze[1][1] = 0;
     carve(1, 1);
 
-    // 🧭 Make borders open
+    // Open borders (optional, depending on your game design)
     for (let i = 0; i < size; i++) {
-        maze[0][i] = 1;
-        maze[size - 1][i] = 1;
-        maze[i][0] = 1;
-        maze[i][size - 1] = 1;
+        maze[0][i] = 0;
+        maze[size - 1][i] = 0;
+        maze[i][0] = 0;
+        maze[i][size - 1] = 0;
     }
 
     const mid = Math.floor(size / 2);
 
-    // 🎯 Center cage pattern (010 / 111 / 010)
+    // First, fill a 3x3 area with walls (for control)
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
-            maze[y][x] = 0;
+            maze[y][x] = 0; // start closed
         }
     }
-    maze[mid - 1][mid] = 1;
-    maze[mid][mid - 1] = 1;
-    maze[mid][mid] = 1;
-    maze[mid][mid + 1] = 1;
-    maze[mid + 1][mid] = 1;
 
-    // connect paths into center
-    maze[mid - 2][mid] = 1;
-    maze[mid + 2][mid] = 1;
-    maze[mid][mid - 2] = 1;
-    maze[mid][mid + 2] = 1;
+    // Now apply your desired pattern:
+    // 010
+    // 111
+    // 010
+    maze[mid - 1][mid] = 1; // top open
+    maze[mid][mid - 1] = 1; // left open
+    maze[mid][mid] = 1;     // center open
+    maze[mid][mid + 1] = 1; // right open
+    maze[mid + 1][mid] = 1; // bottom open
 
-    // ⚖️ Fairness adjustments
-    ensureBorderFairness(maze);
-    ensureCenterConnectivity(maze, mid);
+    // Connect outer paths to each entrance
+    maze[mid - 2][mid] = 1; // top path
+    maze[mid + 2][mid] = 1; // bottom path
+    maze[mid][mid - 2] = 1; // left path
+    maze[mid][mid + 2] = 1; // right path
 
     return maze;
 }
+
 
 // ✅ Make sure all edge cells next to player spawns are walkable
 function ensureBorderFairness(maze) {
