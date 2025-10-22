@@ -118,11 +118,21 @@ function generateMaze(size = 19) {
         }
     }
 
-    // 🌀 Generate the base maze
+    // 🌀 Generate 1 quadrant, then mirror for balance
+    const half = Math.floor(size / 2);
     maze[1][1] = 1;
     carve(1, 1);
 
-    // 🧭 Make borders open
+    // Mirror horizontally and vertically for approximate symmetry
+    for (let y = 0; y <= half; y++) {
+        for (let x = 0; x <= half; x++) {
+            maze[y][size - 1 - x] = maze[y][x];
+            maze[size - 1 - y][x] = maze[y][x];
+            maze[size - 1 - y][size - 1 - x] = maze[y][x];
+        }
+    }
+
+    // 🧭 Make borders all paths
     for (let i = 0; i < size; i++) {
         maze[0][i] = 1;
         maze[size - 1][i] = 1;
@@ -130,32 +140,54 @@ function generateMaze(size = 19) {
         maze[i][size - 1] = 1;
     }
 
-    const mid = Math.floor(size / 2);
+    // 🧱 Add wall layer 1 row in from border for challenge
+    for (let i = 1; i < size - 1; i++) {
+        if (i % 2 === 0) {
+            maze[1][i] = 0; // top inner wall
+            maze[size - 2][i] = 0; // bottom inner wall
+            maze[i][1] = 0; // left inner wall
+            maze[i][size - 2] = 0; // right inner wall
+        }
+    }
 
-    // 🎯 Center cage pattern (010 / 111 / 010)
+    // 🎯 Center cage 3x3 cross (010 / 111 / 010)
+    const mid = Math.floor(size / 2);
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
             maze[y][x] = 0;
         }
     }
+
     maze[mid - 1][mid] = 1;
     maze[mid][mid - 1] = 1;
     maze[mid][mid] = 1;
     maze[mid][mid + 1] = 1;
     maze[mid + 1][mid] = 1;
 
-    // connect paths into center
     maze[mid - 2][mid] = 1;
     maze[mid + 2][mid] = 1;
     maze[mid][mid - 2] = 1;
     maze[mid][mid + 2] = 1;
 
-    // ⚖️ Fairness adjustments
-    ensureBorderFairness(maze);
-    ensureCenterConnectivity(maze, mid);
+    // 🧩 Guarantee connection from each side to center
+    connectFromEdgesToCenter(maze, mid);
 
     return maze;
 }
+
+function connectFromEdgesToCenter(maze, mid) {
+    const size = maze.length;
+
+    // top to center
+    for (let y = 1; y < mid; y++) maze[y][mid] = 1;
+    // bottom
+    for (let y = mid; y < size - 1; y++) maze[y][mid] = 1;
+    // left
+    for (let x = 1; x < mid; x++) maze[mid][x] = 1;
+    // right
+    for (let x = mid; x < size - 1; x++) maze[mid][x] = 1;
+}
+
 
 // ✅ Make sure all edge cells next to player spawns are walkable
 function ensureBorderFairness(maze) {
