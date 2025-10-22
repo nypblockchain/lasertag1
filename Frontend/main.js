@@ -1,6 +1,7 @@
 ﻿let mazeCache = [];
 let isPolling = false;
 let pollingInterval = null;
+let playerSpawnPoints = {};
 
 function startPolling() {
     if (!pollingInterval) {
@@ -35,6 +36,19 @@ async function fetchMazeAndPlayers() {
     try {
         const res = await fetch("/api/maze");
         const data = await res.json();
+
+        // ✅ Detect maze reset (compare dimensions or structure)
+        const mazeChanged =
+            !mazeCache.length ||
+            mazeCache.length !== data.maze.length ||
+            mazeCache[0].length !== data.maze[0].length ||
+            JSON.stringify(mazeCache) !== JSON.stringify(data.maze);
+
+        if (mazeChanged) {
+            console.log("🌀 Maze reset detected — hiding all players until they move again.");
+            playerSpawnPoints = {}; // Reset spawn memory
+        }
+
         mazeCache = data.maze;
         renderMaze(data.maze, data.players, data.pings);
     }
@@ -55,14 +69,13 @@ function renderMaze(maze, players = {}, pings = {}) {
 
     const rows = maze.length;
     const cols = maze[0].length;
-    const mid = Math.floor(rows / 2); // find center
+    const mid = Math.floor(rows / 2);
 
     mazeDiv.style.display = "grid";
     mazeDiv.style.gridTemplateColumns = `repeat(${cols}, 45px)`;
     mazeDiv.style.gridTemplateRows = `repeat(${rows}, 45px)`;
 
     const now = Date.now();
-    console.log("RenderMaze input:", { pings, players, now })
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -74,16 +87,22 @@ function renderMaze(maze, players = {}, pings = {}) {
 
             for (const [playerId, pos] of Object.entries(players)) {
                 if (pos.lives !== undefined && pos.lives <= 0) continue;
+
+                // Store spawn if not already saved
+                if (!playerSpawnPoints[playerId]) {
+                    playerSpawnPoints[playerId] = { x: pos.x, y: pos.y };
+                }
+
+                // Hide if still on spawn
+                const spawn = playerSpawnPoints[playerId];
+                const hasMoved = pos.x !== spawn.x || pos.y !== spawn.y;
+                if (!hasMoved) continue;
+
                 if (pos.y === i && pos.x === j) {
                     playerClass = playerId;
 
-                    if (pings[playerId]) {
-                        console.log("Found ping for", playerId)
-                    }
-
                     if (pings[playerId] && now - pings[playerId] < 10000) {
                         isPinged = true;
-                        console.log("Pinged cell detected:", playerId)
                     }
                     break;
                 }
@@ -92,20 +111,15 @@ function renderMaze(maze, players = {}, pings = {}) {
             if (playerClass) {
                 cell.classList.add(playerClass);
 
-                if (playerClass) {
-                    cell.classList.add(playerClass);
-                    if (isPinged) {
-                        cell.classList.add("pinged");
-                        console.log("Added ping to", playerClass, { x: j, y: i });
-                        void cell.offsetWidth;
-                        cell.classList.remove("pinged");
-                        void cell.offsetWidth;
-                        cell.classList.add("pinged");
-                    }
+                if (isPinged) {
+                    cell.classList.add("pinged");
+                    void cell.offsetWidth;
+                    cell.classList.remove("pinged");
+                    void cell.offsetWidth;
+                    cell.classList.add("pinged");
                 }
 
             } else if (maze[i][j] === 1) {
-                // Highlight walls that are part of the 5×5 center box
                 if (Math.abs(i - mid) <= 2 && Math.abs(j - mid) <= 2) {
                     cell.classList.add("center-wall");
                 } else {
@@ -119,6 +133,7 @@ function renderMaze(maze, players = {}, pings = {}) {
         }
     }
 }
+
 
 (function () {
     const audio = document.getElementById("bgMusic");
