@@ -91,7 +91,7 @@ async function getMaze() {
 /* (re‑use your existing generateMaze function) */
 function generateMaze(size = 19) {
     if (size % 2 === 0) size += 1;
-    const maze = Array.from({ length: size }, () => Array(size).fill(1));
+    const maze = Array.from({ length: size }, () => Array(size).fill(0)); // start all as walls (0 = wall)
 
     function shuffle(array) {
         return array.sort(() => Math.random() - 0.5);
@@ -109,37 +109,37 @@ function generateMaze(size = 19) {
             if (
                 ny > 0 && ny < size - 1 &&
                 nx > 0 && nx < size - 1 &&
-                maze[ny][nx] === 1
+                maze[ny][nx] === 0
             ) {
-                maze[y + dy / 2][x + dx / 2] = 0;
-                maze[ny][nx] = 0;
+                maze[y + dy / 2][x + dx / 2] = 1;
+                maze[ny][nx] = 1;
                 carve(nx, ny);
             }
         }
     }
 
-    // Start carving
-    maze[1][1] = 0;
+    // carve the main maze paths
+    maze[1][1] = 1;
     carve(1, 1);
 
-    // Open borders (optional, depending on your game design)
+    // make entire border walkable
     for (let i = 0; i < size; i++) {
-        maze[0][i] = 0;
-        maze[size - 1][i] = 0;
-        maze[i][0] = 0;
-        maze[i][size - 1] = 0;
+        maze[0][i] = 1;             // top border
+        maze[size - 1][i] = 1;      // bottom border
+        maze[i][0] = 1;             // left border
+        maze[i][size - 1] = 1;      // right border
     }
 
     const mid = Math.floor(size / 2);
 
-    // First, fill a 3x3 area with walls (for control)
+    // clear center area, then build 3×3 cage
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
-            maze[y][x] = 0; // start closed
+            maze[y][x] = 0; // start with walls
         }
     }
 
-    // Now apply your desired pattern:
+    // your desired pattern (0 = wall, 1 = path)
     // 010
     // 111
     // 010
@@ -149,14 +149,15 @@ function generateMaze(size = 19) {
     maze[mid][mid + 1] = 1; // right open
     maze[mid + 1][mid] = 1; // bottom open
 
-    // Connect outer paths to each entrance
-    maze[mid - 2][mid] = 1; // top path
-    maze[mid + 2][mid] = 1; // bottom path
-    maze[mid][mid - 2] = 1; // left path
-    maze[mid][mid + 2] = 1; // right path
+    // connect paths into the center entrances
+    maze[mid - 2][mid] = 1;
+    maze[mid + 2][mid] = 1;
+    maze[mid][mid - 2] = 1;
+    maze[mid][mid + 2] = 1;
 
     return maze;
 }
+
 
 /* Writing nicknames to Firestore */
 const NICKNAMES_DOC = db.collection("maze_state").doc("nicknames");
