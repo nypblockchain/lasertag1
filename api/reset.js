@@ -44,6 +44,11 @@ module.exports = async (req, res) => {
         await db.collection("maze_state").doc("maze").set({ rows });
         await db.collection("maze_state").doc("players").set(resetPlayers);
 
+        await Promise.all([
+            mazeRef.set({ rows }),
+            playersRef.set(resetPlayers)
+        ]);
+
         // No in-memory cache calls here (Vercel safe)
         return res.json({
             success: true,

@@ -53,6 +53,20 @@ module.exports = async (req, res) => {
             return res.json({ success: false, message: "Blocked by wall or out of bounds" });
         }
 
+        const inCenter = Math.abs(newX - mid) <= 2 &&
+            Math.abs(newY - mid) <= 2; 
+
+        if (inCenter) {
+            console.log(`${playerId} reached center - teleporting to spawn (${playerId.spawnX}, ${playerId.spawnY})`);
+
+            if (player.spawnX !== undefined && player.spawnY !== undefined) {
+                newX = player.spawnX;
+                newY = player.spawnY;
+            } else {
+                console.warn(`${playerId} has no spawn recorded - staying in place`);
+            }
+        }
+
         // ✅ Apply move and save to Firestore
         await updatePlayerPos(playerId, newX, newY);
 

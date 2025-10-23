@@ -258,7 +258,12 @@ function generatePerimeterPlayers(size = 19, count = 20, parity = 'auto') {
         while (used.has(j)) j = (j + 1) % ring.length;
         used.add(j);
         const { x, y } = ring[j];
-        players[`player${i + 1}`] = { x, y };
+        players[`player${i + 1}`] = {
+            x,
+            y, 
+            spawnX: x,
+            spawnY: y,
+        };
     }
 
     return players;
