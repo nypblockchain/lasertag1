@@ -41,8 +41,8 @@ module.exports = async (req, res) => {
         const resetPlayers = generatePerimeterPlayers(19, 20, 'auto');
 
         // Save to Firestore
-        await db.collection("maze_state").doc("maze").set({ rows });
-        await db.collection("maze_state").doc("players").set(resetPlayers);
+        const mazeRef = db.collection("maze_state").doc("maze");
+        const playersRef = db.collection("maze_state").doc("players");
 
         await Promise.all([
             mazeRef.set({ rows }),
