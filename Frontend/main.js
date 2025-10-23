@@ -120,13 +120,16 @@ function renderMaze(maze, players = {}, pings = {}) {
                 }
 
             } else if (maze[i][j] === 1) {
-                if (Math.abs(i - mid) <= 2 && Math.abs(j - mid) <= 2) {
-                    cell.classList.add("center-wall");
+                if (Math.abs(i - mid) <= 1 && Math.abs(j - mid) <= 1) {
+                    const isCorner = (Math.abs(i - mid) === 1 && Math.abs(j - mid) === 1);
+                    if (isCorner) {
+                        cell.classList.add("center-wall");
+                    } else {
+                        cell.classList.add("path");
+                    }
                 } else {
                     cell.classList.add("wall");
                 }
-            } else {
-                cell.classList.add("path");
             }
 
             mazeDiv.appendChild(cell);

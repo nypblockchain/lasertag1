@@ -53,8 +53,7 @@ module.exports = async (req, res) => {
             return res.json({ success: false, message: "Blocked by wall or out of bounds" });
         }
 
-        const inCenter = Math.abs(newX - mid) <= 2 &&
-            Math.abs(newY - mid) <= 2; 
+        const inCenter = newX === mid && newY === mid; 
 
         if (inCenter) {
             console.log(`${playerId} reached center - teleporting to spawn (${playerId.spawnX}, ${playerId.spawnY})`);

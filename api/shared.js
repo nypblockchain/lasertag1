@@ -144,20 +144,20 @@ function generateMaze(size = 19) {
     }
 
     // Build walls around (5x5 box)
-    for (let i = -2; i <= 2; i++) {
-        // Top and bottom
-        maze[mid - 2][mid + i] = 1;
-        maze[mid + 2][mid + i] = 1;
-        // Left and right
-        maze[mid + i][mid - 2] = 1;
-        maze[mid + i][mid + 2] = 1;
-    }
+    for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+            const y = mid + dy;
+            const x = mid + dx;
 
-    // 🔓 Open 4 entrances (center of each side)
-    maze[mid - 2][mid] = 0; // top
-    maze[mid + 2][mid] = 0; // bottom
-    maze[mid][mid - 2] = 0; // left
-    maze[mid][mid + 2] = 0; // right
+            const pattern = [
+                [0, 1, 0],
+                [1, 1, 1],
+                [0, 1, 0]
+            ];
+
+            maze[y][x] = pattern[dy + 1][dx + 1];
+        }
+    }
 
     function forceCarvePath(x, y) {
         const directions = [
@@ -180,7 +180,6 @@ function generateMaze(size = 19) {
 
         if (y + 1 < size) maze[y + 1][x] = 0;
     }
-
 
     forceCarvePath(mid, mid - 2); // left
     forceCarvePath(mid, mid + 2) // right
