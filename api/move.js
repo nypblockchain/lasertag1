@@ -39,8 +39,8 @@ module.exports = async (req, res) => {
         }
 
         const [dx, dy] = move;
-        const newX = player.x + dx;
-        const newY = player.y + dy;
+        let newX = player.x + dx;
+        let newY = player.y + dy;
 
         // ✅ Check walls and bounds
         const blocked = (
