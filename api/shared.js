@@ -151,18 +151,16 @@ function generateMaze(size = 19) {
         }
 
     // Build walls around (5x5 box)
-    for (let dy = -1; dy <= 1; dy++) {
-        for (let dx = -1; dx <= 1; dx++) {
-            const y = mid + dy;
-            const x = mid + dx;
+    for (let y = mid - 1; y <= mid + 1; y++) {
+        for (let x = mid - 1; x <= mid + 1; x++) {
+            const relX = x - mid;
+            const relY = y - mid;
 
-            const pattern = [
-                [0, 1, 0],
-                [1, 1, 1],
-                [0, 1, 0]
-            ];
-
-            maze[y][x] = pattern[dy + 1][dx + 1];
+            if (Math.abs(relX) === 1 && Math.abs(relY) === 1) {
+                maze[y][x] = 1;
+            } else {
+                maze[y][x] = 0;
+            }
         }
     }
 
