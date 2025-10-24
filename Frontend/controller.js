@@ -118,10 +118,7 @@ async function renderMaze(maze, players = {})  {
         { x: mid + 2, y: mid }  // right
     ];
 
-    const inCenterBox = (
-        player.x >= mid - 1 && player.x <= mid + 1 &&
-        player.y >= mid - 1 && player.y <= mid + 1
-    );
+    const inCenterBox = (player.x === mid && player.y === mid);
 
     if (inCenterBox && window.hasStartedMaze && mazeTimerInterval) {
         const result = await stopMazeTimer(playerId);
@@ -162,20 +159,19 @@ async function renderMaze(maze, players = {})  {
                 if (playerClass) {
                     cell.classList.add(playerClass);
                     cell.textContent = "";
-                } else if (maze[y][x] === 1) {
-                    // Add golden center wall for 5x5 center
+                } else if (maze[y][x]) {
                     const mid = Math.floor(maze.length / 2);
-                    if (Math.abs(y - mid) <= 2 && Math.abs(x - mid) <= 2) {
-                        cell.classList.add("center-wall"); // golden wall
+
+                    const inCenterZone = Math.abs(y - mid) <= 1 && Math.abs(x - mid) <= 1;
+                    const inCorner = Math.abs(y - mid) === 1 && Math.abs(x - mid) === 1;
+
+                    if (inCenterZone && inCorner) {
+                        cell.classList.add("center-wall");
                     } else {
                         cell.classList.add("wall");
                     }
-                    cell.textContent = "";
-                } else {
-                    cell.classList.add("path");
-                    cell.textContent = "";
                 }
-            } else {
+                } else {
                 cell.classList.add("wall");
             }
 
