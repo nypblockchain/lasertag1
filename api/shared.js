@@ -139,9 +139,16 @@ function generateMaze(size = 19) {
     // Clear inside of center box (3x3)
     for (let y = mid - 1; y <= mid + 1; y++) {
         for (let x = mid - 1; x <= mid + 1; x++) {
-            maze[y][x] = 0;
+            const relX = x - mid;
+            const relY = y - mid;
+
+            if ((Math.abs(relX) === 1 && Matha.abs(relY) === 1)) {
+                maze[y][x] = 1;
+            }
+            else {
+                maze[y][x] = 0;
+            }
         }
-    }
 
     // Build walls around (5x5 box)
     for (let dy = -1; dy <= 1; dy++) {
