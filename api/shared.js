@@ -149,6 +149,7 @@ function generateMaze(size = 19) {
                 maze[y][x] = 0;
             }
         }
+    }
 
     // Build walls around (5x5 box)
     for (let y = mid - 1; y <= mid + 1; y++) {
