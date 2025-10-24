@@ -142,7 +142,7 @@ function generateMaze(size = 19) {
             const relX = x - mid;
             const relY = y - mid;
 
-            if ((Math.abs(relX) === 1 && Matha.abs(relY) === 1)) {
+            if ((Math.abs(relX) === 1 && Math.abs(relY) === 1)) {
                 maze[y][x] = 1;
             }
             else {
