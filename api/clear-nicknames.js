@@ -2,7 +2,7 @@
 const admin = require("firebase-admin");
 
 module.exports = async (req, res) => {
-    if (req.method === "POST") {
+    if (req.method !== "POST") {
         return res.status(403).json({ error: "Method not allowed" });
     }
 
