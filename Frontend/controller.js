@@ -120,16 +120,25 @@ async function renderMaze(maze, players = {})  {
 
     const inCenterBox = (player.x === mid && player.y === mid);
 
-    if (inCenterBox && window.hasStartedMaze && mazeTimerInterval) {
-        const result = await stopMazeTimer(playerId);
+    if (inCenterBox && window.hasStartedMaze && mazeTimerInterval && !window.overlayTriggered) {
+        window.overlayTriggered = true;
+        stopPolling();
 
+        const result = await stopMazeTimer(playerId);
         triggerTimeUpOverlay(result);
 
-        await clearNickname(playerId);
+        try {
+            await clearNickname(playerId);
+            console.log(`Nickname cleared in Firestore for ${playerId}`);
+        } catch (err) {
+            console.error("Failed to clear nickname: ", err);
+        }
+
         localStorage.removeItem("playerId");
         localStorage.removeItem("nickname");
 
         window.hasStartedMaze = false;
+        window.overlayTriggered = false;
     }
 
     if (!player) return;
