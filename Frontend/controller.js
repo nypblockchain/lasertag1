@@ -122,7 +122,13 @@ async function renderMaze(maze, players = {})  {
 
     if (inCenterBox && window.hasStartedMaze && mazeTimerInterval) {
         const result = await stopMazeTimer(playerId);
+
         triggerTimeUpOverlay(result);
+
+        await clearNickname(playerId);
+        localStorage.removeItem("playerId");
+        localStorage.removeItem("nickname");
+
         window.hasStartedMaze = false;
     }
 
@@ -197,6 +203,11 @@ function appendLog(text, playerId = null) {
 }
 
 async function leave() {
+    const playerId = localStorage.getItem("playerId");
+    if (playerId) {
+        await clearNickname(playerId);
+    }
+
     localStorage.clear();
     console.log("Local Storage Cleared");
     window.location.href = "/landing";
@@ -359,6 +370,27 @@ async function sendGeminiFromButton(command) {
     } catch (err) {
         appendLog("❌ Network or Server Error");
         console.error(err);
+    }
+}
+
+async function clearNickname(playerId) {
+    if (!playerId) return;
+
+    try {
+        const res = await fetch("/api/clear-nicknames", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playerId })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            console.log(`Cleared nickname for ${playerId}`);
+        } else {
+            console.warn("Failed to clear nickname:", data.error || data);
+        }
+    } catch (err) {
+        console.error("Error clearing nickname: ", err);
     }
 }
 

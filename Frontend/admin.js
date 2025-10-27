@@ -45,28 +45,26 @@ async function clearFirestore() {
 
         try {
             const res = await fetch("/api/clear-nicknames", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passkey, mode: "nicknames" }) // different mode!
+                method: POST,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ passkey })
             });
 
             const data = await res.json();
 
             if (res.ok && data.success) {
-                alert(data.message);
+                alert(data.message || "All nicknames cleared");
+            } else {
+                alert(data.message || "Failed to clear nicknames in Firestore.");
             }
-            else {
-                alert(data.error || "Failed to clear nicknames in Firestore.");
-            }
-        }
-        catch (err) {
+        } catch (err) {
             console.error("Error clearing nicknames: ", err);
             alert("Something went wrong while clearing nicknames in Firestore.");
-        }
-        finally {
+        } finally {
             hideLoading();
         }
     };
+
     document.getElementById("passkeyOverlay").style.display = "flex";
 }
 
