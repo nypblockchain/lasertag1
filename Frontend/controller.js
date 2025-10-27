@@ -32,16 +32,6 @@ async function stopMazeTimer(playerId) {
 
     appendLog(`🏁 ${nickname} (${playerId}) reached the center in ${elapsed}s`, playerId);
 
-    try {
-        await fetch("/api/log-winner", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ playerId, nickname, elapsed })
-        });
-    } catch (err) {
-        console.error("Failed to log winner:", err);
-    }
-
     return { elapsed, nickname };
 }
 
@@ -122,23 +112,39 @@ async function renderMaze(maze, players = {})  {
 
     if (inCenterBox && window.hasStartedMaze && mazeTimerInterval && !window.overlayTriggered) {
         window.overlayTriggered = true;
-        stopPolling();
 
-        const result = await stopMazeTimer(playerId);
-        triggerTimeUpOverlay(result);
+        const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
+        const nickname = nicknamesMap[playerId] || localStorage.getItem("nickname") || playerId;
+
+        console.log("Player reached center: ", { playerId, nickname, elapsed });
 
         try {
-            await clearNickname(playerId);
-            console.log(`Nickname cleared in Firestore for ${playerId}`);
+            const res = await fetch("/api/log-winner", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ playerId, nickname, elapsed })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                console.log("Winner logged successfully: ", data);
+            } else {
+                console.warn("Failed to log winner: ", data.error);
+            }
         } catch (err) {
-            console.error("Failed to clear nickname: ", err);
+            console.error("Error calling log-winner: ", err);
         }
 
-        localStorage.removeItem("playerId");
-        localStorage.removeItem("nickname");
+        triggerTimeUpOverlay({ elapsed, nickname });
 
-        window.hasStartedMaze = false;
-        window.overlayTriggered = false;
+        setTimeout(async () => {
+            await clearNickname("playerId");
+            localStorage.removeItem("playerId");
+            localStorage.removeItem("nickname");
+            window.hasStartedMaze = false;
+            window.overlayTriggered = false;
+        }, 1200)
+
     }
 
     if (!player) return;
