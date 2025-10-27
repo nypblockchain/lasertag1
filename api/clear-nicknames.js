@@ -1,4 +1,4 @@
-﻿const { db, resetNickenames } = require("./shared");
+﻿const { db, resetNicknames } = require("./shared");
 const admin = require("firebase-admin");
 
 module.exports = async (req, res) => {
