@@ -24,7 +24,7 @@ if (canvas) {
     let nextShootingStarTime = 0;
 
     function spawnShootingStar() {
-        const startX = Math.random() *(canvas.width * 0.8;
+        const startX = Math.random() * canvas.width * 0.8;
         const startY = Math.random() * (canvas.height * 0.1);
 
         const length = 180 + Math.random() * 180;
