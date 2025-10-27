@@ -119,6 +119,7 @@ async function renderMaze(maze, players = {})  {
         console.log("Player reached center: ", { playerId, nickname, elapsed });
 
         try {
+            console.log("is it running? ", playerId, nickname, elapsed);
             const res = await fetch("/api/log-winner", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -138,12 +139,13 @@ async function renderMaze(maze, players = {})  {
         triggerTimeUpOverlay({ elapsed, nickname });
 
         setTimeout(async () => {
-            await clearNickname("playerId");
+            await clearNickname(playerId);
             localStorage.removeItem("playerId");
             localStorage.removeItem("nickname");
             window.hasStartedMaze = false;
             window.overlayTriggered = false;
-        }, 1200)
+            console.log(`cleared nickname for ${playerId}`);
+        }, 5000)
 
     }
 
