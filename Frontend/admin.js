@@ -45,7 +45,7 @@ async function clearFirestore() {
 
         try {
             const res = await fetch("/api/clear-nicknames", {
-                method: POST,
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ passkey })
             });

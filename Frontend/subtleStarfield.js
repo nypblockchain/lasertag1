@@ -30,6 +30,8 @@ if (canvas) {
         const length = 180 + Math.random() * 180;
         const speed = 8 + Math.random() * 5;
 
+        const hueValue = 210 + Math.random() * 90;
+
         shootingStars.push({
             x: startX,
             y: startY,
@@ -37,7 +39,7 @@ if (canvas) {
             speed,
             angle: Math.PI / 4 + (Math.random() * 0.2 - 0.1),
             opacity: 1,
-            hue,
+            hue: hueValue,
             lightness: 60 + Math.random() * 20
         });
     }
