@@ -555,3 +555,52 @@ li {
         background-color: #ff00cc;
         color: #000;
     }
+
+#rightPanel {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #ff00ff;
+    box-shadow: 0 0 20px #ff00ff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 260px;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+}
+
+#rightPanel h3 {
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+    margin-bottom: 15px;
+}
+
+.leaderboard-section {
+    margin-bottom: 25px;
+    background: rgba(30, 0, 30, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: inset 0 0 15px #ff00ff;
+}
+
+.leaderboard-section h4 {
+    color: #ff00ff;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.leaderboard-section ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leaderboard-section li {
+    margin: 6px 0;
+    color: #ffc8ff;
+    font-size: 0.95em;
+}
+
+.leaderboard-section li:first-child {
+    color: #ff00ff;
+    font-weight: bold;
+}

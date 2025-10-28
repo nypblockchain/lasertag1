@@ -39,4 +39,47 @@ async function loadLeaderboard() {
     }
 }
 
-window.addEventListener("load", loadLeaderboard);
+async function loadRightLeaderboard() {
+    const under1Container = document.getElementById("leaderboardUnder1");
+    const after1Container = document.getElementById("leaderboardAfter1");
+
+    if (!underContainer || after1Container) {
+        console.warn("Right panel containers not found.");
+        return;
+    }
+
+    try {
+        const res = await fetch("/api/log-winner");
+        const data = await res.json();
+
+        if (!data.success || !data.entries || data.entries.length === 0) {
+            under1Container.innerHTML = "<p>No entries yet.</p>";
+            after1Container.innerHTML = "<p>No entries yet.</p>";
+            return;
+        }
+
+        const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed);
+
+        const under1 = sorted.filter(e => elapsed < 60);
+        const after1 = sorted.filter(e => elapsed >= 60 && e.elapsed < 120);
+
+        const renderList = (arr) => {
+            if (!arr.length) return "<p>No entries.</p>";
+            return `<ol>${arr.map((e, i) =>
+                `<li>${i + 1}. ${e.nickname}: ${e.elapsed}s</li>`
+            ).join("")}</ol>`;
+        }
+
+        under1Container.innerHTML = renderList(under1);
+        after1Container.innerHTML = renderList(after1);
+    } catch (err) {
+        console.error("Failed to load right leaderboard:", err);
+        under1Container.innerHTML = "<p>Failed to load entries.</p>";
+        after1Container.innerHTML = "<p>Failed to load entries.</p>";
+    }
+}
+
+window.addEventListener("load", () => {
+    loadLeaderboard();
+    loadRightLeaderboard();
+})
