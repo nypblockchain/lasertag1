@@ -114,12 +114,11 @@ async function renderMaze(maze, players = {})  {
         window.overlayTriggered = true;
 
         const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
-        const nickname = nicknamesMap[playerId] || localStorage.getItem("nickname") || playerId;
+        const nickname = nicknamesMap[playerId] || playerId || localStorage.getItem("nickname");
 
         console.log("Player reached center: ", { playerId, nickname, elapsed });
 
         try {
-            console.log("is it running? ", playerId, nickname, elapsed);
             const res = await fetch("/api/log-winner", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -127,26 +126,43 @@ async function renderMaze(maze, players = {})  {
             });
 
             const data = await res.json();
-            if (data.success) {
-                console.log("Winner logged successfully: ", data);
-            } else {
-                console.warn("Failed to log winner: ", data.error);
-            }
+            if (data.success) console.log("Winner logged successfully");
         } catch (err) {
             console.error("Error calling log-winner: ", err);
         }
 
-        triggerTimeUpOverlay({ elapsed, nickname });
+        triggerTimeUpOverlay({ elapsed, nickname }); \
 
         setTimeout(async () => {
-            await clearNickname(playerId);
+            await resetNicknames(playerId);
             localStorage.removeItem("playerId");
             localStorage.removeItem("nickname");
             window.hasStartedMaze = false;
-            window.overlayTriggered = false;
-            console.log(`cleared nickname for ${playerId}`);
-        }, 5000)
+            console.log(`Cleared nickname for ${playerId}`);
+        }, 5000);
 
+        setTimeout(async () => {
+            try {
+                const spawnX = player.spawnX ?? 1;
+                const spawnY = player.spawnY ?? 1;
+
+                await fetch("/api/move", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        playerId,
+                        direction: null,
+                        spawnX,
+                        spawnY,
+                    })
+                });
+
+                console.log(`Respawned ${playerId} at spawn after 15 seconds.`);
+                window.overlayTriggered = false;
+            } catch (err) {
+                console.error("Respawn failed: ", err);
+            }
+        }, 7500);
     }
 
     if (!player) return;
