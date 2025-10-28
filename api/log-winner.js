@@ -25,6 +25,22 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
+        const recentSnapshot = await db.collection("maze_winners")
+            .where("playerId", "==", playerId)
+            .orderBy("timestamp", "desc")
+            .limit(1)
+            .get();
+
+        if (!recentSnapshot.empty) {
+            const recentDoc = recentSnapshot.docs[0].data();
+            const timeSinceLast = Date.now() - recentDoc.timestamp;
+
+            if (timeSinceLast < 10000 || recentDoc.elapsed === elapsed) {
+                console.log(`Duplicate log ignored for ${playerId}`);
+                return res.json({ success: false, duplicate: true, message: "Duplicate win ignored." })
+            }
+        }
+
         const docId = `${playerId}_${Date.now()}`;
 
         try {
