@@ -53,17 +53,31 @@ module.exports = async (req, res) => {
             return res.json({ success: false, message: "Blocked by wall or out of bounds" });
         }
 
-        const inCenter = newX === mid && newY === mid; 
+        const inCenter = newX === mid && newY === mid;
 
         if (inCenter) {
-            console.log(`${playerId} reached center - teleporting to spawn (${playerId.spawnX}, ${playerId.spawnY})`);
+            console.log(`${playerId} reached the center.`);
 
-            if (player.spawnX !== undefined && player.spawnY !== undefined) {
-                newX = player.spawnX;
-                newY = player.spawnY;
-            } else {
-                console.warn(`${playerId} has no spawn recorded - staying in place`);
-            }
+            await updatePlayerPos(playerId, newX, newY);
+
+            setTimeout(async () => {
+                try {
+                    if (player.spawnX !== undefined && player.spawnY !== undefined) {
+                        await updatePlayerPos(playerId, player.spawnX, player.spawnY);
+                        console.log(`${playerId} sent back to spawn after 15 seconds.`);
+                    } else {
+                        console.warn(`${playerId} has no spawn record.`);
+                    }
+                } catch (err) {
+                    console.error("Error during tp: ", err);
+                }
+            }, 15000);
+
+            return res.json({
+                success: true,
+                reachedCenter: true,
+                message: "Player reached the center. Respawning in 15 seconds."
+            });
         }
 
         // ✅ Apply move and save to Firestore
