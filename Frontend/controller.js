@@ -210,8 +210,8 @@ async function renderMaze(maze, players = {})  {
                         cell.classList.add("wall");
                     }
                 }
-                } else {
-                cell.classList.add("wall");
+            } else {
+                cell.classList.add("path");
             }
 
             mazeDiv.appendChild(cell);
