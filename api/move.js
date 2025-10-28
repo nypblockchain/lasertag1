@@ -6,6 +6,11 @@ module.exports = async (req, res) => {
     }
 
     const { direction, playerId, respawn } = req.body || {};
+    console.log("Incoming move request:", { direction, playerId, respawn });
+
+    if (!playerId) {
+        return res.status(400).json({ error: "Missing playerId" });
+    }
 
     if (respawn) {
         try {
@@ -33,7 +38,7 @@ module.exports = async (req, res) => {
         }
     }
 
-    if (!direction || playerId) {
+    if (!direction) {
         return res.status(400).json({ error: "Missing directions or playerId" });
     }
 
