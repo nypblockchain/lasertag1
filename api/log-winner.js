@@ -26,9 +26,7 @@ module.exports = async (req, res) => {
         }
 
         const recentSnapshot = await db.collection("maze_winners")
-            .where("playerId", "==", playerId)
-            .orderBy("timestamp", "desc")
-            .limit(1)
+            .where("nickname", "==", nickname)
             .get();
 
         if (!recentSnapshot.empty) {
@@ -36,7 +34,7 @@ module.exports = async (req, res) => {
             const timeSinceLast = Date.now() - recentDoc.timestamp;
 
             if (timeSinceLast < 10000 || recentDoc.elapsed === elapsed) {
-                console.log(`Duplicate log ignored for ${playerId}`);
+                console.log(`Duplicate log ignored for ${nickname}`);
                 return res.json({ success: false, duplicate: true, message: "Duplicate win ignored." })
             }
         }
