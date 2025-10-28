@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { direction, playerId } = req.body || {};
+    const { direction, playerId, respawn } = req.body || {};
 
     if (respawn) {
         try {
