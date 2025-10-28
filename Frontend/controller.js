@@ -131,7 +131,7 @@ async function renderMaze(maze, players = {})  {
             console.error("Error calling log-winner: ", err);
         }
 
-        triggerTimeUpOverlay({ elapsed, nickname }); \
+        triggerTimeUpOverlay({ elapsed, nickname }); 
 
         setTimeout(async () => {
             await resetNicknames(playerId);
