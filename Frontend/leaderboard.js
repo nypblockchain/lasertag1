@@ -60,8 +60,8 @@ async function loadRightLeaderboard() {
 
         const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed);
 
-        const under1 = sorted.filter(e => elapsed < 60);
-        const after1 = sorted.filter(e => elapsed >= 60 && e.elapsed < 120);
+        const under1 = sorted.filter(entry => entry.elapsed < 60);
+        const after1 = sorted.filter(entry => entry.elapsed >= 60 && entry.elapsed < 120);
 
         const renderList = (arr) => {
             if (!arr.length) return "<p>No entries.</p>";
