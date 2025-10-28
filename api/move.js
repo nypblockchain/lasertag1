@@ -6,8 +6,35 @@ module.exports = async (req, res) => {
     }
 
     const { direction, playerId } = req.body || {};
-    if (!direction || !playerId) {
-        return res.status(400).json({ error: "Missing direction or playerId" });
+
+    if (respawn) {
+        try {
+            const players = await getPlayers();
+            const player = players[playerId];
+
+            if (!player) {
+                return res.status.json({ error: `${playerId} not found` });
+            }
+
+            const spawnX = player.spawnX ?? player.x ?? 0;
+            const spawnY = player.spawnY ?? player.y ?? 0;
+
+            await updatePlayerPos(playerId, spawnX, spawnY);
+            console.log(`Respawned ${playerId} at (${spawnX}, ${spawnY})`);
+
+            return res.json({
+                success: true,
+                respawned: true,
+                newPosition: { x: spawnX, y: spawnY },
+            });
+        } catch (err) {
+            console.error("Respawn failed: ", err);
+            return res.status(500).json({ error: "Failed to respawn players." });
+        }
+    }
+
+    if (!direction || playerId) {
+        return res.status(400).json({ error: "Missing directions or playerId" });
     }
 
     try {
@@ -56,28 +83,15 @@ module.exports = async (req, res) => {
         const inCenter = newX === mid && newY === mid;
 
         if (inCenter) {
-            console.log(`${playerId} reached the center.`);
+            console.log(`${playerId} reached center.`);
 
             await updatePlayerPos(playerId, newX, newY);
-
-            setTimeout(async () => {
-                try {
-                    if (player.spawnX !== undefined && player.spawnY !== undefined) {
-                        await updatePlayerPos(playerId, player.spawnX, player.spawnY);
-                        console.log(`${playerId} sent back to spawn after 15 seconds.`);
-                    } else {
-                        console.warn(`${playerId} has no spawn record.`);
-                    }
-                } catch (err) {
-                    console.error("Error during tp: ", err);
-                }
-            }, 15000);
 
             return res.json({
                 success: true,
                 reachedCenter: true,
-                message: "Player reached the center. Respawning in 15 seconds."
-            });
+                message: "Player has reached the center. Respawn handled by frontend."
+            })
         }
 
         // ✅ Apply move and save to Firestore
