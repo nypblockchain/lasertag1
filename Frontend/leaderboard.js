@@ -43,7 +43,7 @@ async function loadRightLeaderboard() {
     const under1Container = document.getElementById("leaderboardUnder1");
     const after1Container = document.getElementById("leaderboardAfter1");
 
-    if (!under1Container || after1Container) {
+    if (!under1Container || !after1Container) {
         console.warn("Right panel containers not found.");
         return;
     }
