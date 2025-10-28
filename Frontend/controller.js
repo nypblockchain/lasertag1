@@ -113,6 +113,8 @@ async function renderMaze(maze, players = {})  {
     if (inCenterBox && window.hasStartedMaze && !window.overlayTriggered) {
         window.overlayTriggered = true;
 
+        if (pollingInterval) clearInterval(pollingInterval);
+
         const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
         const nickname = nicknamesMap[playerId] || playerId || localStorage.getItem("nickname");
 
@@ -246,6 +248,24 @@ async function leave() {
     window.location.href = "/landing";
 }
 
+async function resetNicknames(playerId) {
+    try {
+        const res = await fetch("/api/clear-nicknames", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playerId })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            console.log(`Nickname cleared for ${playerId}`);
+        } else {
+            console.warn(`Failed to clear nickname for ${playerId}: `, data.message);
+        }
+    } catch (err) {
+        console.error("Error calling resetNicknames", err);
+    }
+}
 
 async function submitCommand() {
     const input = document.getElementById("commandInput");
