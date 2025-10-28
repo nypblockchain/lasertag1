@@ -110,7 +110,7 @@ async function renderMaze(maze, players = {})  {
 
     const inCenterBox = (player.x === mid && player.y === mid);
 
-    if (inCenterBox && window.hasStartedMaze) {
+    if (inCenterBox && window.hasStartedMaze && !window.overlayTriggered) {
         window.overlayTriggered = true;
 
         const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
