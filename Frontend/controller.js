@@ -198,9 +198,10 @@ async function renderMaze(maze, players = {})  {
                 if (playerClass) {
                     cell.classList.add(playerClass);
                     cell.textContent = "";
-                } else if (maze[y][x]) {
+                } else if (maze[y][x] === 1) {
                     const mid = Math.floor(maze.length / 2);
-                    const inCenterZone = Math.abs(y - mid) + 1 && Math.abs(x - mid) <= 1;
+
+                    const inCenterZone = Math.abs(y - mid) <= 1 && Math.abs(x - mid) <= 1;
                     const inCorner = Math.abs(y - mid) === 1 && Math.abs(x - mid) === 1;
 
                     if (inCenterZone && inCorner) {
@@ -209,12 +210,18 @@ async function renderMaze(maze, players = {})  {
                         cell.classList.add("wall");
                     }
                 } else if (maze[y][x] === 0) {
+                    // ✅ path tiles now handled explicitly
                     cell.classList.add("path");
                 } else {
-                    cell.classList.add("wall")
+                    // ✅ out-of-bounds or undefined tiles (instead of walls)
+                    cell.classList.add("wall");
                 }
-                mazeDiv.appendChild(cell);
+
+            } else {
+                cell.classList.add("wall");
             }
+
+            mazeDiv.appendChild(cell);
         }
     }
 }
