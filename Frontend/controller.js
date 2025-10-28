@@ -200,8 +200,7 @@ async function renderMaze(maze, players = {})  {
                     cell.textContent = "";
                 } else if (maze[y][x]) {
                     const mid = Math.floor(maze.length / 2);
-
-                    const inCenterZone = Math.abs(y - mid) <= 1 && Math.abs(x - mid) <= 1;
+                    const inCenterZone = Math.abs(y - mid) + 1 && Math.abs(x - mid) <= 1;
                     const inCorner = Math.abs(y - mid) === 1 && Math.abs(x - mid) === 1;
 
                     if (inCenterZone && inCorner) {
@@ -209,12 +208,13 @@ async function renderMaze(maze, players = {})  {
                     } else {
                         cell.classList.add("wall");
                     }
+                } else if (maze[y][x] === 0) {
+                    cell.classList.add("path");
+                } else {
+                    cell.classList.add("wall")
                 }
-            } else {
-                cell.classList.add("path");
+                mazeDiv.appendChild(cell);
             }
-
-            mazeDiv.appendChild(cell);
         }
     }
 }
