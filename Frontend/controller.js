@@ -557,7 +557,7 @@ function startInactivityMonitor() {
                 inactivityCountdownInterval = setInterval(() => {
                     countdown -= 1;
                     countdownEl.textContent = countdown;
-                }, 1000);
+                }, 5000);
             }
         }
 
@@ -594,7 +594,7 @@ function startInactivityMonitor() {
             const statusEl = document.getElementById("status");
             if (statusEl) statusEl.textContent = "🕒 You were inactive and have been reset.";
         }
-    }, 10000); // check every 10s
+    }, 1000); // check every 10s
 }
 
 window.onload = async () => {
