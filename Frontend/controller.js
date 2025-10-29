@@ -578,11 +578,12 @@ function triggerInactivityOverlay(seconds = 30) {
     }, 1000);
 }
 
-
+let inactivityOverlayShown = false;
 
 function startInactivityMonitor() {
     if (inactivityCheckInterval) clearInterval(inactivityCheckInterval);
 
+    console.log("🕵️ Inactivity monitor started");
     inactivityCheckInterval = setInterval(async () => {
         const now = Date.now();
         const playerId = getCurrentPlayer();
@@ -590,36 +591,34 @@ function startInactivityMonitor() {
 
         const inactiveFor = now - lastActivityTime;
 
-        // ⚠️ Step 1: show warning overlay after 1.5 min
-        if (inactiveFor > WARNING_TIME_MS && inactiveFor < INACTIVITY_LIMIT_MS) {
+        // ⚠️ Step 1: show warning overlay once
+        if (!inactivityOverlayShown && inactiveFor > WARNING_TIME_MS && inactiveFor < INACTIVITY_LIMIT_MS) {
+            inactivityOverlayShown = true;
+            console.log("⚠️ Showing inactivity overlay");
             triggerInactivityOverlay(30);
         }
-
 
         // ⏰ Step 2: trigger backend respawn after 2 minutes
         if (inactiveFor >= INACTIVITY_LIMIT_MS) {
             console.warn(`${playerId} inactive for 2 minutes — triggering respawn`);
 
+            inactivityOverlayShown = false; // reset for next round
             clearInterval(inactivityCheckInterval);
             clearInterval(inactivityCountdownInterval);
-
             document.getElementById("inactivityOverlay")?.classList.add("hidden");
 
             try {
                 await resetNicknames(playerId);
-
                 await fetch("/api/move", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ playerId, respawn: true })
                 });
-
                 console.log(`✅ ${playerId} auto-respawned after inactivity`);
             } catch (err) {
                 console.error("Inactivity reset failed:", err);
             }
 
-            // local cleanup
             localStorage.removeItem("playerId");
             localStorage.removeItem("nickname");
             stopPolling();
@@ -629,8 +628,9 @@ function startInactivityMonitor() {
             const statusEl = document.getElementById("status");
             if (statusEl) statusEl.textContent = "🕒 You were inactive and have been reset.";
         }
-    }, 1000); // check every 10s
+    }, 1000);
 }
+
 
 window.onload = async () => {
     try {
