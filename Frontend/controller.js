@@ -6,6 +6,11 @@ let isPolling = false;
 let nicknamesMap = {};
 let mazeStartTime = null;
 let mazeTimerInterval = null;
+let lastActivityTime = Date.now();
+let inactivityCheckInterval = null;
+let inactivityCountdownInterval = null;
+const INACTIVITY_LIMIT_MS = 2 * 60 * 1000; // 2 minutes
+const WARNING_TIME_MS = 90 * 1000; // 1.5 minutes
 
 function toggleReconnectOverlay(show) {
     const overlay = document.getElementById("reconnectOverlay");
@@ -280,6 +285,7 @@ async function resetNicknames(playerId) {
 }
 
 async function submitCommand() {
+    lastActivityTime = Date.now();
     const input = document.getElementById("commandInput");
     const command = input.value.trim();
     const playerId = getCurrentPlayer();
@@ -497,6 +503,7 @@ if (savedPlayerId) {
 document.getElementById("playerSelect").addEventListener("change", fetchMazeAndPlayers);
 
 document.getElementById("pingBtn").addEventListener("click", async () => {
+    lastActivityTime = Date.now();
     const playerId = getCurrentPlayer();
     const statusEl = document.getElementById("status");
 
@@ -526,6 +533,70 @@ document.getElementById("pingBtn").addEventListener("click", async () => {
     }, 2000);
 });
 
+function startInactivityMonitor() {
+    if (inactivityCheckInterval) clearInterval(inactivityCheckInterval);
+
+    inactivityCheckInterval = setInterval(async () => {
+        const now = Date.now();
+        const playerId = getCurrentPlayer();
+        if (!playerId) return;
+
+        const inactiveFor = now - lastActivityTime;
+
+        // ⚠️ Step 1: show warning overlay after 1.5 min
+        if (inactiveFor > WARNING_TIME_MS && inactiveFor < INACTIVITY_LIMIT_MS) {
+            const overlay = document.getElementById("inactivityOverlay");
+            const countdownEl = document.getElementById("inactivityCountdown");
+
+            if (overlay && overlay.classList.contains("hidden")) {
+                overlay.classList.remove("hidden");
+                let countdown = 30;
+                countdownEl.textContent = countdown;
+
+                clearInterval(inactivityCountdownInterval);
+                inactivityCountdownInterval = setInterval(() => {
+                    countdown -= 1;
+                    countdownEl.textContent = countdown;
+                }, 1000);
+            }
+        }
+
+        // ⏰ Step 2: trigger backend respawn after 2 minutes
+        if (inactiveFor >= INACTIVITY_LIMIT_MS) {
+            console.warn(`${playerId} inactive for 2 minutes — triggering respawn`);
+
+            clearInterval(inactivityCheckInterval);
+            clearInterval(inactivityCountdownInterval);
+
+            document.getElementById("inactivityOverlay")?.classList.add("hidden");
+
+            try {
+                await resetNicknames(playerId);
+
+                await fetch("/api/move", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ playerId, respawn: true })
+                });
+
+                console.log(`✅ ${playerId} auto-respawned after inactivity`);
+            } catch (err) {
+                console.error("Inactivity reset failed:", err);
+            }
+
+            // local cleanup
+            localStorage.removeItem("playerId");
+            localStorage.removeItem("nickname");
+            stopPolling();
+            clearInterval(mazeTimerInterval);
+            mazeTimerInterval = null;
+
+            const statusEl = document.getElementById("status");
+            if (statusEl) statusEl.textContent = "🕒 You were inactive and have been reset.";
+        }
+    }, 10000); // check every 10s
+}
+
 window.onload = async () => {
     const overlay = document.getElementById("reconnectOverlay");
     if (overlay) overlay.classList.add("hidden")
@@ -533,6 +604,8 @@ window.onload = async () => {
     await fetchNicknames();
     await fetchMazeAndPlayers();
     stopPolling();
+
+    startInactivityMonitor();
 
     // Set default visibility for control modes
     document.getElementById("geminiInputControls").style.display = "block";
