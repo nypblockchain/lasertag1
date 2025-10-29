@@ -103,7 +103,14 @@
         </div>
     </div>
 
-    <script type="module" src="/Frontend/controller.js"></script>
+    <div id="inactivityOverlay" class="hidden">
+        <div class="overlay-content">
+            <h2>Inactivity Warning</h2>
+            <p>You've been inactive for 90 seconds. You will be reset in <span id="inactivityCountdown">30</span> seconds.</p>
+        </div>
+    </div>
+
+    <script src="/Frontend/controller.js"></script>
 </body>
 </html>
 
