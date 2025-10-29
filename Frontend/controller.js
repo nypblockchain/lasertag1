@@ -7,6 +7,13 @@ let nicknamesMap = {};
 let mazeStartTime = null;
 let mazeTimerInterval = null;
 
+function toggleReconnectOverlay(show) {
+    const overlay = document.getElementById("reconnectOverlay");
+    if (!overlay) return;
+    if (show) overlay.classList.remove("hidden");
+    else overlay.classList.add("hidden");
+}
+
 function startMazeTimer() {
     mazeStartTime = Date.now();
 
@@ -323,8 +330,9 @@ async function submitCommand() {
         await fetchMazeAndPlayers();
 
     } catch (err) {
-        appendLog("❌ Network or Server Error");
-        console.error(err);
+        console.error("Gemini Error: ", err);
+        toggleReconnectOverlay(true);
+        setTimeout(() => toggleReconnectOverlay(false), 4000);
     }
 }
 
@@ -426,8 +434,9 @@ async function sendGeminiFromButton(command) {
         await fetchMazeAndPlayers();
 
     } catch (err) {
-        appendLog("❌ Network or Server Error");
-        console.error(err);
+        console.error("Gemini error: ", err);
+        toggleReconnectOverlay(true);
+        setTimeout(() => toggleReconnectOverlay(false), 4000);
     }
 }
 

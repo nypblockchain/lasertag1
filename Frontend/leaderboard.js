@@ -20,7 +20,7 @@ async function loadLeaderboard() {
         }
 
         // Sort by elapsed time (ascending)
-        const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed);
+        const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed).slice(0, 5);
 
         const list = document.createElement("ol");
         sorted.forEach(entry => {
@@ -41,9 +41,8 @@ async function loadLeaderboard() {
 
 async function loadRightLeaderboard() {
     const under1Container = document.getElementById("leaderboardUnder1");
-    const after1Container = document.getElementById("leaderboardAfter1");
 
-    if (!under1Container || !after1Container) {
+    if (!under1Container) {
         console.warn("Right panel containers not found.");
         return;
     }
@@ -54,14 +53,12 @@ async function loadRightLeaderboard() {
 
         if (!data.success || !data.entries || data.entries.length === 0) {
             under1Container.innerHTML = "<p>No entries yet.</p>";
-            after1Container.innerHTML = "<p>No entries yet.</p>";
             return;
         }
 
         const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed);
 
-        const under1 = sorted.filter(entry => entry.elapsed < 60);
-        const after1 = sorted.filter(entry => entry.elapsed >= 60 && entry.elapsed < 120);
+        const under1 = sorted.filter(entry => entry.elapsed < 60).slice(0, 5);
 
         const renderList = (arr) => {
             if (!arr.length) return "<p>No entries.</p>";
@@ -71,11 +68,9 @@ async function loadRightLeaderboard() {
         }
 
         under1Container.innerHTML = renderList(under1);
-        after1Container.innerHTML = renderList(after1);
     } catch (err) {
         console.error("Failed to load right leaderboard:", err);
         under1Container.innerHTML = "<p>Failed to load entries.</p>";
-        after1Container.innerHTML = "<p>Failed to load entries.</p>";
     }
 }
 
