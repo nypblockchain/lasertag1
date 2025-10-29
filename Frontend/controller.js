@@ -148,7 +148,7 @@ async function renderMaze(maze, players = {})  {
             localStorage.removeItem("nickname");
             window.hasStartedMaze = false;
             console.log(`Cleared nickname for ${playerId}`);
-        }, 5000);
+        }, 3000);
 
         setTimeout(async () => {
             try {
@@ -169,7 +169,7 @@ async function renderMaze(maze, players = {})  {
             } catch (err) {
                 console.error("Respawn failed: ", err);
             }
-        }, 7500);
+        }, 5000);
     }
 
     if (!player) return;
