@@ -12,27 +12,6 @@ let inactivityCountdownInterval = null;
 const INACTIVITY_LIMIT_MS = 2 * 60 * 1000; // 2 minutes
 const WARNING_TIME_MS = 30 * 1000
 
-function triggerReconnectOverlay(message = "Reconnecting to server...") {
-    const overlay = document.getElementById("reconnectOverlay");
-    const content = overlay?.querySelector(".overlay-content p");
-
-    if (!overlay) {
-        console.warn("⚠️ reconnectOverlay element not found in DOM");
-        return;
-    }
-
-    if (content) {
-        content.innerHTML = `${message}<br><br><em>Attempting to reconnect...</em>`;
-    }
-
-    overlay.classList.remove("hidden");
-
-    // Automatically hide after a few seconds
-    setTimeout(() => {
-        overlay.classList.add("hidden");
-    }, 4000);
-}
-
 function startMazeTimer() {
     mazeStartTime = Date.now();
 
@@ -117,6 +96,29 @@ async function fetchMazeAndPlayers() {
             isInitialLoad = false;
         }
     }
+}
+
+function triggerReconnectOverlay(message = "Reconnecting... Gemini seems to be taking a break.") {
+    const overlay = document.getElementById("reconnectOverlay");
+    const messageEl = overlay?.querySelector(".overlay-content p");
+
+    if (!overlay) {
+        console.warn("⚠️ reconnectOverlay not found in DOM");
+        return;
+    }
+
+    // Update overlay message
+    if (messageEl) {
+        messageEl.textContent = message;
+    }
+
+    // Show overlay
+    overlay.classList.remove("hidden");
+
+    // Automatically hide it after 4 seconds
+    setTimeout(() => {
+        overlay.classList.add("hidden");
+    }, 4000);
 }
 
 async function renderMaze(maze, players = {})  {
@@ -351,7 +353,7 @@ async function submitCommand() {
 
     } catch (err) {
         console.error("Gemini Error: ", err);
-        triggerReconnectOverlay("Gemini seems to be taking a break...");
+        triggerReconnectOverlay("Gemini seems to be taking a break... attempting to reconnect.");
     }
 }
 
@@ -453,8 +455,8 @@ async function sendGeminiFromButton(command) {
         await fetchMazeAndPlayers();
 
     } catch (err) {
-        console.error("Gemini error: ", err);
-        triggerReconnectOverlay("Gemini seems to be taking a break...");
+        console.error("Gemini Error: ", err);
+        triggerReconnectOverlay("Gemini seems to be taking a break... attempting to reconnect.");
     }
 }
 
@@ -545,33 +547,29 @@ document.getElementById("pingBtn").addEventListener("click", async () => {
     }, 2000);
 });
 
-function triggerInactivityOverlay(playerId) {
+function triggerInactivityOverlay(seconds = 30) {
     const overlay = document.getElementById("inactivityOverlay");
     const countdownEl = document.getElementById("inactivityCountdown");
     const messageEl = overlay?.querySelector(".overlay-content p");
 
     if (!overlay) {
-        console.warn("⚠️ inactivityOverlay element not found in DOM");
+        console.warn("⚠️ inactivityOverlay not found in DOM");
         return;
     }
 
-    // Reset if already counting down
     clearInterval(inactivityCountdownInterval);
-
-    let countdown = 30; // seconds before auto-respawn
-    countdownEl.textContent = countdown;
+    let countdown = seconds;
 
     if (messageEl) {
-        messageEl.innerHTML = `You've been inactive for 60 seconds.<br>
-        You will be reset in <span id="inactivityCountdown">${countdown}</span> seconds.`;
+        messageEl.innerHTML = `You've been inactive for 60 seconds.<br>You will be reset in <span id="inactivityCountdown">${countdown}</span> seconds.`;
     }
 
     overlay.classList.remove("hidden");
 
     inactivityCountdownInterval = setInterval(() => {
         countdown -= 1;
-        const countdownText = document.getElementById("inactivityCountdown");
-        if (countdownText) countdownText.textContent = countdown;
+        const cd = document.getElementById("inactivityCountdown");
+        if (cd) cd.textContent = countdown;
 
         if (countdown <= 0) {
             clearInterval(inactivityCountdownInterval);
@@ -579,6 +577,7 @@ function triggerInactivityOverlay(playerId) {
         }
     }, 1000);
 }
+
 
 
 function startInactivityMonitor() {
@@ -593,7 +592,7 @@ function startInactivityMonitor() {
 
         // ⚠️ Step 1: show warning overlay after 1.5 min
         if (inactiveFor > WARNING_TIME_MS && inactiveFor < INACTIVITY_LIMIT_MS) {
-            triggerInactivityOverlay(playerId);
+            triggerInactivityOverlay(30);
         }
 
 
@@ -651,6 +650,7 @@ window.onload = async () => {
 
     } catch (err) {
         console.error("Initialization failed:", err);
-        triggerReconnectOverlay("Failed to initialize connection — retrying...");
+        triggerReconnectOverlay("Gemini seems to be taking a break... attempting to reconnect.");
     }
 };
+
