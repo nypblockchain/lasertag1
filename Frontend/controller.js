@@ -526,7 +526,10 @@ document.getElementById("pingBtn").addEventListener("click", async () => {
     }, 2000);
 });
 
-window.onload = async () => {
+window.addEventListener("load", () => {
+    const overlay = document.getElementById("reconnectOverlay");
+    if (overlay) overlay.classList.add("hidden");
+
     await fetchNicknames();
     await fetchMazeAndPlayers();
     stopPolling();
@@ -536,4 +539,4 @@ window.onload = async () => {
     document.getElementById("dpadControls").style.display = "none";
     document.getElementById("controlModeLabel").innerText = "Control Mode: Gemini Input";
     document.getElementById("toggleModeBtn").innerText = "Switch to D-Pad";
-};
+});
