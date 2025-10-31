@@ -412,6 +412,8 @@ async function fireAttack(direction = "up") {
 }
 
 async function sendGeminiFromButton(command) {
+    lastActivityTime = Date.now();
+
     const input = document.getElementById("commandInput");
     const playerId = getCurrentPlayer();
 
@@ -450,6 +452,7 @@ async function sendGeminiFromButton(command) {
             });
         } else {
             appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`, playerId);
+            triggerReconnectOverlay("Gemini seems to be taking a break... attempting to reconnect.")
         }
 
         await fetchMazeAndPlayers();
@@ -547,7 +550,7 @@ document.getElementById("pingBtn").addEventListener("click", async () => {
     }, 2000);
 });
 
-function triggerInactivityOverlay(seconds = 30) {
+function triggerInactivityOverlay(seconds = 5) {
     const overlay = document.getElementById("inactivityOverlay");
     const countdownEl = document.getElementById("inactivityCountdown");
     const messageEl = overlay?.querySelector(".overlay-content p");
@@ -561,7 +564,7 @@ function triggerInactivityOverlay(seconds = 30) {
     let countdown = seconds;
 
     if (messageEl) {
-        messageEl.innerHTML = `You've been inactive for 60 seconds.<br>You will be reset in <span id="inactivityCountdown">${countdown}</span> seconds.`;
+        messageEl.innerHTML = `You've been inactive for 60 seconds.<br>Hiding overlay in <span id="inactivityCountdown">${countdown}</span> seconds.`;
     }
 
     overlay.classList.remove("hidden");
@@ -595,7 +598,7 @@ function startInactivityMonitor() {
         if (!inactivityOverlayShown && inactiveFor > WARNING_TIME_MS && inactiveFor < INACTIVITY_LIMIT_MS) {
             inactivityOverlayShown = true;
             console.log("⚠️ Showing inactivity overlay");
-            triggerInactivityOverlay(30);
+            triggerInactivityOverlay(10);
         }
 
         // ⏰ Step 2: trigger backend respawn after 2 minutes
@@ -631,6 +634,9 @@ function startInactivityMonitor() {
     }, 1000);
 }
 
+function registerActivityDPad() {
+    lastActivityTime = Date.now();
+}
 
 window.onload = async () => {
     try {
