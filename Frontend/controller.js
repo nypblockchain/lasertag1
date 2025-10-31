@@ -640,6 +640,20 @@ function registerActivityDPad() {
 
 window.onload = async () => {
     try {
+        const nickname = localStorage.getItem("nickname");
+        const playerId = localStorage.getItem("playerId");
+
+        if (!nickname || !playerId) {
+            const overlay = document.getElementById("unauthorizedOverlay")
+            if (overlay) overlay.classList.remove("hidden");
+
+            setTimeout(() => {
+                window.location.href = "/nickname";
+            }, 3000)
+
+            return;
+        }
+
         ["reconnectOverlay", "inactivityOverlay", "timeUpOverlay"].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.classList.add("hidden");
