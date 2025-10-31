@@ -233,24 +233,104 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
     }
 });
 
-// setInterval(fetchMazeAndPlayers, 750);
-window.addEventListener("load", fetchMazeAndPlayers);
+async function loadLeaderboard() {
+    const container = document.getElementById("leaderboard");
+    const loadingContainer = document.getElementById("loadingContainer");
 
-window.addEventListener("load", () => {
-    if (sessionStorage.getItem("adminAccess") !== "true") {
-        console.log("adminAccess found")
-        const overlay = document.getElementById("unauthorizedOverlay");
+    // Show loading GIF and hide leaderboard initially
+    loadingContainer.style.display = "flex";
+    container.style.display = "none";
 
-        if (overlay) overlay.classList.remove("hidden");
+    try {
+        const res = await fetch("/api/log-winner");
+        const data = await res.json();
 
-        setTimeout(() => {
-            window.location.href = "/nickname";
-        }, 3000)
+        // Hide loader, show leaderboard container
+        loadingContainer.style.display = "none";
+        container.style.display = "block";
 
-        return
-    } else {
-        alert("FAILED");
+        if (!data.success || !data.entries || data.entries.length === 0) {
+            container.innerHTML = "<p>No leaderboard entries yet.</p>";
+            return;
+        }
+
+        // Sort by elapsed time (ascending)
+        const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed).slice(0, 5);
+
+        const list = document.createElement("ol");
+        sorted.forEach(entry => {
+            const item = document.createElement("li");
+            item.textContent = `${entry.nickname}: ${entry.elapsed}s`;
+            list.appendChild(item);
+        });
+
+        container.innerHTML = "";
+        container.appendChild(list);
+    } catch (err) {
+        console.error("Failed to load leaderboard", err);
+        loadingContainer.style.display = "none";
+        container.style.display = "block";
+        container.innerHTML = "<p>Failed to load leaderboard.</p>";
     }
-});
+}
+
+async function loadRightLeaderboard() {
+    const under1Container = document.getElementById("leaderboardUnder1");
+
+    if (!under1Container) {
+        console.warn("Right panel containers not found.");
+        return;
+    }
+
+    try {
+        const res = await fetch("/api/log-winner");
+        const data = await res.json();
+
+        if (!data.success || !data.entries || data.entries.length === 0) {
+            under1Container.innerHTML = "<p>No entries yet.</p>";
+            return;
+        }
+
+        const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed);
+
+        const under1 = sorted.filter(entry => entry.elapsed < 60).slice(0, 5);
+
+        const renderList = (arr) => {
+            if (!arr.length) return "<p>No entries.</p>";
+            return `<ol>${arr.map((e, i) =>
+                `<li>${i + 1}. ${e.nickname}: ${e.elapsed}s</li>`
+            ).join("")}</ol>`;
+        }
+
+        under1Container.innerHTML = renderList(under1);
+    } catch (err) {
+        console.error("Failed to load right leaderboard:", err);
+        under1Container.innerHTML = "<p>Failed to load entries.</p>";
+    }
+}
+
+window.onload = async () => {
+    try {
+        const adminAccess = sessionStorage.getItem("adminAccess");
+
+        if (!adminAccess || adminAccess !== "true") {
+            const overlay = document.getElementById("unauthorizedOverlay");
+
+            if (overlay) overlay.classList.remove("hidden");
+
+            setTimeout(() => {
+                window.location.href = "/nickname";
+            }, 3000);
+
+            return;
+        };
+
+        await fetchMazeAndPlayers();
+        await loadLeaderboard();
+        await loadRightLeaderboard();
+    } catch (err) {
+        console.error("load error: ", err)
+    }
+}
 
 stopPolling();
