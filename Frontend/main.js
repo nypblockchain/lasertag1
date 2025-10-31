@@ -239,7 +239,7 @@ window.addEventListener("load", fetchMazeAndPlayers);
 window.addEventListener("load", () => {
     const adminAccess = sessionStorage.getItem("adminAccess");
 
-    if (!adminAccess || adminAccess !== "true") {
+    if (!adminAccess) {
         const overlay = document.getElementById("unauthorizedOverlay")
         if (overlay) overlay.classList.remove("hidden");
 
