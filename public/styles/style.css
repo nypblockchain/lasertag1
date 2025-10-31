@@ -605,3 +605,46 @@ li {
     color: #ff00ff;
     font-weight: bold;
 }
+
+#unauthorizedOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8); /* darker backdrop */
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    text-align: center;
+}
+
+    #unauthorizedOverlay .overlay-content {
+        background: rgba(40, 0, 60, 0.85);
+        border: 2px solid #ff00ff;
+        padding: 25px 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px #ff00ff;
+        animation: glowPulse 2s infinite alternate;
+        max-width: 300px; /* ✅ keeps it neat on all screens */
+        width: 80%; /* ✅ responsive width */
+        text-align: center;
+    }
+
+    #unauthorizedOverlay h2 {
+        color: #00ff99;
+        font-size: 1.4rem;
+        text-shadow: 0 0 8px #00ff99;
+        margin-bottom: 10px;
+    }
+
+    #unauthorizedOverlay img {
+        width: 80px; /* ✅ nicely sized image */
+        height: auto;
+        margin-top: 8px;
+        filter: drop-shadow(0 0 10px #ff00ff);
+    }
+
+#unauthorizedOverlay {
+    margin: 0;
+}
