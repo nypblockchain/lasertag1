@@ -237,9 +237,8 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
 window.addEventListener("load", fetchMazeAndPlayers);
 
 window.addEventListener("load", () => {
-    const adminAccess = sessionStorage.getItem("adminAccess");
 
-    if (!adminAccess) {
+    if (!sessionStorage.adminAccess) {
         const overlay = document.getElementById("unauthorizedOverlay")
         if (overlay) overlay.classList.remove("hidden");
 
