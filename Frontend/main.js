@@ -236,5 +236,21 @@ document.getElementById("pollingToggle").addEventListener("change", (e) => {
 // setInterval(fetchMazeAndPlayers, 750);
 window.addEventListener("load", fetchMazeAndPlayers);
 
+window.addEventListener("load", () => {
+    if (sessionStorage.getItem("adminAccess") !== "true") {
+        console.log("adminAccess found")
+        const overlay = document.getElementById("unauthorizedOverlay");
+
+        if (overlay) overlay.classList.remove("hidden");
+
+        setTimeout(() => {
+            window.location.href = "/nickname";
+        }, 3000)
+
+        return
+    } else {
+        alert("FAILED");
+    }
+});
 
 stopPolling();
