@@ -21,7 +21,7 @@ function getClientForPlayer(playerId) {
     const n = parseInt(String(playerId).replace(/\D/g, ""), 10) || 1;
 
     const totalPlayers = 20;
-    const playersPerKey = Math.cell(totalPlayers / CLIENTS.length);
+    const playersPerKey = Math.ceil(totalPlayers / CLIENTS.length);
 
     const keyIndex = Math.floor((n - 1) / playersPerKey);
 
