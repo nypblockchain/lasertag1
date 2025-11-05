@@ -7,6 +7,8 @@ const KEYS = [
     process.env.KEY_6TO10,
     process.env.KEY_11TO15,
     process.env.KEY_16TO20,
+    process.env.extra_key1,
+    process.env.extra_key2,
 ].filter(Boolean);
 
 if (KEYS.length === 0) {
@@ -17,8 +19,13 @@ const CLIENTS = KEYS.map(k => new GoogleGenerativeAI(k));
 
 function getClientForPlayer(playerId) {
     const n = parseInt(String(playerId).replace(/\D/g, ""), 10) || 1;
-    const keyIndex = Math.floor((n - 1) / 5) % CLIENTS.length;
-    return CLIENTS[keyIndex];
+
+    const totalPlayers = 20;
+    const playersPerKey = Math.cell(totalPlayers / CLIENTS.length);
+
+    const keyIndex = Math.floor((n - 1) / playersPerKey);
+
+    return CLIENTS[keyIndex] || CLIENTS[0];
 }
 
 // helper: absolute URL for /api/move
