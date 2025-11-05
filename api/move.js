@@ -18,13 +18,26 @@ module.exports = async (req, res) => {
             const player = players[playerId];
 
             if (!player) {
-                return res.status.json({ error: `${playerId} not found` });
+                return res.status(404).json({ error: `Player '${playerId}' not found` });
             }
 
             const spawnX = player.spawnX ?? player.x ?? 0;
             const spawnY = player.spawnY ?? player.y ?? 0;
 
+            const maze = await getMaze();
+            if (maze[spawnY] && maze[spawnY][spawnX] === 1) {
+                maze[spawnY][spawnX] = 0;
+
+                const rows = {};
+                maze.forEach((row, i) => rows[`r${i}`] = row);
+                await setMaze(maze);
+                console.log(`Unwalled spawn tile for ${playerId} at (${spawnX}, ${spawnY})`);
+            }
+
             await updatePlayerPos(playerId, spawnX, spawnY);
+
+            await PLAYERS_DOC.update({ [`${playerId}.spawnLocked`]: false });
+
             console.log(`Respawned ${playerId} at (${spawnX}, ${spawnY})`);
 
             return res.json({
@@ -33,10 +46,11 @@ module.exports = async (req, res) => {
                 newPosition: { x: spawnX, y: spawnY },
             });
         } catch (err) {
-            console.error("Respawn failed: ", err);
-            return res.status(500).json({ error: "Failed to respawn players." });
+            console.error("respawn failed: ", err);
+            return res.status(500).json({ error: "Failed to respawn player" });
         }
     }
+    
 
     if (!direction) {
         return res.status(400).json({ error: "Missing directions or playerId" });
