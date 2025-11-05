@@ -73,7 +73,37 @@ async function setMaze(maze) {
 
 
 async function updatePlayerPos(id, x, y) {
+    const playersSnap = await PLAYERS_DOC.get();
+    if (!playersSnap.exists) return;
+
+    const players = playersSnap.data();
+    const player = players[id];
+
+    if (!player) return;
+
+    const hasMovedFromSpawn = (player.spawnX !== x) || (player.spawnY !== y);
+
     await PLAYERS_DOC.update({ [`${id}.x`]: x, [`${id}.y`]: y });
+
+    if (hasMovedFromSpawn && !player.spawnLocked) {
+        console.log(`Locking spawn tile for ${id} at (${player.spawnX}, ${player.spawnY})`);
+
+        const mazeDoc = await MAZE_DOC.get();
+        const data = mazeDoc.data();
+        const rows = data?.rows || {};
+
+        const maze = Object.keys(rows)
+            .sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1))) // r0, r1, ...
+            .map(key => rows[key]);
+
+        maze[player.spawnY][player.spawnX] = 1;
+
+        const newRows = {};
+        maze.forEach((row, i) => newRows[`r${i}`] = row);
+        await MAZE_DOC.update({ rows: newRows });
+
+        await PLAYERS_DOC.update({ [`${id}.spawnLocked`]: true });
+    }
 }
 
 /* ----------------- 4. Maze helpers (optional) ----------------- */
