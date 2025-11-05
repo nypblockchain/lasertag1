@@ -36,7 +36,9 @@ module.exports = async (req, res) => {
 
             await updatePlayerPos(playerId, spawnX, spawnY);
 
-            await PLAYERS_DOC.update({ [`${playerId}.spawnLocked`]: false });
+            const freshPlayers = await getPlayers();
+            freshPlayers[playerId].spawnLocked = false;
+            await PLAYERS_DOC?.update({ [`${playerId}.spawnLocked`]: false });
 
             console.log(`Respawned ${playerId} at (${spawnX}, ${spawnY})`);
 
