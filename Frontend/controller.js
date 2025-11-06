@@ -213,13 +213,22 @@ async function renderMaze(maze, players = {})  {
             if (y >= 0 && y < maze.length && x >= 0 && x < maze[0].length) {
                 // Check if a player is at (x, y)
                 let playerClass = null;
+
                 for (const [id, pos] of Object.entries(players)) {
                     if (pos.lives !== undefined && pos.lives <= 0) continue;
-                    if (pos.x === x && pos.y === y) {
-                        if (id === playerId) {
-                            playerClass = id;
-                        }
+                    if (pos.x === x && pos.y === y && id === playerId) {
+                        playerClass = id;
                         break;
+                    }
+                }
+
+                if (!playerClass) {
+                    for (const [id, pos] of Object.entries(players)) {
+                        if (pos.lives !== undefined && pos.lives <= 0) continue;
+                        if (pos.x === x && pos.y === y) {
+                            playerClass = id;
+                            break;
+                        }
                     }
                 }
 
