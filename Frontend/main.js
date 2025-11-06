@@ -2,6 +2,8 @@
 let isPolling = false;
 let pollingInterval = null;
 let playerSpawnPoints = {};
+let lastPlayerPosition = {};
+let lastMoveTime = {};
 
 function startPolling() {
     if (!pollingInterval) {
@@ -49,6 +51,16 @@ async function fetchMazeAndPlayers() {
             playerSpawnPoints = {}; // Reset spawn memory
         }
 
+        const now = Date.now();
+         
+        for (const [id, pos] of Object.entries(data.players)) {
+            const prev = lastPlayerPosition[id];
+            if (!prev || prev.x !== pos.x || prev.y !== pos.y) {
+                lastMoveTime[id] = now;
+            }
+            lastPlayerPosition[id] = { x: pos.x, y: pos.y };
+        }
+
         mazeCache = data.maze;
         renderMaze(data.maze, data.players, data.pings);
     }
@@ -84,6 +96,7 @@ function renderMaze(maze, players = {}, pings = {}) {
 
             let playerClass = null;
             let isPinged = false;
+            let latestMove = -1;
 
             for (const [playerId, pos] of Object.entries(players)) {
                 if (pos.lives !== undefined && pos.lives <= 0) continue;
@@ -96,15 +109,16 @@ function renderMaze(maze, players = {}, pings = {}) {
                 // Hide if still on spawn
                 const spawn = playerSpawnPoints[playerId];
                 const hasMoved = pos.x !== spawn.x || pos.y !== spawn.y;
+
                 if (!hasMoved) continue;
 
                 if (pos.y === i && pos.x === j) {
-                    playerClass = playerId;
-
-                    if (pings[playerId] && now - pings[playerId] < 10000) {
-                        isPinged = true;
+                    const moveTime = lastMoveTime[playerId] || 0;
+                    if (moveTime > latestMove) {
+                        latestMove = moveTime;
+                        playerClass = playerId;
+                        isPinged = (pings[playerId] && now - pings[playerId] < 10000)
                     }
-                    break;
                 }
             }
 
@@ -142,7 +156,6 @@ function renderMaze(maze, players = {}, pings = {}) {
         }
     }
 }
-
 
 (function () {
     const audio = document.getElementById("bgMusic");
