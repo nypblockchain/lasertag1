@@ -214,22 +214,20 @@ async function renderMaze(maze, players = {})  {
                 // Check if a player is at (x, y)
                 let playerClass = null;
 
-                for (const [id, pos] of Object.entries(players)) {
-                    if (pos.lives !== undefined && pos.lives <= 0) continue;
-                    if (pos.x === x && pos.y === y && id === playerId) {
-                        playerClass = id;
-                        break;
-                    }
+                // ✅ Only show the current player, ignore all others
+                if (player.x === x && player.y === y) {
+                    cell.classList.add(playerId); // apply your own player class
+                    cell.textContent = "";        // no text overlay
                 }
-
-                if (!playerClass) {
-                    for (const [id, pos] of Object.entries(players)) {
-                        if (pos.lives !== undefined && pos.lives <= 0) continue;
-                        if (pos.x === x && pos.y === y) {
-                            playerClass = id;
-                            break;
-                        }
-                    }
+                else if (maze[y][x] === 1) {
+                    const mid = Math.floor(maze.length / 2);
+                    const inCenterZone = Math.abs(y - mid) <= 1 && Math.abs(x - mid) <= 1;
+                    const inCorner = Math.abs(y - mid) === 1 && Math.abs(x - mid) === 1;
+                    if (inCenterZone && inCorner) cell.classList.add("center-wall");
+                    else cell.classList.add("wall");
+                }
+                else if (maze[y][x] === 0) {
+                    cell.classList.add("path");
                 }
 
                 if (playerClass) {
