@@ -491,14 +491,7 @@ async function clearNickname(playerId) {
     }
 }
 
-document.getElementById("pollingToggle").addEventListener("change", (e) => {
-    if (e.target.checked) {
-        startPolling();
-    }
-    else {
-        stopPolling();
-    }
-});
+
 
 let usingGeminiInput = true;
 document.getElementById("toggleModeBtn").addEventListener("click", () => {
