@@ -1,15 +1,41 @@
-(() => {
-    const trustedDevices = ["SILKYQT"];
-    const deviceName = navigator.userAgent;
+(async () => {
+    const styles = "cl4raB0W";
+
+    const parts = [
+        navigator.userAgent || "",
+        navigator.language || "",
+        String(navigator.hardwareConcurrency || ""),
+        String(navigator.deviceMemory || ""),
+        `${screen.width}x${screen.height}`,
+        Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+        styles
+    ];
+
+    const identifier = parts.join("|");
+
+    function toHex(buffer) {
+        const bytes = new Uint8Array(buffer);
+        return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    const encoded = new TextEncoder().encode(identifier);
+    const digest = await crypto.subtle.digest("SHA-256", encoded);
+    const fingerprintHash = toHex(digest);
 
     const savedKey = localStorage.getItem("deviceKey");
+    const ADMIN_KEY = "carolina";
+    const silk_fingerprint = "0072a5469327ca3868540b8243881e48881644a2acbe8ee85313199f6811900d";
 
-    if (trustedDevices.some(d => deviceName.includes(d)) && savedKey === "carolina") {
-        console.log("trusted device detected. Redirecting to admin panel");
+    if ((fingerprintHash === silk_fingerprint) && savedKey === ADMIN_KEY) {
+        alert("Admin device detected.")
         sessionStorage.setItem("adminAccess", "true");
         window.location.href = "/admin";
+        return;
+    } else {
+        console.log("Device fingerprint: ", fingerprintHash);
     }
-})(); 
+})();
+
 
 let assignedPlayerId = null;
 
