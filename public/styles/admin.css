@@ -104,24 +104,24 @@ button {
 @keyframes neon-pulse {
     0% {
         transform: scale(1);
-        filter: drop-shadow(0 0 8px #ff00ff) drop-shadow(0 0 16px #ff00ff);
+        filter: drop-shadow(0 0 8px #1f51ff) drop-shadow(0 0 16px #1f51ff);
     }
 
     100% {
         transform: scale(1.08);
-        filter: drop-shadow(0 0 20px #ff00ff) drop-shadow(0 0 40px #ff00ff);
+        filter: drop-shadow(0 0 20px #1f51ff) drop-shadow(0 0 40px #1f51ff);
     }
 }
 
 @keyframes glowText {
     from {
         opacity: 0.6;
-        text-shadow: 0 0 4px #00ffff, 0 0 6px #ff00ff;
+        text-shadow: 0 0 4px #00ffff, 0 0 6px #1f51ff;
     }
 
     to {
         opacity: 1;
-        text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #1f51ff;
     }
 }
 
@@ -153,14 +153,14 @@ button {
     width: 180px;
     height: 180px;
     animation: neon-pulse 1.2s ease-in-out infinite alternate;
-    filter: drop-shadow(0 0 12px #ff00ff) drop-shadow(0 0 24px #ff00ff);
+    filter: drop-shadow(0 0 12px #1f51ff) drop-shadow(0 0 24px #1f51ff);
 }
 
 .loading-content p {
     margin-top: 12px;
     font-size: 1.2rem;
     color: #00ffcc;
-    text-shadow: 0 0 6px #00ffff, 0 0 10px #ff00ff;
+    text-shadow: 0 0 6px #00ffff, 0 0 10px #1f51ff;
     animation: glowText 1.5s ease-in-out infinite alternate;
 }
 

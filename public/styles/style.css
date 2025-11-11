@@ -559,8 +559,8 @@ li {
 
 #rightPanel {
     background: rgba(0, 0, 0, 0.6);
-    border: 2px solid #ff00ff;
-    box-shadow: 0 0 20px #ff00ff;
+    border: 2px solid #1f51ff;
+    box-shadow: 0 0 20px #1f51ff;
     border-radius: 10px;
     padding: 20px;
     width: 260px;
@@ -570,8 +570,8 @@ li {
 }
 
 #rightPanel h3 {
-    color: #ff00ff;
-    text-shadow: 0 0 10px #ff00ff;
+    color: #1f51ff;
+    text-shadow: 0 0 10px #1f51ff;
     margin-bottom: 15px;
 }
 
@@ -580,11 +580,11 @@ li {
     background: rgba(30, 0, 30, 0.8);
     border-radius: 10px;
     padding: 15px;
-    box-shadow: inset 0 0 15px #ff00ff;
+    box-shadow: inset 0 0 15px #1f51ff;
 }
 
 .leaderboard-section h4 {
-    color: #ff00ff;
+    color: #1f51ff;
     margin-bottom: 10px;
     font-size: 1em;
 }
@@ -602,7 +602,7 @@ li {
 }
 
 .leaderboard-section li:first-child {
-    color: #ff00ff;
+    color: #1f51ff;
     font-weight: bold;
 }
 
@@ -621,10 +621,10 @@ li {
 
     #unauthorizedOverlay .overlay-content {
         background: rgba(40, 0, 60, 0.85);
-        border: 2px solid #ff00ff;
+        border: 2px solid #1f51ff;
         padding: 25px 30px;
         border-radius: 20px;
-        box-shadow: 0 0 30px #ff00ff;
+        box-shadow: 0 0 30px #1f51ff;
         animation: glowPulse 2s infinite alternate;
         max-width: 300px; /* ✅ keeps it neat on all screens */
         width: 80%; /* ✅ responsive width */
@@ -642,7 +642,7 @@ li {
         width: 80px; /* ✅ nicely sized image */
         height: auto;
         margin-top: 8px;
-        filter: drop-shadow(0 0 10px #ff00ff);
+        filter: drop-shadow(0 0 10px #1f51ff);
     }
 
 #unauthorizedOverlay {
