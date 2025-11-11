@@ -181,6 +181,29 @@ async function resetMaze() {
     }
 }
 
+function goToNickname() {
+    showLoading();
+
+    try {
+        if (localStorage.getItem("nickname") || localStorage.getItem("playerId")) {
+            console.warn("Nickname or playerId found in localStorage, clearing...")
+            localStorage.removeItem("nickname");
+            localStorage.removeItem("playerId");
+            console.log("Local storage cleared of nickname and playerId.");
+
+            window.location.href = "/nickname";
+            return;
+        } else {
+            window.location.href("/nickname");
+            console.log("no nickname in Local Storage")
+        }
+    } catch (err) {
+        console.error("Error navigating to nn page: ", err);
+    } finally {
+        hideLoading();
+    }
+}
+
 function showLoading() {
     const loadingOverlay = document.getElementById("loading-overlay");
     if (loadingOverlay) {
