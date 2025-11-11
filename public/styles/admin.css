@@ -14,30 +14,30 @@ body {
 h1 {
     font-size: 32px;
     margin-bottom: 30px;
-    color: #ff00cc;
-    text-shadow: 0 0 10px #ff00cc;
+    color: #1F51FF;
+    text-shadow: 0 0 10px #1F51FF;
 }
 
 button {
     font-family: 'Orbitron', sans-serif;
     background: rgba(255, 0, 204, 0.1);
-    color: #ff00cc;
-    border: 2px solid #ff00cc;
+    color: #1F51FF;
+    border: 2px solid #1F51FF;
     padding: 12px 20px;
     margin: 8px 0; /* ⬅️ vertical spacing only */
     font-size: 14px;
     cursor: pointer;
     border-radius: 8px;
-    box-shadow: 0 0 12px #ff00cc;
+    box-shadow: 0 0 12px #1F51FF;
     transition: all 0.2s ease-in-out;
     width: 240px; /* ⬅️ fixed width for consistency */
     text-align: center;
 }
 
     button:hover {
-        background-color: #ff00cc;
+        background-color: #1F51FF;
         color: #000;
-        box-shadow: 0 0 20px #ff00cc;
+        box-shadow: 0 0 20px #1F51FF;
     }
 
 @keyframes FadeIn {
