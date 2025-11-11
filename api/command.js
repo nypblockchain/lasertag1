@@ -78,6 +78,10 @@ module.exports = async (req, res) => {
             - Do not list all possible commands.
             - Do not add explanations.
             - If input is unclear, output nothing.
+            - If the player specifies multiple steps (e.g, "move two tiles to the right", "go up 3 squares"),
+              repeat the direction command that many times.
+            - Accept synonyms such as "go", "walk", "move", "step".
+            - If unclear, output nothing.
 
             Player's instruction: "${command}"
         `;

@@ -40,15 +40,16 @@ async function fetchMazeAndPlayers() {
         const data = await res.json();
 
         // ✅ Detect maze reset (compare dimensions or structure)
-        const mazeChanged =
+        const mazeStructureChanged =
             !mazeCache.length ||
             mazeCache.length !== data.maze.length ||
-            mazeCache[0].length !== data.maze[0].length ||
-            JSON.stringify(mazeCache) !== JSON.stringify(data.maze);
+            mazeCache[0].length !== data.maze[0].length;
 
-        if (mazeChanged) {
-            console.log("🌀 Maze reset detected — hiding all players until they move again.");
-            playerSpawnPoints = {}; // Reset spawn memory
+        if (mazeStructureChanged) {
+            console.log("Maze structure changed, full reset");
+            playerSpawnPoints = {};
+        } else {
+            console.log("Walled path")
         }
 
         const now = Date.now();
