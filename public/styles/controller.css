@@ -477,16 +477,16 @@ input:checked + .slider {
 
 #reconnectOverlay .overlay-content { 
     background: rgba(40, 0, 60, 0.8);
-    border: 2px solid #1f51ff;
+    border: 2px solid #ff00ff;
     padding: 30px 40px;
     border-radius: 20px;
-    box-shadow: 0 0 30px #1f51ff;
+    box-shadow: 0 0 30px #ff00ff;
     animation: glowPulse 2s infinite alternate;
 }
 
 @keyframes glowPulse {
     0% {
-        box-shadow: 0 0 20px #1f51ff;
+        box-shadow: 0 0 20px #ff00ff;
     }
     100% {
         box-shadow: 0 0 40px #ff55ff;
@@ -507,10 +507,10 @@ input:checked + .slider {
 
     #inactivityOverlay .overlay-content {
         background: rgba(40, 0, 60, 0.85);
-        border: 2px solid #1f51ff;
+        border: 2px solid #ff00ff;
         padding: 30px 40px;
         border-radius: 20px;
-        box-shadow: 0 0 40px #1f51ff;
+        box-shadow: 0 0 40px #ff00ff;
         animation: glowPulse 2s infinite alternate;
     }
 
@@ -529,10 +529,10 @@ input:checked + .slider {
 
     #unauthorizedOverlay .overlay-content {
         background: rgba(40, 0, 60, 0.85);
-        border: 2px solid #1f51ff;
+        border: 2px solid #ff00ff;
         padding: 25px 30px;
         border-radius: 20px;
-        box-shadow: 0 0 30px #1f51ff;
+        box-shadow: 0 0 30px #ff00ff;
         animation: glowPulse 2s infinite alternate;
         max-width: 300px; /* ✅ keeps it neat on all screens */
         width: 80%; /* ✅ responsive width */
@@ -550,7 +550,7 @@ input:checked + .slider {
         width: 80px; /* ✅ nicely sized image */
         height: auto;
         margin-top: 8px;
-        filter: drop-shadow(0 0 10px #1f51ff);
+        filter: drop-shadow(0 0 10px #ff00ff);
     }
 
 #unauthorizedOverlay {

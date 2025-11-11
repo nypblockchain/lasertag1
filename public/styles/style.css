@@ -15,15 +15,15 @@ body {
 }
 
 h2 {
-    color: #1F51FF;
-    text-shadow: 0 0 10px #1F51FF;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
     font-size: 30px;
     margin-bottom: 10px;
 }
 
 h4 {
-    color: #1F51FF;
-    text-shadow: 0 0 10px #1F51FF;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
     font-size: 30px;
     margin-bottom: 20px
 }
@@ -247,13 +247,13 @@ h4 {
 
 input#commandInput {
     background: rgba(0, 0, 0, 0.7);
-    border: 2px solid #1F51FF;
-    color: #1F51FF;
+    border: 2px solid #ff00cc;
+    color: #ff00cc;
     padding: 10px;
     margin: 12px 0;
     font-size: 14px;
     border-radius: 8px;
-    box-shadow: 0 0 12px #1F51FF;
+    box-shadow: 0 0 12px #ff00cc;
     width: 260px;
     outline: none;
 }
@@ -265,21 +265,21 @@ input#commandInput {
 button {
     font-family: 'Orbitron', sans-serif;
     background: rgba(255, 0, 204, 0.1);
-    color: #1F51FF;
-    border: 2px solid #1F51FF;
+    color: #ff00cc;
+    border: 2px solid #ff00cc;
     padding: 10px 20px;
     margin: 6px;
     font-size: 14px;
     cursor: pointer;
     border-radius: 8px;
-    box-shadow: 0 0 12px #1F51FF;
+    box-shadow: 0 0 12px #ff00cc;
     transition: all 0.2s ease-in-out;
 }
 
     button:hover {
-        background-color: #1F51FF;
+        background-color: #ff00cc;
         color: #000;
-        box-shadow: 0 0 20px #1F51FF;
+        box-shadow: 0 0 20px #ff00cc;
     }
 
 select {
@@ -316,8 +316,8 @@ select {
 #pollingStatusLabel {
     margin-top: 6px;
     font-size: 1.1rem;
-    color: #1F51FF;
-    text-shadow: 0 0 10px #1F51FF;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
 }
 
 /* Neon-style toggle switch */
@@ -360,8 +360,8 @@ select {
     }
 
 input:checked + .slider {
-    background-color: #1F51FF;
-    box-shadow: 0 0 12px #1F51FF;
+    background-color: #ff00cc;
+    box-shadow: 0 0 12px #ff00cc;
 }
 
     input:checked + .slider::before {
@@ -380,8 +380,8 @@ input:checked + .slider {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    color: #1F51FF;
-    text-shadow: 0 0 10px #1F51FF;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
 }
 
     #timeUpOverlay.hidden {
@@ -396,11 +396,11 @@ input:checked + .slider {
     margin-top: 20px;
     padding: 12px 24px;
     font-size: 16px;
-    border: 2px solid #1F51FF;
+    border: 2px solid #ff00cc;
     background-color: transparent;
-    color: #1F51FF;
+    color: #ff00cc;
     cursor: pointer;
-    box-shadow: 0 0 10px #1F51FF;
+    box-shadow: 0 0 10px #ff00cc;
 }
 
 #loading {
@@ -425,9 +425,9 @@ input:checked + .slider {
     width: 220px;
     height: 220px;
     margin-top: 20px;
-    border: 2px solid #1F51FF;
+    border: 2px solid #ff00cc;
     border-radius: 10px;
-    box-shadow: 0 0 12px #1F51FF;
+    box-shadow: 0 0 12px #ff00cc;
 }
 
 #mazeWrapper {
@@ -441,12 +441,12 @@ input:checked + .slider {
 }
 
 #sidePanel {
-    border: 2px solid #1F51FF;
-    box-shadow: 20px #1F51FF;
+    border: 2px solid #ff00cc;
+    box-shadow: 20px #ff00cc;
     padding: 20px;
     border-radius: 12px;
     background: rgba(0, 0, 0, 0.6);
-    color: #1F51FF;
+    color: #ff00cc;
     width: 260px;
     height: fit-content;
     text-align: center;
@@ -487,8 +487,8 @@ input:checked + .slider {
     margin: auto;
     padding: 1.5rem 2rem;
     border-radius: 10px;
-    box-shadow: 0 0 15px #1F51FF;
-    border: 2px solid #1F51FF;
+    box-shadow: 0 0 15px #ff00cc;
+    border: 2px solid #ff00cc;
 }
 
     #leaderboard.loading {
@@ -505,8 +505,8 @@ ol {
 li {
     margin: 0.7rem 0;
     font-size: 1.2rem;
-    color: #1F51FF;
-    text-shadow: 0 0 4px #1F51FF;
+    color: #ff00cc;
+    text-shadow: 0 0 4px #ff00cc;
 }
 
 #loadingContainer {
@@ -535,32 +535,32 @@ li {
 #musicStatusLabel {
     margin-top: 6px;
     font-size: 1.1rem;
-    color: #1F51FF;
-    text-shadow: 0 0 10px #1F51FF;
+    color: #ff00cc;
+    text-shadow: 0 0 10px #ff00cc;
 }
 
 #musicSelector {
     margin-top: 20px;
     background: rgba(0, 0, 0, 0.7);
-    border: 2px solid #1F51FF;
+    border: 2px solid #ff00cc;
     border-radius: 8px;
-    color: #1F51FF;
+    color: #ff00cc;
     padding: 6px 10px;
     font-family: 'Orbitron', sans-serif;
     font-size: 14px;
-    box-shadow: 0 0 10px #1F51FF;
+    box-shadow: 0 0 10px #ff00cc;
     cursor: pointer;
 }
 
     #musicSelector:hover {
-        background-color: #1F51FF;
+        background-color: #ff00cc;
         color: #000;
     }
 
 #rightPanel {
     background: rgba(0, 0, 0, 0.6);
-    border: 2px solid #1f51ff;
-    box-shadow: 0 0 20px #1f51ff;
+    border: 2px solid #ff00ff;
+    box-shadow: 0 0 20px #ff00ff;
     border-radius: 10px;
     padding: 20px;
     width: 260px;
@@ -570,8 +570,8 @@ li {
 }
 
 #rightPanel h3 {
-    color: #1f51ff;
-    text-shadow: 0 0 10px #1f51ff;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
     margin-bottom: 15px;
 }
 
@@ -580,11 +580,11 @@ li {
     background: rgba(30, 0, 30, 0.8);
     border-radius: 10px;
     padding: 15px;
-    box-shadow: inset 0 0 15px #1f51ff;
+    box-shadow: inset 0 0 15px #ff00ff;
 }
 
 .leaderboard-section h4 {
-    color: #1f51ff;
+    color: #ff00ff;
     margin-bottom: 10px;
     font-size: 1em;
 }
@@ -602,7 +602,7 @@ li {
 }
 
 .leaderboard-section li:first-child {
-    color: #1f51ff;
+    color: #ff00ff;
     font-weight: bold;
 }
 
@@ -621,10 +621,10 @@ li {
 
     #unauthorizedOverlay .overlay-content {
         background: rgba(40, 0, 60, 0.85);
-        border: 2px solid #1f51ff;
+        border: 2px solid #ff00ff;
         padding: 25px 30px;
         border-radius: 20px;
-        box-shadow: 0 0 30px #1f51ff;
+        box-shadow: 0 0 30px #ff00ff;
         animation: glowPulse 2s infinite alternate;
         max-width: 300px; /* ✅ keeps it neat on all screens */
         width: 80%; /* ✅ responsive width */
@@ -642,7 +642,7 @@ li {
         width: 80px; /* ✅ nicely sized image */
         height: auto;
         margin-top: 8px;
-        filter: drop-shadow(0 0 10px #1f51ff);
+        filter: drop-shadow(0 0 10px #ff00ff);
     }
 
 #unauthorizedOverlay {
