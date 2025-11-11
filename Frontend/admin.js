@@ -225,7 +225,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-if (sessionStorage.getItem("adminAccess") !== "true" || !localStorage.getItem("deviceKey") || !localStorage.getItem("silk_fingerprint")) {
+if (sessionStorage.getItem("adminAccess") !== "true" && !localStorage.getItem("deviceKey")) {
     alert("Access denied. Redirecting...");
     window.location.href = "/landing";
 }
