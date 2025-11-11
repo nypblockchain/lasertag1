@@ -194,8 +194,8 @@ function goToNickname() {
             window.location.href = "/nickname";
             return;
         } else {
-            window.location.href("/nickname");
-            console.log("no nickname in Local Storage")
+            window.location.href = "/nickname";
+            console.log("no nickname in Local Storage");
         }
     } catch (err) {
         console.error("Error navigating to nn page: ", err);
