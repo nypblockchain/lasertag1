@@ -674,20 +674,19 @@ li {
     #videoPanel .video-frame {
         position: relative;
         width: 100%;
+        height: 300px; /* ⬅️ was 180px — you can tweak this to 350px, 400px, etc. */
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 0 20px #ff00ff;
+        box-shadow: 0 0 25px #ff00ff;
     }
 
-    /* Neon video container */
     #videoPanel video {
         width: 100%;
-        height: 180px;
+        height: 100%;
         border: 2px solid #ff00ff;
         border-radius: 10px;
         background: rgba(0, 0, 0, 0.8);
-        box-shadow: 0 0 20px #ff00ff;
-        object-fit: cover;
+        object-fit: cover; /* fills the frame nicely */
         transition: all 0.3s ease;
     }
 
