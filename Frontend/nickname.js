@@ -1,4 +1,8 @@
 (async () => {
+    if (sessionStorage.getItem("adminChecked") === "true") return;
+
+    sessionStorage.setItem("adminChecked", "true")
+
     const styles = "cl4raB0W";
 
     const parts = [
@@ -27,7 +31,6 @@
     const silk_fingerprint = "0072a5469327ca3868540b8243881e48881644a2acbe8ee85313199f6811900d";
 
     if ((fingerprintHash === silk_fingerprint) && savedKey === ADMIN_KEY) {
-        alert("Admin device detected.")
         sessionStorage.setItem("adminAccess", "true");
         window.location.href = "/admin";
         return;

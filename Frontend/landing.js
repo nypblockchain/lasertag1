@@ -121,14 +121,19 @@ async function goToController() {
 function goToAdmin() {
     const correctPasskey = "silk";
 
-    showPasskeyPrompt((entered) => {
-        if (entered === correctPasskey) {
-            sessionStorage.setItem("adminAccess", "true");
-            window.location.href = "/admin";
-        } else {
-            alert("❌ Incorrect passkey.");
-        }
-    });
+    if (!localStorage.getItem("deviceKey") || sessionStorage.getItem("adminAccess") !== "true") {
+        showPasskeyPrompt((entered) => {
+            if (entered === correctPasskey) {
+                sessionStorage.setItem("adminAccess", "true");
+                window.location.href = "/admin";
+            } else {
+                alert("❌ Incorrect passkey.");
+            }
+        });
+    } else {
+        window.location.href = "/admin"
+        return;
+    }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
