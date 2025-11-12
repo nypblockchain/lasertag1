@@ -95,6 +95,15 @@ function renderMaze(maze, players = {}, pings = {}) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
 
+            const centerRow = Math.floor(rows / 2);
+            const centerCol = Math.floor(cols / 2);
+            const inCenterZone = Math.abs(i - centerRow) <= 1 && Math.abs(j - centerCol) <= 1;
+            const inCorner = Math.abs(i - centerRow) === 1 && Math.abs(j - centerCol) === 1;
+
+            if (i === centerRow && j === centerCol) {
+                cell.classList.add("center-core");
+            }
+
             let playerClass = null;
             let isPinged = false;
             let latestMove = -1;
@@ -137,15 +146,9 @@ function renderMaze(maze, players = {}, pings = {}) {
             } else if (maze[i][j] === 1) {
                 const inCenterZone = Math.abs(i - mid) <= 1 && Math.abs(j - mid) <= 1;
 
-                if (inCenterZone) {
-                    const centerRow = Math.floor(rows / 2);
-                    const centerCol = Math.floor(cols / 2);
-
+                if (inCenterZone) { 
                     const inCorner = Math.abs(i - mid) === 1 && Math.abs(j - mid) === 1;
-                    if (i === centerRow && j === centerCol) {
-                        cell.classList.add("center-core");
-                    }
-                    else if (inCorner) {
+                    if (inCorner) {
                         cell.classList.add("center-wall");
                     }
                     else {
