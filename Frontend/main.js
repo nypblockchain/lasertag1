@@ -138,8 +138,12 @@ function renderMaze(maze, players = {}, pings = {}) {
                 const inCenterZone = Math.abs(i - mid) <= 1 && Math.abs(j - mid) <= 1;
 
                 if (inCenterZone) {
+                    const isExactCenter = i === mid && j === mid;
                     const inCorner = Math.abs(i - mid) === 1 && Math.abs(j - mid) === 1;
-                    if (inCorner) {
+                    if (isExactCenter) {
+                        cell.classList.add("center-core");
+                    }
+                    else if (inCorner) {
                         cell.classList.add("center-wall");
                     }
                     else {
