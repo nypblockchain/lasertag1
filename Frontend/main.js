@@ -297,41 +297,6 @@ async function loadLeaderboard() {
     }
 }
 
-async function loadRightLeaderboard() {
-    const under1Container = document.getElementById("leaderboardUnder1");
-
-    if (!under1Container) {
-        console.warn("Right panel containers not found.");
-        return;
-    }
-
-    try {
-        const res = await fetch("/api/log-winner");
-        const data = await res.json();
-
-        if (!data.success || !data.entries || data.entries.length === 0) {
-            under1Container.innerHTML = "<p>No entries yet.</p>";
-            return;
-        }
-
-        const sorted = data.entries.sort((a, b) => a.elapsed - b.elapsed);
-
-        const under1 = sorted.filter(entry => entry.elapsed < 60).slice(0, 5);
-
-        const renderList = (arr) => {
-            if (!arr.length) return "<p>No entries.</p>";
-            return `<ol>${arr.map((e, i) =>
-                `<li>${i + 1}. ${e.nickname}: ${e.elapsed}s</li>`
-            ).join("")}</ol>`;
-        }
-
-        under1Container.innerHTML = renderList(under1);
-    } catch (err) {
-        console.error("Failed to load right leaderboard:", err);
-        under1Container.innerHTML = "<p>Failed to load entries.</p>";
-    }
-}
-
 window.onload = async () => {
     try {
         const adminAccess = sessionStorage.getItem("adminAccess");
