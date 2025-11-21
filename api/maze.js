@@ -1,13 +1,26 @@
 ﻿// api/maze.js
-const { getMaze, getPlayers, getPings } = require("./shared");
+const { getMaze, getPlayers, getPings, getNicknames } = require("./shared");
 
 module.exports = async (req, res) => {
     try {
-        const maze = await getMaze();
-        const players = await getPlayers();
-        const pings = await getPings();
+        const [maze, players, pings, nickData] = await Promise.all([
+            getMaze(),
+            getPlayers(),
+            getPings(),
+            getNicknames()
+        ]);
 
-        res.status(200).json({ maze, players, pings });
+        const nicknames = nickData.nicknames || {};
+
+        const mergedPlayers = {};
+        for (const id of Object.keys(players)) {
+            mergedPlayers[id] = {
+                ...players[id],
+                nickname: nicknames[id] || ""
+            };
+        }
+
+        res.status(200).json({ maze, players: mergedPlayers, pings });
     } catch (err) {
         console.error("🔥 /api/maze error:", err);
         res.status(500).json({

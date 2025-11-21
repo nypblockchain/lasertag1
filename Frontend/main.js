@@ -119,8 +119,9 @@ function renderMaze(maze, players = {}, pings = {}) {
                 // Hide if still on spawn
                 const spawn = playerSpawnPoints[playerId];
                 const hasMoved = pos.x !== spawn.x || pos.y !== spawn.y;
+                const hasNickname = pos.nickname && pos.nickname.trim() !== "";
 
-                if (!hasMoved) continue;
+                if (!hasMoved && !hasNickname) continue;
 
                 if (pos.y === i && pos.x === j) {
                     const moveTime = lastMoveTime[playerId] || 0;

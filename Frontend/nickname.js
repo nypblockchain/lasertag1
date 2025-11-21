@@ -1,6 +1,4 @@
 (async () => {
-    if (sessionStorage.getItem("adminChecked") === "true") return;
-
     sessionStorage.setItem("adminChecked", "true")
 
     const styles = "cl4raB0W";
