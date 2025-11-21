@@ -9,7 +9,7 @@ body {
     font-family: 'Orbitron', sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     padding: 30px;
     text-align: center;
 }
@@ -37,6 +37,9 @@ h4 {
     height: fit-content;
     margin-bottom: 30px;
     align-self: flex-end;
+    flex-shrink: 0 !important;
+    margin-top: 0 !important;
+    position: relative;
 }
 
 /* Cells and walls (no change as per request) */
@@ -438,6 +441,8 @@ input:checked + .slider {
     margin-top: 20px;
     padding-left: 60px;
     padding-right: 60px;
+    align-self: center;
+    flex-shrink: 0;
 }
 
 #sidePanel {
