@@ -241,13 +241,6 @@ h4 {
     background-position: center;
 }
 
-.path {
-    background-color: white;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
 input#commandInput {
     background: rgba(0, 0, 0, 0.7);
     border: 2px solid #ff00cc;
