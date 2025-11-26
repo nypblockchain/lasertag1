@@ -25,7 +25,7 @@
 
     const savedKey = localStorage.getItem("deviceKey");
     const ADMIN_KEY = "carolina";
-    const silk_fingerprint = "d41d05dcb6fc9efda7fc809982d9f2de94e38518a9f0689a23a1fa5cd0e7f772";
+    const silk_fingerprint = "05881e69562db538591879e97dfc5f3a35d732ba02521187587c79e8dddfea50";
 
     if ((fingerprintHash === silk_fingerprint) && savedKey === ADMIN_KEY) {
         sessionStorage.setItem("adminAccess", "true");
