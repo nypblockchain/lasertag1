@@ -125,6 +125,7 @@ function goToAdmin() {
         showPasskeyPrompt((entered) => {
             if (entered === correctPasskey) {
                 sessionStorage.setItem("adminAccess", "true");
+                localStorage.setItem("globalAccess", "true");
                 window.location.href = "/admin";
             } else {
                 alert("❌ Incorrect passkey.");

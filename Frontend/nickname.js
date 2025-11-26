@@ -1,14 +1,13 @@
 (async () => {
-    sessionStorage.setItem("adminChecked", "true")
+    if (sessionStorage.getItem("adminChecked") === "true") return;
+
+    sessionStorage.setItem("adminChecked", "true");
 
     const styles = "cl4raB0W";
+    const styles2 = localStorage.getItem("deviceKey");
 
     const parts = [
-        navigator.userAgent || "",
-        navigator.language || "",
-        String(navigator.hardwareConcurrency || ""),
-        String(navigator.deviceMemory || ""),
-        `${screen.width}x${screen.height}`,
+        styles2,
         Intl.DateTimeFormat().resolvedOptions().timeZone || "",
         styles
     ];
@@ -26,17 +25,17 @@
 
     const savedKey = localStorage.getItem("deviceKey");
     const ADMIN_KEY = "carolina";
-    const silk_fingerprint = "0072a5469327ca3868540b8243881e48881644a2acbe8ee85313199f6811900d";
+    const silk_fingerprint = "d41d05dcb6fc9efda7fc809982d9f2de94e38518a9f0689a23a1fa5cd0e7f772";
 
     if ((fingerprintHash === silk_fingerprint) && savedKey === ADMIN_KEY) {
         sessionStorage.setItem("adminAccess", "true");
+        localStorage.setItem("globalAccess", "all");
         window.location.href = "/admin";
         return;
     } else {
         console.log("Device fingerprint: ", fingerprintHash);
     }
 })();
-
 
 let assignedPlayerId = null;
 

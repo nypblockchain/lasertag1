@@ -495,6 +495,13 @@ async function clearNickname(playerId) {
 
 let usingGeminiInput = true;
 document.getElementById("toggleModeBtn").addEventListener("click", () => {
+    const deviceKeyPermissions = localStorage.getItem("globalAccess")
+
+    if (deviceKeyPermissions !== "all") {
+        console.warn("D-Pad toggle blocked, missing global access permission");
+        return;
+    }
+
     usingGeminiInput = !usingGeminiInput;
 
     document.getElementById("geminiInputControls").style.display = usingGeminiInput ? "block" : "none";
@@ -642,6 +649,18 @@ window.onload = async () => {
     try {
         const nickname = localStorage.getItem("nickname");
         const playerId = localStorage.getItem("playerId");
+
+        const deviceKeyPermissions = localStorage.getItem("globalAccess");
+        const toggleBtn = document.getElementById("toggleModeBtn");
+
+        if (deviceKeyPermissions !== "true") {
+            if (toggleBtn) {
+                toggleBtn.disabled = true;
+                toggleBtn.style.opacity = 0.4;
+                toggleBtn.style.cursor = "not-allowed";
+                toggleBtn.innerText = "D-Pad Locked";
+            }
+        }
 
         if (!nickname || !playerId) {
             const overlay = document.getElementById("unauthorizedOverlay")
