@@ -653,7 +653,7 @@ window.onload = async () => {
         const deviceKeyPermissions = localStorage.getItem("globalAccess");
         const toggleBtn = document.getElementById("toggleModeBtn");
 
-        if (deviceKeyPermissions !== "true") {
+        if (deviceKeyPermissions !== "all") {
             if (toggleBtn) {
                 toggleBtn.disabled = true;
                 toggleBtn.style.opacity = 0.4;
