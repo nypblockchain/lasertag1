@@ -1,7 +1,8 @@
 ﻿const {
     db,
     generateMaze,
-    generatePerimeterPlayers
+    generatePerimeterPlayers, 
+    resetNicknames
 } = require("./shared");
 
 module.exports = async (req, res) => {
@@ -46,7 +47,8 @@ module.exports = async (req, res) => {
 
         await Promise.all([
             mazeRef.set({ rows }),
-            playersRef.set(resetPlayers)
+            playersRef.set(resetPlayers),
+            resetNicknames()
         ]);
 
         // No in-memory cache calls here (Vercel safe)
