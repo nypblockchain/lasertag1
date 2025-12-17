@@ -374,7 +374,7 @@ function triggerTimeUpOverlay(data = {}) {
     const nameEl = document.getElementById("ovName");
     const timeEl = document.getElementById("ovTime");
 
-    if (nameEl) nameEl.textContent = nickname;
+    if (nameEl) nameEl.textContent = `Congratulations, ${nickname}!`;
     if (timeEl) timeEl.textContent = `Time taken to escape the maze: ${mins}:${secs}`;
 
     document.getElementById("timeUpOverlay").classList.remove("hidden");
