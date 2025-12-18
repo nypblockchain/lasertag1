@@ -335,7 +335,7 @@ async function submitCommand() {
         if (data.success && data.actions) {
 
             // 💬 Replace .moved with .actions and format output
-            appendLog(`🤖 Gemini ? ${data.actions.map(a =>
+            appendLog(`🤖 GenAI ? ${data.actions.map(a =>
                 a.type === "move" ? `🧭 ${a.dir}` : `🔫 ${a.dir}`
             ).join(", ")}`);
 
@@ -353,14 +353,14 @@ async function submitCommand() {
             });
 
         } else {
-            appendLog(`⚠️ Gemini error: ${data.error || "Unknown error"}`, playerId);
+            appendLog(`⚠️ GenAI error: ${data.error || "Unknown error"}`, playerId);
         }
 
         await fetchMazeAndPlayers();
 
     } catch (err) {
         console.error("Gemini Error: ", err);
-        triggerReconnectOverlay("Gemini seems to be taking a break... attempting to reconnect.");
+        triggerReconnectOverlay("The AI seems to be taking a break... attempting to reconnect.");
     }
 }
 
