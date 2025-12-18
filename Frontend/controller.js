@@ -335,7 +335,7 @@ async function submitCommand() {
         if (data.success && data.actions) {
 
             // 💬 Replace .moved with .actions and format output
-            appendLog(`🤖 GenAI ? ${data.actions.map(a =>
+            appendLog(`🤖 Gemini ? ${data.actions.map(a =>
                 a.type === "move" ? `🧭 ${a.dir}` : `🔫 ${a.dir}`
             ).join(", ")}`);
 
