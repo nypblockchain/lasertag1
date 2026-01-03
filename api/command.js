@@ -3,12 +3,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { setPing } = require("./shared");
 
 const KEYS = [
-    process.env.KEY_1TO5,
-    process.env.KEY_6TO10,
-    process.env.KEY_11TO15,
-    process.env.KEY_16TO20,
-    process.env.extra_key1,
-    process.env.extra_key2,
+    process.env.KEY_1TO5
 ].filter(Boolean);
 
 if (KEYS.length === 0) {
