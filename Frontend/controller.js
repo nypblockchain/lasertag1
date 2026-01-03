@@ -684,7 +684,7 @@ window.onload = async () => {
 
         document.getElementById("geminiInputControls").style.display = "block";
         document.getElementById("dpadControls").style.display = "none";
-        document.getElementById("controlModeLabel").innerText = "Control Mode: Gemini Input";
+        document.getElementById("controlModeLabel").innerText = "Control Mode: Text Input";
         document.getElementById("toggleModeBtn").innerText = "Switch to D-Pad";
 
     } catch (err) {
