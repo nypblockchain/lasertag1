@@ -512,7 +512,7 @@ document.getElementById("toggleModeBtn").addEventListener("click", () => {
         : "Switch to Gemini Input";
 
     document.getElementById("controlModeLabel").innerText = usingGeminiInput
-        ? "Control Mode: Gemini Input"
+        ? "Control Mode: Text Input"
         : "Control Mode: D-Pad";
 });
 
